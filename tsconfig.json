@@ -55,7 +55,7 @@
     "resolveJsonModule": true
   },
   "include": [
-    "./pages/**/*"
+    "./src/**/*"
   ],
   "exclude": [
     "./node_modules/**/*",
