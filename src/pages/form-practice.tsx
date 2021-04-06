@@ -3,8 +3,8 @@ import { Fragment } from 'react';
 import Head from 'next/head';
 import { Button } from '@material-ui/core';
 
-const Home: FC = () => {
-  return <div>Home</div>;
+const FormPractice: FC = () => {
+  return <div>FormPractice</div>;
 };
 
-export default Home;
+export default FormPractice;
