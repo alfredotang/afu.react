@@ -16,6 +16,9 @@ const theme: Theme = createMuiTheme({
         disableRipple: true,
       },
     },
+    MuiAppBar: {
+      defaultProps: {},
+    },
   },
 });
 

@@ -3,21 +3,21 @@ import { PaletteOptions } from '@material-ui/core/styles/createPalette';
 export const light: PaletteOptions = {
   mode: 'light',
   primary: {
-    light: '#7fcacf',
-    main: '#0da5ab',
-    dark: '#00898b',
+    light: '#7ccaff',
+    main: '#1a9fff',
+    dark: '#004a82',
     contrastText: '#fff',
   },
 
   secondary: {
-    light: '#ea9ab2',
-    main: '#e3587e',
-    dark: '#d03f65',
+    light: '#9f80ff',
+    main: '#531aff',
+    dark: '#1f0082',
     contrastText: '#fff',
   },
   background: {
     paper: '#fff',
-    default: '#F2EEE4',
+    default: '#f6f6f6',
   },
   text: {
     primary: 'rgba(0, 0, 0, 0.87)',
