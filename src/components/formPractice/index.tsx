@@ -16,32 +16,40 @@ import * as yup from 'yup';
  * ex. <input name="a" type="number" />
  */
 export interface IFormBase {
-  native: string;
   a: string;
   b: string;
   c: string;
   d: string;
   e: string;
+  f: string;
 }
+const httpRex = new RegExp(
+  '(https?://(?:www.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9].[^s]{2,}|www.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9].[^s]{2,}|https?://(?:www.|(?!www))[a-zA-Z0-9]+.[^s]{2,}|www.[a-zA-Z0-9]+.[^s]{2,})'
+);
 
 const schema = yup.object().shape({
-  native: yup.string().required(),
-  b: yup.number().required(),
-  a: yup.string().required(),
-  c: yup.string().required(),
-  d: yup.boolean().required(),
-  e: yup.string().required(),
+  a: yup.string().required('必填'),
+  b: yup
+    .number()
+    .required('必填')
+    .typeError('請輸入數字')
+    .min(3, '至少3')
+    .max(9, '最多9'),
+  c: yup.string().required('必填'),
+  d: yup.boolean().required('必填'),
+  e: yup.string(),
+  f: yup.string().matches(httpRex, '請輸入有效網址').required('必填'),
 });
 
 type IFormResult = typeof schema;
 
 const defaultValues: IFormBase = {
-  native: '',
   a: '',
   b: '',
   c: '',
   d: 'true',
   e: '',
+  f: '',
 };
 
 /**
@@ -63,7 +71,6 @@ const FormPractice: FC = () => {
   });
 
   const {
-    register,
     handleSubmit,
     watch,
     control,
@@ -92,10 +99,6 @@ const FormPractice: FC = () => {
 
   useScrollToError<IFormBase>({ errors });
 
-  useEffect(() => {
-    console.log({ errors });
-  }, [errors]);
-
   return (
     <>
       <FormProvider {...formMethod}>
@@ -115,34 +118,18 @@ const FormPractice: FC = () => {
             >
               <Grid container mb="20px">
                 <Grid item xs={1}>
-                  poc
-                </Grid>
-                <Grid item xs={11}>
-                  <input
-                    type="text"
-                    style={{
-                      borderColor: errors.native ? 'red' : 'rgba(0,0,0,0.1)',
-                      borderRadius: '10%',
-                    }}
-                    {...register('native', { required: true })}
-                  />
-                </Grid>
-              </Grid>
-              <Grid container mb="20px">
-                <Grid item xs={1}>
                   A
                 </Grid>
                 <Grid item xs={11}>
                   <Controller
                     control={control}
                     name="a"
-                    rules={{ required: true }}
                     render={({ field, fieldState: { error } }) => {
                       return (
                         <TextField
                           placeholder="填A 的啦"
                           error={Boolean(error)}
-                          helperText={Boolean(error) ? '必填' : ''}
+                          helperText={Boolean(error) ? error.message : ''}
                           {...field}
                         />
                       );
@@ -158,19 +145,15 @@ const FormPractice: FC = () => {
                   <Controller
                     control={control}
                     name="b"
-                    rules={{ required: true }}
-                    render={({ field, fieldState: { error } }) => {
-                      console.log({ b_error: error });
-                      return (
-                        <TextField
-                          type="number"
-                          placeholder="請填寫B"
-                          error={Boolean(error)}
-                          helperText={error ? '必填' : ''}
-                          {...field}
-                        />
-                      );
-                    }}
+                    render={({ field, fieldState: { error } }) => (
+                      <TextField
+                        type="number"
+                        placeholder="請填寫B"
+                        error={Boolean(error)}
+                        helperText={Boolean(error) ? error.message : ''}
+                        {...field}
+                      />
+                    )}
                   />
                 </Grid>
               </Grid>
@@ -182,14 +165,13 @@ const FormPractice: FC = () => {
                   <Controller
                     control={control}
                     name="c"
-                    rules={{ required: true }}
                     render={({ field, fieldState: { error } }) => (
                       <TextField
                         multiline
                         minRows={4}
                         placeholder="請填寫C"
                         error={Boolean(error)}
-                        helperText={error ? '必填' : ''}
+                        helperText={Boolean(error) ? error.message : ''}
                         {...field}
                       />
                     )}
@@ -197,6 +179,25 @@ const FormPractice: FC = () => {
                 </Grid>
               </Grid>
               <RadioForm />
+              <Grid container mb="20px">
+                <Grid item xs={1}>
+                  F
+                </Grid>
+                <Grid item xs={11}>
+                  <Controller
+                    control={control}
+                    name="f"
+                    render={({ field, fieldState: { error } }) => (
+                      <TextField
+                        placeholder="請輸入網址"
+                        error={Boolean(error)}
+                        helperText={Boolean(error) ? error.message : ''}
+                        {...field}
+                      />
+                    )}
+                  />
+                </Grid>
+              </Grid>
             </Box>
             <Button type="submit">SUBMIT</Button>
           </form>

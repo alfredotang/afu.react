@@ -38,7 +38,12 @@ const Result: FC<ResultProps> = ({ open, data, onClose }) => {
               {data.map((item) => (
                 <TableRow key={item.name}>
                   <TableCell>{item.name}</TableCell>
-                  <TableCell>{item.value}</TableCell>
+                  <TableCell>
+                    {/* type 為 boolean 時，可以顯示 'true' or 'false' */}
+                    {item.type === 'boolean'
+                      ? item.value.toString()
+                      : item.value}
+                  </TableCell>
                   <TableCell>{item.type}</TableCell>
                 </TableRow>
               ))}

@@ -20,6 +20,7 @@ import type { IFormBase } from '@src/components/formPractice';
 const RadioForm: FC = () => {
   const { control, watch } = useFormContext<IFormBase>();
   const d = watch('d');
+  const handleClickDRadio_false = () => {};
   return (
     <>
       <Grid container mb="20px" alignItems="center">
@@ -30,7 +31,6 @@ const RadioForm: FC = () => {
           <Controller
             control={control}
             name="d"
-            rules={{ required: true }}
             render={({ field, fieldState: { error } }) => (
               <RadioGroup row {...field}>
                 <FormControlLabel
@@ -40,6 +40,7 @@ const RadioForm: FC = () => {
                 />
                 <FormControlLabel
                   value="false"
+                  onClick={handleClickDRadio_false}
                   control={<Radio />}
                   label="隱藏"
                 />
@@ -57,13 +58,12 @@ const RadioForm: FC = () => {
             <Controller
               control={control}
               name="e"
-              rules={{ required: d === 'true' }}
               render={({ field, fieldState: { error } }) => {
                 return (
                   <TextField
                     placeholder="填E 的啦"
                     error={Boolean(error)}
-                    helperText={Boolean(error) ? '必填' : ''}
+                    helperText={Boolean(error) ? error.message : ''}
                     {...field}
                   />
                 );
