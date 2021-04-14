@@ -53,6 +53,13 @@ const theme: Theme = createMuiTheme({
         },
       },
     },
+    MuiTextField: {
+      styleOverrides: {
+        root: {
+          width: '100%',
+        },
+      },
+    },
   },
 });
 
