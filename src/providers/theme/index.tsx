@@ -20,6 +20,39 @@ const theme: Theme = createMuiTheme({
     MuiAppBar: {
       defaultProps: {},
     },
+    MuiRadio: {
+      defaultProps: {
+        color: 'primary',
+      },
+    },
+    MuiTableHead: {
+      styleOverrides: {
+        root: {
+          border: '1px solid #DDDDDD',
+          padding: '10px 16px',
+          fontSize: '13px',
+          boxSizing: 'border-box',
+          borderBottom: '3px solid #C6D0DB',
+        },
+      },
+    },
+    MuiTableCell: {
+      styleOverrides: {
+        root: {
+          border: '1px solid #DDDDDD',
+          padding: '18px 15px',
+          fontSize: '13px',
+          boxSizing: 'border-box',
+          color: '#545F6A',
+        },
+        head: {
+          backgroundColor: '#E3ECF6',
+        },
+        body: {
+          backgroundColor: '#fff',
+        },
+      },
+    },
   },
 });
 
