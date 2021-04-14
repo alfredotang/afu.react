@@ -5,6 +5,7 @@ import {
   ThemeProvider as MuiThemeProvider,
   createMuiTheme,
 } from '@material-ui/core/styles';
+import { NoSsr } from '@material-ui/core';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { light } from './palette';
 
@@ -27,7 +28,8 @@ const ThemeProvider: FC = ({ children }) => {
     <EmotionThemeProvider theme={theme}>
       <MuiThemeProvider theme={theme}>
         <CssBaseline />
-        {children}
+        {/* FIX material ui ssr bug */}
+        <NoSsr>{children}</NoSsr>
       </MuiThemeProvider>
     </EmotionThemeProvider>
   );
