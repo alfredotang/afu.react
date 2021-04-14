@@ -7,6 +7,8 @@ import RadioForm from './radioForm';
 import Result, { IResultData } from './result';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
+import { Typing } from '@src/global';
+import { regExpHelper } from '@src/helpers';
 
 /**
  * @description
@@ -19,26 +21,43 @@ export interface IFormBase {
   a: string;
   b: string;
   c: string;
-  d: string;
+  d: Typing.StringBooleanOrEmpty;
   e: string;
   f: string;
 }
-const httpRex = new RegExp(
-  '(https?://(?:www.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9].[^s]{2,}|www.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9].[^s]{2,}|https?://(?:www.|(?!www))[a-zA-Z0-9]+.[^s]{2,}|www.[a-zA-Z0-9]+.[^s]{2,})'
-);
 
-const schema = yup.object().shape({
-  a: yup.string().required('必填'),
-  b: yup
-    .number()
-    .required('必填')
-    .typeError('請輸入數字')
-    .min(3, '至少3')
-    .max(9, '最多9'),
-  c: yup.string().required('必填'),
-  d: yup.boolean().required('必填'),
-  e: yup.string(),
-  f: yup.string().matches(httpRex, '請輸入有效網址').required('必填'),
+/**
+ * GET or POST (for or to Server) data entity
+ */
+export interface IForAPIEntity {
+  a: string;
+  b: number;
+  c: string;
+  d: boolean;
+  e: string;
+  f: string;
+}
+
+/**
+ * dynamic schema setting
+ */
+const schema = yup.lazy((value: IFormBase) => {
+  return yup.object().shape({
+    a: yup.string().required('必填'),
+    b: yup
+      .number()
+      .required('必填')
+      .typeError('請輸入數字')
+      .min(3, '至少3')
+      .max(9, '最多9'),
+    c: yup.string().required('必填'),
+    d: yup.boolean().required('必填'),
+    e: value.d === 'true' ? yup.string().required('必填') : yup.string(),
+    f: yup
+      .string()
+      .matches(regExpHelper.httpRegEx, '請輸入有效網址')
+      .required('必填'),
+  });
 });
 
 type IFormResult = typeof schema;
@@ -78,10 +97,22 @@ const FormPractice: FC = () => {
   } = formMethod;
 
   /**
-   *
-   * @param data
+   * @description 送出表單前 Mapping Data
+   * @param {IForAPIEntity} data
    */
-  const onSubmit = (data: IFormResult) => {
+  const mappingSubmitData = (data: IForAPIEntity) => {
+    // d 為 false 時，
+    // 要清空 e
+    if (!data.d) {
+      data.e = '';
+    }
+  };
+
+  /**
+   * @param {IForAPIEntity} data
+   */
+  const onSubmit = (data: IForAPIEntity) => {
+    mappingSubmitData(data);
     const visibleTable: IResultData[] = [];
     for (const val in data) {
       visibleTable.push({
@@ -199,7 +230,9 @@ const FormPractice: FC = () => {
                 </Grid>
               </Grid>
             </Box>
-            <Button type="submit">SUBMIT</Button>
+            <Button type="submit" variant="outlined">
+              SUBMIT
+            </Button>
           </form>
         </Box>
       </FormProvider>

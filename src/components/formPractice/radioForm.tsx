@@ -1,4 +1,5 @@
 import type { FC } from 'react';
+import { useEffect } from 'react';
 import {
   Box,
   Grid,
@@ -20,7 +21,6 @@ import type { IFormBase } from '@src/components/formPractice';
 const RadioForm: FC = () => {
   const { control, watch } = useFormContext<IFormBase>();
   const d = watch('d');
-  const handleClickDRadio_false = () => {};
   return (
     <>
       <Grid container mb="20px" alignItems="center">
@@ -40,7 +40,6 @@ const RadioForm: FC = () => {
                 />
                 <FormControlLabel
                   value="false"
-                  onClick={handleClickDRadio_false}
                   control={<Radio />}
                   label="隱藏"
                 />
