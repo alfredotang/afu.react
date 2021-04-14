@@ -28,4 +28,7 @@ declare namespace Typing {
   export type Exact<T extends { [key: string]: unknown }> = {
     [K in keyof T]: T[K];
   };
+
+  export type StringBoolean = 'true' | 'false';
+  export type StringBooleanOrEmpty = StringBoolean | '';
 }
