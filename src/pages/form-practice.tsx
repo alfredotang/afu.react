@@ -1,10 +1,3 @@
-import type { FC } from 'react';
-import { Fragment } from 'react';
-import Head from 'next/head';
-import { Button } from '@material-ui/core';
-
-const FormPractice: FC = () => {
-  return <div>FormPractice</div>;
-};
+import FormPractice from '@src/components/formPractice';
 
 export default FormPractice;
