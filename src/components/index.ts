@@ -1,3 +1,4 @@
 import Header from './header';
 import Sidebar from './sidebar';
-export { Header, Sidebar };
+import CounterInput from './counterInput';
+export { Header, Sidebar, CounterInput };
