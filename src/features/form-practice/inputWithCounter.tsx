@@ -70,7 +70,7 @@ const InputWithCounter: FC = () => {
                   <TextField
                     placeholder="填h 的啦"
                     multiline
-                    minRows={1}
+                    minRows={4}
                     error={Boolean(error)}
                     helperText={Boolean(error) ? error.message : ''}
                     {...field}
