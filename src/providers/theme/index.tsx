@@ -9,7 +9,7 @@ import { NoSsr } from '@material-ui/core';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { light } from './palette';
 
-const theme: Theme = createMuiTheme({
+export const theme: Theme = createMuiTheme({
   palette: light,
   components: {
     MuiButtonBase: {
@@ -57,6 +57,13 @@ const theme: Theme = createMuiTheme({
       styleOverrides: {
         root: {
           width: '100%',
+
+          '& input': {
+            padding: '8px 14px',
+          },
+          '& p': {
+            marginLeft: '0',
+          },
         },
       },
     },
