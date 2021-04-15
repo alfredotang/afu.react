@@ -12,7 +12,7 @@ import {
   FormControlLabel,
 } from '@material-ui/core';
 import { useFormContext, Controller } from 'react-hook-form';
-import type { IFormBase } from '@src/components/formPractice';
+import type { IFormBase } from '@src/features/form-practice';
 
 /**
  * @name RadioForm

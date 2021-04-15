@@ -1,14 +1,16 @@
 import type { FC } from 'react';
 import { useState, useEffect } from 'react';
 import { useForm, Controller, FormProvider } from 'react-hook-form';
-import { Box, Grid, TextField, Button, Typography } from '@material-ui/core';
-import { useScrollToError } from '@src/hooks';
-import RadioForm from './radioForm';
-import Result, { IResultData } from './result';
-import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-import { Typing } from '@src/global';
+import { Box, Grid, TextField, Button, Typography } from '@material-ui/core';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { useScrollToError } from '@src/hooks';
 import { regExpHelper } from '@src/helpers';
+import { CounterInput } from '@src/components';
+
+import RadioForm from './radioForm';
+import InputWithCounter from './inputWithCounter';
+import Result, { IResultData } from './result';
 
 /**
  * @description
@@ -24,6 +26,8 @@ export interface IFormBase {
   d: Typing.StringBooleanOrEmpty;
   e: string;
   f: string;
+  g: string;
+  h: string;
 }
 
 /**
@@ -36,6 +40,8 @@ export interface IForAPIEntity {
   d: boolean;
   e: string;
   f: string;
+  g: string;
+  h: string;
 }
 
 /**
@@ -57,6 +63,8 @@ const schema = yup.lazy((value: IFormBase) => {
       .string()
       .matches(regExpHelper.httpRegEx, '請輸入有效網址')
       .required('必填'),
+    g: yup.string().required('必填').max(10, '最多 10'),
+    h: yup.string().required('必填').max(150, '最多150'),
   });
 });
 
@@ -69,6 +77,8 @@ const defaultValues: IFormBase = {
   d: 'true',
   e: '',
   f: '',
+  g: '',
+  h: '',
 };
 
 /**
@@ -158,6 +168,7 @@ const FormPractice: FC = () => {
                     render={({ field, fieldState: { error } }) => {
                       return (
                         <TextField
+                          maxRows="1"
                           placeholder="填A 的啦"
                           error={Boolean(error)}
                           helperText={Boolean(error) ? error.message : ''}
@@ -229,6 +240,7 @@ const FormPractice: FC = () => {
                   />
                 </Grid>
               </Grid>
+              <InputWithCounter />
             </Box>
             <Button type="submit" variant="outlined">
               SUBMIT
