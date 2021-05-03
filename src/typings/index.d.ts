@@ -25,3 +25,8 @@ declare namespace Typing {
   export type StringBoolean = 'true' | 'false';
   export type StringBooleanOrEmpty = StringBoolean | '';
 }
+
+type IKeyValuePair<K, V> = {
+  key: K;
+  value: V;
+};

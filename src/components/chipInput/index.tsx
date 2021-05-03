@@ -10,7 +10,7 @@ import cloneDeep from 'lodash/cloneDeep';
 
 type ChipData = {
   currentInputValue: string;
-  value: Typing.KeyValue<string, string>[];
+  value: IKeyValuePair<string, string>[];
 };
 
 type ChipInputProps = {
@@ -19,7 +19,7 @@ type ChipInputProps = {
   placeholder?: string;
   sx?: SxProps<Theme>;
   onAdd?: (newItem: string) => void;
-  onDelete?: (item: string) => void;
+  onDelete?: (item: string, index: number) => void;
 };
 
 /**
@@ -31,7 +31,7 @@ type ChipInputProps = {
  * ╰―――――――――――――――――――――――――――╯
  * @param props ChipInputProps
  */
-const ChipInput: FC<ChipInputProps> = ({
+export const ChipInput: FC<ChipInputProps> = ({
   disabled = false,
   placeholder = '',
   value = [],
@@ -112,7 +112,8 @@ const ChipInput: FC<ChipInputProps> = ({
    * @description 使用者 按下 "<--"  backspace
    */
   const handlePressBackSpace = () => {
-    onDelete(chipData.value[chipData.value.length - 1].value);
+    const deleteItem = chipData.value.length - 1;
+    onDelete(chipData.value[deleteItem].value, deleteItem);
     setChipData((preState) => {
       const stateCopy = cloneDeep(preState);
       const newState: ChipData = {
@@ -151,7 +152,7 @@ const ChipInput: FC<ChipInputProps> = ({
     const deleteItemIndex = chipData.value.findIndex(
       (item) => item.key === key
     );
-    onDelete(chipData.value[deleteItemIndex].value);
+    onDelete(chipData.value[deleteItemIndex].value, deleteItemIndex);
     setChipData((preState) => {
       const stateCopy = cloneDeep(preState);
       const newValue = stateCopy.value.filter((item) => item.key !== key);
@@ -179,14 +180,12 @@ const ChipInput: FC<ChipInputProps> = ({
     if (value && value.length > 0) {
       setChipData((preState) => {
         const stateCopy = cloneDeep(preState);
-        const newValue: Typing.KeyValue<string, string>[] = value.map(
-          (item) => {
-            return {
-              key: uuid(),
-              value: item,
-            };
-          }
-        );
+        const newValue: IKeyValuePair<string, string>[] = value.map((item) => {
+          return {
+            key: uuid(),
+            value: item,
+          };
+        });
         const newState: ChipData = {
           ...stateCopy,
           value: newValue,
