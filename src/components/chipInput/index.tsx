@@ -1,5 +1,7 @@
 import type { FC, KeyboardEvent, ChangeEvent, FocusEvent } from 'react';
-import { useState, useEffect } from 'react';
+import type { SxProps } from '@material-ui/system';
+import type { Theme } from '@material-ui/core';
+import { useState, useEffect, useRef } from 'react';
 import Input from '@material-ui/core/Input';
 import Chip from '@material-ui/core/Chip';
 import Box from '@material-ui/core/Box';
@@ -15,17 +17,34 @@ type ChipInputProps = {
   disabled?: boolean;
   value?: string[];
   placeholder?: string;
+  sx?: SxProps<Theme>;
+  onAdd?: (newItem: string) => void;
+  onDelete?: (item: string) => void;
 };
 
+/**
+ * 多個以標籤顯示的輸入元件
+ * ╭―――――――――――――――――――――――――――╮
+ * │ ┏━━━┓                     │
+ * │ ┃ A ┃ 輸入按 enter         │
+ * │ ┗━━━┛ ——————————————————  │
+ * ╰―――――――――――――――――――――――――――╯
+ * @param props ChipInputProps
+ */
 const ChipInput: FC<ChipInputProps> = ({
   disabled = false,
   placeholder = '',
   value = [],
+  sx = {},
+  onAdd,
+  onDelete,
 }) => {
   const [chipData, setChipData] = useState<ChipData>({
     currentValue: '',
     value: [],
   });
+
+  const inputRef = useRef<HTMLTextAreaElement | HTMLInputElement>(null);
 
   const handleInputChange = (
     event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
@@ -39,6 +58,11 @@ const ChipInput: FC<ChipInputProps> = ({
     });
   };
 
+  /**
+   * @name handleBlurInput
+   * @description on blur 輸入匡時，要 clean input 上的輸入文字
+   * @param {FocusEvent} event
+   */
   const handleBlurInput = (
     event: FocusEvent<HTMLTextAreaElement | HTMLInputElement>
   ) => {
@@ -51,46 +75,81 @@ const ChipInput: FC<ChipInputProps> = ({
     });
   };
 
+  /**
+   * @name handlePressEnter
+   * @description 按下 "Enter" 時，要把 input 上的 文字 轉成 chip
+   */
+  const handlePressEnter = () => {
+    // 檢查 input value 是否為空值
+    // // 若為空值 則 不 set state
+    if (!chipData.currentValue) {
+      return;
+    }
+
+    // 檢查是否有重複的值已存在
+    // 若有則 不 set state
+    if (chipData.value.some((item) => item.value === chipData.currentValue)) {
+      return;
+    }
+
+    setChipData((preState) => {
+      const stateCopy = cloneDeep(preState);
+      const newState: ChipData = {
+        ...stateCopy,
+        currentValue: '',
+      };
+      newState.value.push({ key: uuid(), value: stateCopy.currentValue });
+      return newState;
+    });
+
+    onAdd(chipData.currentValue);
+  };
+
+  /**
+   * @name handlePressBackSpace
+   * @description 使用者 按下 "<--"  backspace
+   */
+  const handlePressBackSpace = () => {
+    onDelete(chipData.value[chipData.value.length - 1].value);
+    setChipData((preState) => {
+      const stateCopy = cloneDeep(preState);
+      const newState: ChipData = {
+        ...stateCopy,
+        currentValue: '',
+      };
+      newState.value.pop();
+      return newState;
+    });
+  };
+
   const handleKeyDown = (
     event: KeyboardEvent<HTMLTextAreaElement | HTMLInputElement>
   ) => {
     // press backspace
-    if (event.key?.toLowerCase() === 'backspace' && !chipData.currentValue) {
-      setChipData((preState) => {
-        const stateCopy = cloneDeep(preState);
-        const newState: ChipData = {
-          ...stateCopy,
-          currentValue: '',
-        };
-        newState.value.pop();
-        return newState;
-      });
+    if (
+      event.key?.toLowerCase() === 'backspace' &&
+      !chipData.currentValue &&
+      chipData.value.length > 0
+    ) {
+      handlePressBackSpace();
     }
 
     // Press Enter
     if (event.key?.toLowerCase() === 'enter') {
-      // Input 為 空值時，不 set state
-      if (!chipData.currentValue) {
-        return;
-      }
-
-      // 若值已存在，不 set state
-      if (chipData.value.some((item) => item.value === chipData.currentValue)) {
-        return;
-      }
-      setChipData((preState) => {
-        const stateCopy = cloneDeep(preState);
-        const newState: ChipData = {
-          ...stateCopy,
-          currentValue: '',
-        };
-        newState.value.push({ key: uuid(), value: stateCopy.currentValue });
-        return newState;
-      });
+      handlePressEnter();
     }
   };
 
+  /**
+   * @name handleDeleteChip
+   * @description 使用者刪除 指定 chip
+   * @param {string} key uuid
+   */
   const handleDeleteChip = (key: string) => {
+    const deleteItemIndex = chipData.value.findIndex(
+      (item) => item.key === key
+    );
+    onDelete(chipData.value[deleteItemIndex].value);
     setChipData((preState) => {
       const stateCopy = cloneDeep(preState);
       const newValue = stateCopy.value.filter((item) => item.key !== key);
@@ -103,6 +162,17 @@ const ChipInput: FC<ChipInputProps> = ({
     });
   };
 
+  /**
+   * @name handleClickBody
+   * @description 使用者點擊 component 任意位置，會 auto focus 在 輸入匡上
+   */
+  const handleClickBody = () => {
+    inputRef?.current?.focus();
+  };
+
+  /**
+   * 處理 default value
+   */
   useEffect(() => {
     if (value && value.length > 0) {
       setChipData((preState) => {
@@ -123,15 +193,16 @@ const ChipInput: FC<ChipInputProps> = ({
         return newState;
       });
     }
-  }, []);
+  }, [value]);
 
   return (
     <Box
       sx={{
+        ...sx,
         display: 'flex',
         flexWrap: 'wrap',
         alignItems: 'flex-start',
-        background: disabled ? '#F8F8F8' : '#FFFFFF',
+        backgroundColor: disabled ? '#F8F8F8' : '#FFFFFF',
         border: '1px solid #B9C4CE',
         boxSizing: 'border-box',
         borderRadius: '4px',
@@ -139,13 +210,16 @@ const ChipInput: FC<ChipInputProps> = ({
         width: '600px',
         marginRight: '16px',
         minHeight: '70px',
+        cursor: disabled ? 'not-allowed' : 'text',
       }}
+      onClick={handleClickBody}
     >
       {chipData.value?.length > 0 &&
         chipData.value.map((item) => (
           <Chip
             key={item.key}
             label={item.value}
+            disabled={disabled}
             onDelete={() => {
               handleDeleteChip(item.key);
             }}
@@ -153,7 +227,7 @@ const ChipInput: FC<ChipInputProps> = ({
               marginRight: '10px',
               marginBottom: '10px',
               borderRadius: '4px',
-              backgroundColor: '#028CFF',
+              backgroundColor: (theme) => theme.palette.primary.main,
               color: '#fff',
             }}
           />
@@ -164,9 +238,10 @@ const ChipInput: FC<ChipInputProps> = ({
         onChange={handleInputChange}
         onBlur={handleBlurInput}
         disabled={disabled}
-        placeholder={chipData.value.length === 0 && placeholder}
+        placeholder={chipData.value.length === 0 ? placeholder : ''}
         sx={{ width: chipData.value.length === 0 ? '100%' : 'unset' }}
         disableUnderline
+        inputRef={inputRef}
       />
     </Box>
   );
