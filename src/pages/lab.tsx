@@ -29,12 +29,19 @@ const Lab: FC = () => {
     });
   };
 
+  const handleClean = () => {
+    setCount([]);
+  };
+
   return (
     <div>
       <div>{counter.length}</div>
       <Box display="flex" gap="10px" mb="10px">
         <Button variant="contained" onClick={handleAdd}>
           +
+        </Button>
+        <Button variant="contained" onClick={handleClean}>
+          Clean
         </Button>
       </Box>
       <ChipInput

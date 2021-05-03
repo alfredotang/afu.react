@@ -9,7 +9,7 @@ import { v4 as uuid } from 'uuid';
 import cloneDeep from 'lodash/cloneDeep';
 
 type ChipData = {
-  currentValue: string;
+  currentInputValue: string;
   value: Typing.KeyValue<string, string>[];
 };
 
@@ -40,7 +40,7 @@ const ChipInput: FC<ChipInputProps> = ({
   onDelete,
 }) => {
   const [chipData, setChipData] = useState<ChipData>({
-    currentValue: '',
+    currentInputValue: '',
     value: [],
   });
 
@@ -53,7 +53,7 @@ const ChipInput: FC<ChipInputProps> = ({
       const stateCopy = cloneDeep(preState);
       return {
         ...stateCopy,
-        currentValue: event.target.value,
+        currentInputValue: event.target.value,
       };
     });
   };
@@ -70,7 +70,7 @@ const ChipInput: FC<ChipInputProps> = ({
       const stateCopy = cloneDeep(preState);
       return {
         ...stateCopy,
-        currentValue: '',
+        currentInputValue: '',
       };
     });
   };
@@ -82,13 +82,15 @@ const ChipInput: FC<ChipInputProps> = ({
   const handlePressEnter = () => {
     // 檢查 input value 是否為空值
     // // 若為空值 則 不 set state
-    if (!chipData.currentValue) {
+    if (!chipData.currentInputValue) {
       return;
     }
 
     // 檢查是否有重複的值已存在
     // 若有則 不 set state
-    if (chipData.value.some((item) => item.value === chipData.currentValue)) {
+    if (
+      chipData.value.some((item) => item.value === chipData.currentInputValue)
+    ) {
       return;
     }
 
@@ -96,13 +98,13 @@ const ChipInput: FC<ChipInputProps> = ({
       const stateCopy = cloneDeep(preState);
       const newState: ChipData = {
         ...stateCopy,
-        currentValue: '',
+        currentInputValue: '',
       };
-      newState.value.push({ key: uuid(), value: stateCopy.currentValue });
+      newState.value.push({ key: uuid(), value: stateCopy.currentInputValue });
       return newState;
     });
 
-    onAdd(chipData.currentValue);
+    onAdd(chipData.currentInputValue);
   };
 
   /**
@@ -115,7 +117,7 @@ const ChipInput: FC<ChipInputProps> = ({
       const stateCopy = cloneDeep(preState);
       const newState: ChipData = {
         ...stateCopy,
-        currentValue: '',
+        currentInputValue: '',
       };
       newState.value.pop();
       return newState;
@@ -128,7 +130,7 @@ const ChipInput: FC<ChipInputProps> = ({
     // press backspace
     if (
       event.key?.toLowerCase() === 'backspace' &&
-      !chipData.currentValue &&
+      !chipData.currentInputValue &&
       chipData.value.length > 0
     ) {
       handlePressBackSpace();
@@ -192,8 +194,10 @@ const ChipInput: FC<ChipInputProps> = ({
 
         return newState;
       });
+    } else {
+      setChipData({ currentInputValue: '', value: [] });
     }
-  }, [value]);
+  }, [value.toString()]);
 
   return (
     <Box
@@ -234,12 +238,15 @@ const ChipInput: FC<ChipInputProps> = ({
         ))}
       <Input
         onKeyDown={handleKeyDown}
-        value={chipData.currentValue}
+        value={chipData.currentInputValue}
         onChange={handleInputChange}
         onBlur={handleBlurInput}
         disabled={disabled}
         placeholder={chipData.value.length === 0 ? placeholder : ''}
-        sx={{ width: chipData.value.length === 0 ? '100%' : 'unset' }}
+        sx={{
+          width: chipData.value.length === 0 ? '100%' : 'unset',
+          fontSize: '14px',
+        }}
         disableUnderline
         inputRef={inputRef}
       />
