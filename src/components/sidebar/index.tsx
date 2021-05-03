@@ -19,6 +19,9 @@ const Sidebar: FC = () => {
         <ListItem button href="/form-practice" component="a">
           FormPractice
         </ListItem>
+        <ListItem button href="/lab" component="a">
+          lab
+        </ListItem>
       </List>
     </Box>
   );

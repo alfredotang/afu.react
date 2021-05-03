@@ -1,4 +1,5 @@
 import Header from './header';
 import Sidebar from './sidebar';
 import CounterInput from './counterInput';
-export { Header, Sidebar, CounterInput };
+import ChipInput from './chipInput';
+export { Header, Sidebar, CounterInput, ChipInput };

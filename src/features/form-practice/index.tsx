@@ -1,8 +1,15 @@
 import type { FC } from 'react';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, createElement } from 'react';
 import { useForm, Controller, FormProvider } from 'react-hook-form';
 import * as yup from 'yup';
-import { Box, Grid, TextField, Button, Typography } from '@material-ui/core';
+import {
+  Box,
+  Grid,
+  TextField,
+  Button,
+  Typography,
+  Radio,
+} from '@material-ui/core';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useScrollToError } from '@src/hooks';
 import { regExpHelper } from '@src/helpers';
@@ -68,8 +75,6 @@ const schema = yup.lazy((value: IFormBase) => {
   });
 });
 
-type IFormResult = typeof schema;
-
 const defaultValues: IFormBase = {
   a: '',
   b: '',
@@ -102,6 +107,7 @@ const FormPractice: FC = () => {
   const {
     handleSubmit,
     watch,
+    register,
     control,
     formState: { errors },
   } = formMethod;
@@ -148,6 +154,11 @@ const FormPractice: FC = () => {
             Form practice
           </Typography>
           <form noValidate onSubmit={handleSubmit(onSubmit)}>
+            <Box mb="20px">
+              <Button type="submit" variant="outlined">
+                SUBMIT
+              </Button>
+            </Box>
             <Box
               p="1em"
               mb="10px"
@@ -242,9 +253,6 @@ const FormPractice: FC = () => {
               </Grid>
               <InputWithCounter />
             </Box>
-            <Button type="submit" variant="outlined">
-              SUBMIT
-            </Button>
           </form>
         </Box>
       </FormProvider>
