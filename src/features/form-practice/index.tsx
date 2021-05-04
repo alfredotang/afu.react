@@ -30,7 +30,7 @@ export interface IFormBase {
   a: string;
   b: string;
   c: string;
-  d: Typing.StringBooleanOrEmpty;
+  d: StringBooleanOrEmpty;
   e: string;
   f: string;
   g: string;

@@ -6,25 +6,19 @@ declare module '*.yaml';
 declare module '*.yml';
 declare module '*.css';
 
-declare namespace Typing {
-  export type KeyValue<K, V> = {
-    key: K;
-    value: V;
-  };
+type Dictionary<K, V> = {
+  [key in K]: V;
+};
 
-  export type Dictionary<K, V> = {
-    [key in K]: V;
-  };
+type Maybe<T> = T | null;
 
-  export type Maybe<T> = T | null;
+type Exact<T extends { [key: string]: unknown }> = {
+  [K in keyof T]: T[K];
+};
 
-  export type Exact<T extends { [key: string]: unknown }> = {
-    [K in keyof T]: T[K];
-  };
+type StringBoolean = 'true' | 'false';
 
-  export type StringBoolean = 'true' | 'false';
-  export type StringBooleanOrEmpty = StringBoolean | '';
-}
+type StringBooleanOrEmpty = StringBoolean | '';
 
 type IKeyValuePair<K, V> = {
   key: K;
