@@ -10,13 +10,15 @@ import {
   Typography,
   Radio,
 } from '@material-ui/core';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useScrollToError } from '@src/hooks';
 import { regExpHelper } from '@src/helpers';
-import { CounterInput } from '@src/components';
 
-import RadioForm from './radioForm';
-import InputWithCounter from './inputWithCounter';
+import RadioDemo from './radioDemo';
+import WordCounterDemo from './wordCounterDemo';
+import SelectDemo from './selectDemo';
 import Result, { IResultData } from './result';
 
 /**
@@ -35,6 +37,7 @@ export interface IFormBase {
   f: string;
   g: string;
   h: string;
+  i: string;
 }
 
 /**
@@ -49,6 +52,7 @@ export interface IForAPIEntity {
   f: string;
   g: string;
   h: string;
+  i: string;
 }
 
 /**
@@ -72,6 +76,7 @@ const schema = yup.lazy((value: IFormBase) => {
       .required('必填'),
     g: yup.string().required('必填').max(10, '最多 10'),
     h: yup.string().required('必填').max(150, '最多150'),
+    i: yup.string().required('必選'),
   });
 });
 
@@ -84,6 +89,7 @@ const defaultValues: IFormBase = {
   f: '',
   g: '',
   h: '',
+  i: '',
 };
 
 /**
@@ -150,21 +156,35 @@ const FormPractice: FC = () => {
     <>
       <FormProvider {...formMethod}>
         <Box p="1em">
-          <Typography variant="h6" mb="10px">
-            Form practice
-          </Typography>
           <form noValidate onSubmit={handleSubmit(onSubmit)}>
-            <Box mb="20px">
-              <Button type="submit" variant="outlined">
-                SUBMIT
-              </Button>
-            </Box>
+            <AppBar
+              position="fixed"
+              color="default"
+              sx={{
+                zIndex: (theme) => theme.zIndex.drawer + 1,
+                boxShadow: 'none',
+              }}
+            >
+              <Toolbar>
+                <Typography
+                  variant="h6"
+                  sx={{
+                    flexGrow: 1,
+                    color: (theme) => theme.palette.secondary.main,
+                  }}
+                >
+                  Form Practice
+                </Typography>
+                <Button type="submit" variant="contained">
+                  SUBMIT
+                </Button>
+              </Toolbar>
+            </AppBar>
+
             <Box
               p="1em"
               mb="10px"
               sx={{
-                height: '300px',
-                overflowY: 'auto',
                 backgroundColor: '#fff',
               }}
             >
@@ -231,7 +251,7 @@ const FormPractice: FC = () => {
                   />
                 </Grid>
               </Grid>
-              <RadioForm />
+              <RadioDemo />
               <Grid container mb="20px">
                 <Grid item xs={1}>
                   F
@@ -251,7 +271,8 @@ const FormPractice: FC = () => {
                   />
                 </Grid>
               </Grid>
-              <InputWithCounter />
+              <WordCounterDemo />
+              <SelectDemo />
             </Box>
           </form>
         </Box>

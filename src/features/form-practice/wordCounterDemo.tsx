@@ -12,13 +12,13 @@ import {
 } from '@material-ui/core';
 import { useFormContext, Controller } from 'react-hook-form';
 import type { IFormBase } from '@src/features/form-practice';
-import { CounterInput } from '@src/components';
+import { WordCounter } from '@src/components';
 
 /**
  * @name InputWithCounter
  * @description demo input with counter & maxLength
  */
-const InputWithCounter: FC = () => {
+const WordCounterDemo: FC = () => {
   const { control } = useFormContext<IFormBase>();
 
   return (
@@ -33,7 +33,7 @@ const InputWithCounter: FC = () => {
             name="g"
             render={({ field, fieldState: { error } }) => {
               return (
-                <CounterInput
+                <WordCounter
                   name={field.name}
                   maxLength={10}
                   error={Boolean(error)}
@@ -45,7 +45,7 @@ const InputWithCounter: FC = () => {
                     helperText={Boolean(error) ? error.message : ''}
                     {...field}
                   />
-                </CounterInput>
+                </WordCounter>
               );
             }}
           />
@@ -61,7 +61,7 @@ const InputWithCounter: FC = () => {
             name="h"
             render={({ field, fieldState: { error } }) => {
               return (
-                <CounterInput
+                <WordCounter
                   name={field.name}
                   maxLength={150}
                   error={Boolean(error)}
@@ -75,7 +75,7 @@ const InputWithCounter: FC = () => {
                     helperText={Boolean(error) ? error.message : ''}
                     {...field}
                   />
-                </CounterInput>
+                </WordCounter>
               );
             }}
           />
@@ -85,4 +85,4 @@ const InputWithCounter: FC = () => {
   );
 };
 
-export default InputWithCounter;
+export default WordCounterDemo;

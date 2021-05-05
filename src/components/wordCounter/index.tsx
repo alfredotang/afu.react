@@ -5,14 +5,14 @@ import { Grid } from '@material-ui/core';
 import { useFormContext } from 'react-hook-form';
 import { theme } from '@src/providers';
 
-interface ICounterInputProps {
+interface IWordCounterProps {
   children: ReactElement;
   maxLength: number;
   name: string;
   error: boolean;
   hasErrorMessageOnBottom?: boolean;
 }
-const CounterInput: FC<ICounterInputProps> = ({
+const WordCounter: FC<IWordCounterProps> = ({
   children,
   maxLength,
   name,
@@ -50,4 +50,4 @@ const CounterInput: FC<ICounterInputProps> = ({
   );
 };
 
-export default memo(CounterInput);
+export default memo(WordCounter);

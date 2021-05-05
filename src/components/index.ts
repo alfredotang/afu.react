@@ -1,5 +1,6 @@
 import Header from './header';
 import Sidebar from './sidebar';
-import CounterInput from './counterInput';
+import WordCounter from './wordCounter';
 import ChipInput from './chipInput';
-export { Header, Sidebar, CounterInput, ChipInput };
+import Select from './select';
+export { Header, Sidebar, WordCounter, ChipInput, Select };
