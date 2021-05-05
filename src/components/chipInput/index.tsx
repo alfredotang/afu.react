@@ -201,7 +201,6 @@ export const ChipInput: FC<ChipInputProps> = ({
   return (
     <Box
       sx={{
-        ...sx,
         display: 'flex',
         flexWrap: 'wrap',
         alignItems: 'flex-start',
@@ -214,6 +213,7 @@ export const ChipInput: FC<ChipInputProps> = ({
         marginRight: '16px',
         minHeight: '70px',
         cursor: disabled ? 'not-allowed' : 'text',
+        ...sx,
       }}
       onClick={handleClickBody}
     >
