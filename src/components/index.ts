@@ -3,4 +3,15 @@ import Sidebar from './sidebar';
 import WordCounter from './wordCounter';
 import ChipInput from './chipInput';
 import Select from './select';
-export { Header, Sidebar, WordCounter, ChipInput, Select };
+import DateTimePicker from './dateTimePicker';
+import Input from './input';
+
+export {
+  Header,
+  Sidebar,
+  WordCounter,
+  ChipInput,
+  Select,
+  DateTimePicker,
+  Input,
+};

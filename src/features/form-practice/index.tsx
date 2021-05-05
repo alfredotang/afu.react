@@ -2,19 +2,13 @@ import type { FC } from 'react';
 import { useState, useEffect, createElement } from 'react';
 import { useForm, Controller, FormProvider } from 'react-hook-form';
 import * as yup from 'yup';
-import {
-  Box,
-  Grid,
-  TextField,
-  Button,
-  Typography,
-  Radio,
-} from '@material-ui/core';
+import { Box, Grid, Button, Typography, Radio } from '@material-ui/core';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useScrollToError } from '@src/hooks';
 import { regExpHelper } from '@src/helpers';
+import { Input } from '@src/components';
 
 import RadioDemo from './radioDemo';
 import WordCounterDemo from './wordCounterDemo';
@@ -198,8 +192,9 @@ const FormPractice: FC = () => {
                     name="a"
                     render={({ field, fieldState: { error } }) => {
                       return (
-                        <TextField
-                          maxRows="1"
+                        <Input
+                          minRows={4}
+                          multiline
                           placeholder="填A 的啦"
                           error={Boolean(error)}
                           helperText={Boolean(error) ? error.message : ''}
@@ -219,7 +214,7 @@ const FormPractice: FC = () => {
                     control={control}
                     name="b"
                     render={({ field, fieldState: { error } }) => (
-                      <TextField
+                      <Input
                         type="number"
                         placeholder="請填寫B"
                         error={Boolean(error)}
@@ -239,7 +234,7 @@ const FormPractice: FC = () => {
                     control={control}
                     name="c"
                     render={({ field, fieldState: { error } }) => (
-                      <TextField
+                      <Input
                         multiline
                         minRows={4}
                         placeholder="請填寫C"
@@ -261,7 +256,7 @@ const FormPractice: FC = () => {
                     control={control}
                     name="f"
                     render={({ field, fieldState: { error } }) => (
-                      <TextField
+                      <Input
                         placeholder="請輸入網址"
                         error={Boolean(error)}
                         helperText={Boolean(error) ? error.message : ''}

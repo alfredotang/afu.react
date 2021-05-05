@@ -2,27 +2,17 @@ import type { FC, ReactElement } from 'react';
 import { cloneElement } from 'react';
 import { memo } from 'react';
 import { Grid } from '@material-ui/core';
-import { useFormContext } from 'react-hook-form';
 import { theme } from '@src/providers';
 
 interface IWordCounterProps {
   children: ReactElement;
-  maxLength: number;
-  name: string;
-  error: boolean;
-  hasErrorMessageOnBottom?: boolean;
 }
-const WordCounter: FC<IWordCounterProps> = ({
-  children,
-  maxLength,
-  name,
-  error,
-  hasErrorMessageOnBottom = false,
-}) => {
-  const { watch, setValue } = useFormContext();
-  const value = watch(name);
-
-  const ChildElement = cloneElement(children, { inputProps: { maxLength } });
+const WordCounter: FC<IWordCounterProps> = ({ children }) => {
+  const ChildElement = cloneElement(children);
+  const value = ChildElement?.props?.value || '';
+  const maxLength = ChildElement?.props?.maxLength || null;
+  const error = ChildElement?.props?.error || false;
+  const isError = value.length > maxLength || error;
 
   return (
     <Grid container>
@@ -36,11 +26,8 @@ const WordCounter: FC<IWordCounterProps> = ({
         justifyContent="flex-end"
         display="flex"
         sx={{
-          color:
-            value.length > maxLength || error
-              ? `${theme.palette.error.main}`
-              : '',
-          position: hasErrorMessageOnBottom && error ? 'relative' : 'static',
+          color: isError ? `${theme.palette.error.main}` : '',
+          position: error ? 'relative' : 'static',
           top: '-20px',
         }}
       >
