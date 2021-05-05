@@ -14,7 +14,7 @@ const App: FC<AppProps> = ({ Component, pageProps }) => {
       </Head>
       <ThemeProvider>
         <Header />
-        <Box display="flex">
+        <Box display="flex" minHeight="200vh">
           <Box component="aside" flexBasis="25%">
             <Sidebar />
           </Box>
