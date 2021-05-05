@@ -1,13 +1,19 @@
-import type { FC } from 'react';
+import type { FC, ChangeEvent } from 'react';
 import { useState } from 'react';
-import { ChipInput } from '@src/components';
+import { ChipInput, Select } from '@src/components';
 import { v4 as uuid } from 'uuid';
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 import dayjs from 'dayjs';
 
+const source: IKeyValuePair<string, string>[] = [
+  { key: 'a', value: 'A' },
+  { key: 'b', value: 'B' },
+];
+
 const Lab: FC = () => {
   const [counter, setCount] = useState<string[]>([]);
+  const [selectValue, setSelectValue] = useState<string>('');
   const handleAdd = () => {
     setCount((pre) => {
       return [...pre, dayjs().format('YYYY/MM/DD HH:mm:ss')];
@@ -33,6 +39,10 @@ const Lab: FC = () => {
     setCount([]);
   };
 
+  const handleChangeSelected = (event: ChangeEvent<{ value: unknown }>) => {
+    setSelectValue(event.target.value as string);
+  };
+
   return (
     <div>
       <div>{counter.length}</div>
@@ -55,6 +65,12 @@ const Lab: FC = () => {
           <code>{JSON.stringify(counter)}</code>
         </pre>
       </Box>
+      <Select
+        source={source}
+        placeholder="請選擇"
+        value={selectValue}
+        onChange={handleChangeSelected}
+      />
     </div>
   );
 };
