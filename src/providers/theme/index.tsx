@@ -61,8 +61,13 @@ export const theme: Theme = createMuiTheme({
           '& input': {
             padding: '8px 14px',
           },
+          '& textarea': {},
           '& p': {
             marginLeft: '0',
+          },
+          '& ::placeholder': {
+            color: '#666',
+            fontSize: '14px',
           },
         },
       },
