@@ -5,6 +5,7 @@ import ChipInput from './chipInput';
 import Select from './select';
 import DateTimePicker from './dateTimePicker';
 import Input from './input';
+import DateTimeRangePicker from './dateTimeRangePicker';
 
 export {
   Header,
@@ -14,4 +15,5 @@ export {
   Select,
   DateTimePicker,
   Input,
+  DateTimeRangePicker,
 };
