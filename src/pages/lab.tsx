@@ -22,7 +22,6 @@ const Lab: FC = () => {
   };
 
   const handleChangeDateTimeDefault = (date: Date) => {
-    console.log({ date });
     setDateTimeDefault(date);
   };
   const handleChangeDate = (date: Date) => {
@@ -50,28 +49,6 @@ const Lab: FC = () => {
         <code>{JSON.stringify(dateTimeDefault)}</code>
         <br />
         <code>{JSON.stringify(typeof dateTimeDefault)}</code>
-      </pre>
-      <div style={{ display: 'flex', alignItems: 'center' }}>
-        <DateTimePicker
-          variant="date"
-          placeholder="請選擇"
-          value={date}
-          onChange={handleChangeDate}
-          min={new Date()}
-        />
-        <Divider orientation="vertical" />
-        <DateTimePicker
-          variant="date"
-          placeholder="請選擇"
-          value={date}
-          onChange={handleChangeDate}
-          min={new Date()}
-        />
-      </div>
-      <pre>
-        <code>{JSON.stringify(date)}</code>
-        <br />
-        <code>{JSON.stringify(typeof date)}</code>
       </pre>
       <DateTimePicker
         placeholder="請選擇"
