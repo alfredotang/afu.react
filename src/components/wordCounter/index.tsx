@@ -4,15 +4,16 @@ import { memo } from 'react';
 import { Grid } from '@material-ui/core';
 import { theme } from '@src/providers';
 
-interface IWordCounterProps {
+interface WordCounterProps {
   children: ReactElement;
 }
-const WordCounter: FC<IWordCounterProps> = ({ children }) => {
+const WordCounter: FC<WordCounterProps> = ({ children }) => {
   const ChildElement = cloneElement(children);
   const value = ChildElement?.props?.value || '';
   const maxLength = ChildElement?.props?.maxLength || null;
   const error = ChildElement?.props?.error || false;
   const isError = value.length > maxLength || error;
+  const hasHelperText = ChildElement?.props?.helperText || '';
 
   return (
     <Grid container>
@@ -27,7 +28,7 @@ const WordCounter: FC<IWordCounterProps> = ({ children }) => {
         display="flex"
         sx={{
           color: isError ? `${theme.palette.error.main}` : '',
-          position: error ? 'relative' : 'static',
+          position: error && hasHelperText ? 'relative' : 'static',
           top: '-20px',
         }}
       >
