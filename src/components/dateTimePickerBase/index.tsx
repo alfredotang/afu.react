@@ -1,6 +1,4 @@
 import type { FC } from 'react';
-import { forwardRef } from 'react';
-import Box from '@material-ui/core/Box';
 import ReactDatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.min.css';
 import styled from '@emotion/styled';
@@ -61,7 +59,7 @@ export function returnFormat(variant: DateTimePickerVariant): string {
   }
 }
 
-const StyleWrapper = styled(Box)`
+const StyleWrapper = styled.div`
   .react-datepicker {
     box-shadow: ${(props) => props.theme.shadows[10]};
     border: none;

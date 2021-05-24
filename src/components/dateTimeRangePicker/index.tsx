@@ -12,7 +12,7 @@ import DateTimePickerBase, {
   DateTimePickerVariant,
 } from '@src/components/dateTimePickerBase';
 
-const StyleWrapper = styled(Box)<{ error: boolean }>`
+const StyleWrapper = styled.div<{ error: boolean }>`
   position: relative;
   display: inline-flex;
   min-width: 0;

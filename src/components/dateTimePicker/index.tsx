@@ -8,13 +8,10 @@ import CalendarTodayIcon from '@material-ui/icons/CalendarToday';
 import ScheduleIcon from '@material-ui/icons/Schedule';
 
 import DateTimePickerBase, {
-  DateTimePickerVariant,
   DateTimePickerBaseProps,
-  returnValue,
-  returnFormat,
 } from '@src/components/dateTimePickerBase';
 
-const StyleWrapper = styled(Box)<{ error: boolean }>`
+const StyleWrapper = styled.div<{ error: boolean }>`
   display: inline-flex;
   flex-direction: column;
   position: relative;
