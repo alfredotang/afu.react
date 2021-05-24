@@ -1,14 +1,12 @@
 import type { ForwardRefExoticComponent } from 'react';
 import type { TextFieldProps as MuiTextFieldProps } from '@material-ui/core/TextField';
-import type { ControllerRenderProps } from 'react-hook-form';
 import { forwardRef } from 'react';
 import MuiTextField from '@material-ui/core/TextField';
 
 type InputProps = { maxLength?: number } & Omit<
   MuiTextFieldProps,
   'InputProps'
-> &
-  Partial<ControllerRenderProps>;
+>;
 
 const Input: ForwardRefExoticComponent<InputProps> = forwardRef(
   (props, ref) => {
@@ -25,6 +23,7 @@ const Input: ForwardRefExoticComponent<InputProps> = forwardRef(
       placeholder,
       maxRows,
       minRows,
+      name,
     } = props;
     return (
       <MuiTextField
@@ -40,6 +39,7 @@ const Input: ForwardRefExoticComponent<InputProps> = forwardRef(
         placeholder={placeholder}
         maxRows={maxRows}
         minRows={minRows}
+        name={name}
       />
     );
   }

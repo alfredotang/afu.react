@@ -1,5 +1,4 @@
 import type { ForwardRefExoticComponent } from 'react';
-import type { ControllerRenderProps } from 'react-hook-form';
 import type { SelectProps as MuiSelectProps } from '@material-ui/core/Select';
 import type { MenuProps } from '@material-ui/core/Menu';
 import { forwardRef } from 'react';
@@ -7,14 +6,11 @@ import MuiSelect from '@material-ui/core/Select';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import MenuItem from '@material-ui/core/MenuItem';
-import Checkbox from '@material-ui/core/Checkbox';
-import ListItemText from '@material-ui/core/ListItemText';
 
 type SelectProps = {
   helperText?: string;
   source: IKeyValuePair<string, string | number>[];
-} & MuiSelectProps &
-  Partial<ControllerRenderProps>;
+} & MuiSelectProps;
 
 const menuProps: Partial<MenuProps> = {
   anchorOrigin: {
