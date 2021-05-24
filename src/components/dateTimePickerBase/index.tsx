@@ -119,6 +119,11 @@ const StyleWrapper = styled.div`
 
     &__header {
       background-color: ${(props) => props.theme.palette.background.paper};
+      &__dropdown {
+        &--select {
+          margin: ${(props) => props.theme.spacing(2)};
+        }
+      }
     }
 
     &__day-name {
@@ -225,6 +230,10 @@ const DatePickerBase: FC<DateTimePickerBaseProps> = (props) => {
         onBlur={onBlur}
         selectsRange={selectsRange}
         disabled={disabled}
+        peekNextMonth
+        showMonthDropdown
+        showYearDropdown
+        dropdownMode="select"
       />
     </StyleWrapper>
   );
