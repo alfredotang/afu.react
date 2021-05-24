@@ -4,7 +4,7 @@ export const light: PaletteOptions = {
   mode: 'light',
   primary: {
     light: '#7ccaff',
-    main: '#1a9fff',
+    main: '#1a9ffa',
     dark: '#004a82',
     contrastText: '#fff',
   },

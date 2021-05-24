@@ -57,6 +57,13 @@ export const theme: Theme = createMuiTheme({
       styleOverrides: {
         root: {
           width: '100%',
+          backgroundColor: '#fff',
+          '& .Mui-focused': {
+            // '& fieldset': {
+            //   borderWidth: '1px !important',
+            //   borderColor: 'unset !important',
+            // },
+          },
 
           '& input': {
             padding: '8px 14px',
