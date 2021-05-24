@@ -23,10 +23,10 @@ const WordCounterDemo: FC = () => {
   return (
     <>
       <Grid container mb="20px">
-        <Grid item xs={1}>
+        <Grid item xs={2}>
           G
         </Grid>
-        <Grid item xs={11}>
+        <Grid item xs={10}>
           <Controller
             control={control}
             name="g"
@@ -47,10 +47,10 @@ const WordCounterDemo: FC = () => {
         </Grid>
       </Grid>
       <Grid container mb="20px">
-        <Grid item xs={1}>
+        <Grid item xs={2}>
           H
         </Grid>
-        <Grid item xs={11}>
+        <Grid item xs={10}>
           <Controller
             control={control}
             name="h"

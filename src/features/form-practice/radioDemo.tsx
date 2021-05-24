@@ -24,10 +24,10 @@ const RadioForm: FC = () => {
   return (
     <>
       <Grid container mb="20px" alignItems="center">
-        <Grid item xs={1}>
+        <Grid item xs={2}>
           D
         </Grid>
-        <Grid item xs={11}>
+        <Grid item xs={10}>
           <Controller
             control={control}
             name="d"
@@ -50,10 +50,10 @@ const RadioForm: FC = () => {
       </Grid>
       {d === 'true' && (
         <Grid container mb="20px" alignItems="center">
-          <Grid item xs={1}>
+          <Grid item xs={2}>
             E
           </Grid>
-          <Grid item xs={11}>
+          <Grid item xs={10}>
             <Controller
               control={control}
               name="e"

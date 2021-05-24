@@ -9,10 +9,12 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useScrollToError } from '@src/hooks';
 import { regExpHelper } from '@src/helpers';
 import { Input } from '@src/components';
+import dayjs from '@src/providers/day';
 
 import RadioDemo from './radioDemo';
 import WordCounterDemo from './wordCounterDemo';
 import SelectDemo from './selectDemo';
+import DateTimeDemo from './dateTimeDemo';
 import Result, { IResultData } from './result';
 
 /**
@@ -32,6 +34,7 @@ export interface IFormBase {
   g: string;
   h: string;
   i: string;
+  startDate: Date;
 }
 
 /**
@@ -47,6 +50,7 @@ export interface IForAPIEntity {
   g: string;
   h: string;
   i: string;
+  startDate: Date;
 }
 
 /**
@@ -71,6 +75,15 @@ const schema = yup.lazy((value: IFormBase) => {
     g: yup.string().required('必填').max(10, '最多 10'),
     h: yup.string().required('必填').max(150, '最多150'),
     i: yup.string().required('必選'),
+    startDate: yup
+      .date()
+      .required('必填')
+      .min(dayjs().add(-1, 'day'), `至少要 ${dayjs().format('YYYY/MM/DD')}`)
+      .max(
+        dayjs().add(7, 'days'),
+        `不得超過 ${dayjs().add(7, 'days').format('YYYY/MM/DD')}`
+      )
+      .typeError('請輸入開始時間'),
   });
 });
 
@@ -84,6 +97,7 @@ const defaultValues: IFormBase = {
   g: '',
   h: '',
   i: '',
+  startDate: new Date(),
 };
 
 /**
@@ -133,7 +147,7 @@ const FormPractice: FC = () => {
     for (const val in data) {
       visibleTable.push({
         name: val,
-        value: data[val],
+        value: data[val].toString(),
         type: typeof data[val],
       });
     }
@@ -183,10 +197,10 @@ const FormPractice: FC = () => {
               }}
             >
               <Grid container mb="20px">
-                <Grid item xs={1}>
+                <Grid item xs={2}>
                   A
                 </Grid>
-                <Grid item xs={11}>
+                <Grid item xs={10}>
                   <Controller
                     control={control}
                     name="a"
@@ -206,10 +220,10 @@ const FormPractice: FC = () => {
                 </Grid>
               </Grid>
               <Grid container mb="20px">
-                <Grid item xs={1}>
+                <Grid item xs={2}>
                   B
                 </Grid>
-                <Grid item xs={11}>
+                <Grid item xs={10}>
                   <Controller
                     control={control}
                     name="b"
@@ -226,10 +240,10 @@ const FormPractice: FC = () => {
                 </Grid>
               </Grid>
               <Grid container mb="20px" alignItems="center">
-                <Grid item xs={1}>
+                <Grid item xs={2}>
                   C
                 </Grid>
-                <Grid item xs={11}>
+                <Grid item xs={10}>
                   <Controller
                     control={control}
                     name="c"
@@ -248,10 +262,10 @@ const FormPractice: FC = () => {
               </Grid>
               <RadioDemo />
               <Grid container mb="20px">
-                <Grid item xs={1}>
+                <Grid item xs={2}>
                   F
                 </Grid>
-                <Grid item xs={11}>
+                <Grid item xs={10}>
                   <Controller
                     control={control}
                     name="f"
@@ -268,6 +282,7 @@ const FormPractice: FC = () => {
               </Grid>
               <WordCounterDemo />
               <SelectDemo />
+              <DateTimeDemo />
             </Box>
           </form>
         </Box>
