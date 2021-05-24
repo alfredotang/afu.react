@@ -9,7 +9,7 @@ import styled from '@emotion/styled';
 import CalendarTodayIcon from '@material-ui/icons/CalendarToday';
 import ScheduleIcon from '@material-ui/icons/Schedule';
 
-const StyleWrapper = styled(Box)<{ error?: boolean }>`
+const StyleWrapper = styled(Box)<{ error: boolean }>`
   display: inline-flex;
   flex-direction: column;
   position: relative;
@@ -163,6 +163,7 @@ type DateTimePickerProps = {
   error?: boolean;
   helperText?: string;
   timeIntervals?: number;
+  selectsRange?: boolean;
   placeholder?: string;
   onChange: (date: Date) => void;
   onBlur?: () => void;
@@ -183,6 +184,7 @@ const DateTimePicker: ForwardRefExoticComponent<DateTimePickerProps> = forwardRe
       helperText,
       timeIntervals = 15,
       placeholder,
+      selectsRange = false,
     } = props;
 
     const returnFormat = (variant: DateTimePickerVariant): string => {
@@ -198,7 +200,13 @@ const DateTimePicker: ForwardRefExoticComponent<DateTimePickerProps> = forwardRe
     };
 
     return (
-      <Box display="flex" flexDirection="column" width="200px" sx={{ ...sx }}>
+      <Box
+        display="flex"
+        flexDirection="column"
+        width="200px"
+        sx={{ ...sx }}
+        ref={ref}
+      >
         <StyleWrapper error={error}>
           <ReactDatePicker
             selected={value}
@@ -211,8 +219,8 @@ const DateTimePicker: ForwardRefExoticComponent<DateTimePickerProps> = forwardRe
             showTimeSelectOnly={variant === 'time'}
             timeIntervals={timeIntervals}
             placeholderText={placeholder}
-            ref={ref as any}
             onBlur={onBlur}
+            selectsRange={false}
           />
           <Box className="icon-wrapper">
             {variant !== 'time' && (
