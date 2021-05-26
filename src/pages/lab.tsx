@@ -13,10 +13,10 @@ const source: IKeyValuePair<string, string>[] = [
 
 const Lab: FC = () => {
   const [selectValue, setSelectValue] = useState<string>('');
-  const [dateTimeDefault, setDateTimeDefault] = useState<{
-    startDate: Date;
-    endDate: Date;
-  }>({ startDate: null, endDate: null });
+  const [dateTimeDefault, setDateTimeDefault] = useState<[Date, Date]>([
+    null,
+    null,
+  ]);
   const [date, setDate] = useState<Date>(null);
   const [time, setTime] = useState<Date>(null);
 
@@ -24,8 +24,8 @@ const Lab: FC = () => {
     setSelectValue(event.target.value as string);
   };
 
-  const handleChangeDateTimeDefault = (startDate: Date, endDate: Date) => {
-    setDateTimeDefault({ startDate, endDate });
+  const handleChangeDateTimeDefault = ([startDate, endDate]: [Date, Date]) => {
+    setDateTimeDefault([startDate, endDate]);
   };
   const handleChangeDate = (date: Date) => {
     setDate(date);
@@ -50,20 +50,19 @@ const Lab: FC = () => {
         min={new Date()}
       />
       <DateTimeRangePicker
-        startDate={dateTimeDefault.startDate}
-        endDate={dateTimeDefault.endDate}
+        value={dateTimeDefault}
         variant="default"
         placeholder="請選擇"
         onChange={handleChangeDateTimeDefault}
-        startDateMax={dateTimeDefault.endDate}
-        endDateMin={dateTimeDefault.startDate}
+        startDateMax={dateTimeDefault[1]}
+        endDateMin={dateTimeDefault[0]}
       />
       <pre>
-        <code>{JSON.stringify(dateTimeDefault.startDate)}</code>
-        <code>{JSON.stringify(dateTimeDefault.endDate)}</code>
+        <code>{JSON.stringify(dateTimeDefault[0])}</code>
+        <code>{JSON.stringify(dateTimeDefault[1])}</code>
         <br />
-        <code>{JSON.stringify(typeof dateTimeDefault.startDate)}</code>
-        <code>{JSON.stringify(typeof dateTimeDefault.endDate)}</code>
+        <code>{JSON.stringify(typeof dateTimeDefault[0])}</code>
+        <code>{JSON.stringify(typeof dateTimeDefault[1])}</code>
       </pre>
       <DateTimePicker
         placeholder="請選擇"
