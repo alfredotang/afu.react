@@ -11,7 +11,7 @@ import DateTimePickerBase, {
   DateTimePickerBaseProps,
 } from '@src/components/dateTimePickerBase';
 
-const StyleWrapper = styled.div<{ error: boolean }>`
+const StyleWrapper = styled.div`
   display: inline-flex;
   flex-direction: column;
   position: relative;
@@ -21,42 +21,26 @@ const StyleWrapper = styled.div<{ error: boolean }>`
   border: 0;
   vertical-align: top;
   width: 100%;
-  background-color: #fff;
 
   .react-datepicker-wrapper {
-    border-width: 1px;
-    border-style: solid;
-    border-color: ${(props) =>
-      props.error ? props.theme.palette.error.main : 'rgba(0, 0, 0, 0.23)'};
-    font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
-    font-weight: 400;
-    font-size: 1rem;
-    line-height: 1.4375em;
-    letter-spacing: 0.00938em;
-    color: rgba(0, 0, 0, 0.87);
-    box-sizing: border-box;
-    position: relative;
-    cursor: text;
-    display: inline-flex;
-    align-items: center;
-    position: relative;
-    border-radius: 4px;
-    width: 100%;
-    &:hover {
-      border-color: rgb(0, 0, 0);
-    }
+    display: block;
   }
 `;
 
 type DateTimePickerProps = Omit<
   DateTimePickerBaseProps,
-  'selectsRange' | 'onChange' | 'value'
+  | 'selectsRange'
+  | 'onChange'
+  | 'value'
+  | 'selectsStart'
+  | 'selectsEnd'
+  | 'startDate'
+  | 'endDate'
 > & {
-  error?: boolean;
-  helperText?: string;
   onChange: (date: Date) => void;
   value: Date;
   sx?: SxProps<Theme>;
+  helperText?: string;
 };
 
 const DateTimePicker: ForwardRefExoticComponent<DateTimePickerProps> = forwardRef(
@@ -71,9 +55,11 @@ const DateTimePicker: ForwardRefExoticComponent<DateTimePickerProps> = forwardRe
       min,
       error,
       helperText,
-      timeIntervals = 15,
+      timeIntervals,
       placeholder,
       disabled,
+      name,
+      withPortal,
     } = props;
 
     return (
@@ -84,7 +70,7 @@ const DateTimePicker: ForwardRefExoticComponent<DateTimePickerProps> = forwardRe
         sx={{ ...sx }}
         ref={ref}
       >
-        <StyleWrapper error={error}>
+        <StyleWrapper>
           <DateTimePickerBase
             value={value}
             min={min}
@@ -95,6 +81,9 @@ const DateTimePicker: ForwardRefExoticComponent<DateTimePickerProps> = forwardRe
             onBlur={onBlur}
             disabled={disabled}
             variant={variant}
+            name={name}
+            error={error}
+            withPortal={withPortal}
           />
           <Box
             sx={{
@@ -103,7 +92,10 @@ const DateTimePicker: ForwardRefExoticComponent<DateTimePickerProps> = forwardRe
               right: '15px',
               backgroundColor: '#fff',
               display: 'flex',
-              color: 'rgb(0, 0, 0)',
+              color: (theme) =>
+                disabled
+                  ? theme.palette.text.disabled
+                  : theme.palette.text.primary,
               alignItems: 'center',
               pointerEvents: 'none',
             }}
