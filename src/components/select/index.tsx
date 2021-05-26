@@ -7,6 +7,8 @@ import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import MenuItem from '@material-ui/core/MenuItem';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import Checkbox from '@material-ui/core/Checkbox';
+import ListItemText from '@material-ui/core/ListItemText';
 
 type SelectProps = {
   helperText?: string;
@@ -42,7 +44,7 @@ const Select: ForwardRefExoticComponent<SelectProps> = forwardRef(
       helperText,
       error,
       placeholder,
-      multiline,
+      multiple,
       name,
       value,
       onChange,
@@ -60,7 +62,7 @@ const Select: ForwardRefExoticComponent<SelectProps> = forwardRef(
             ...sx,
           }}
           displayEmpty
-          multiline={multiline}
+          multiple={multiple}
           MenuProps={menuProps}
           placeholder={placeholder}
           onChange={onChange}
@@ -69,6 +71,23 @@ const Select: ForwardRefExoticComponent<SelectProps> = forwardRef(
           onBlur={onBlur}
           value={value}
           IconComponent={ExpandMoreIcon}
+          renderValue={
+            multiple
+              ? (selected) => {
+                  const displayValueList = (selected as any[])?.map((item) => {
+                    const resultSourceIndex = source.findIndex((val) => {
+                      if (usingSourceValueForSelectValue) {
+                        return val.value === item;
+                      }
+                      return val.key === item;
+                    });
+
+                    return source[resultSourceIndex].value;
+                  });
+                  return displayValueList.join(', ');
+                }
+              : null
+          }
         >
           <MenuItem disabled value="">
             {placeholder}
@@ -78,7 +97,16 @@ const Select: ForwardRefExoticComponent<SelectProps> = forwardRef(
               key={sourceKey}
               value={usingSourceValueForSelectValue ? sourceValue : sourceKey}
             >
-              {sourceValue}
+              {multiple ? (
+                <>
+                  <Checkbox
+                    checked={(value as any[])?.indexOf(sourceKey) > -1}
+                  />
+                  <ListItemText primary={sourceValue} />
+                </>
+              ) : (
+                sourceValue
+              )}
             </MenuItem>
           ))}
         </MuiSelect>

@@ -9,10 +9,12 @@ import Divider from '@material-ui/core/Divider';
 const source: IKeyValuePair<string, string>[] = [
   { key: '321134', value: 'A' },
   { key: 'b24343214', value: 'B' },
+  { key: 'csadsac', value: 'C' },
+  { key: 'das1232', value: 'D' },
 ];
 
 const Lab: FC = () => {
-  const [selectValue, setSelectValue] = useState<string>('');
+  const [selectValue, setSelectValue] = useState<string[]>([]);
   const [dateTimeDefault, setDateTimeDefault] = useState<[Date, Date]>([
     null,
     null,
@@ -21,7 +23,7 @@ const Lab: FC = () => {
   const [time, setTime] = useState<Date>(null);
 
   const handleChangeSelected = (event: ChangeEvent<{ value: unknown }>) => {
-    setSelectValue(event.target.value as string);
+    setSelectValue(event.target.value as string[]);
   };
 
   const handleChangeDateTimeDefault = ([startDate, endDate]: [Date, Date]) => {
@@ -41,6 +43,7 @@ const Lab: FC = () => {
         placeholder="請選擇"
         value={selectValue}
         onChange={handleChangeSelected}
+        multiple
       />
       <pre>
         <code>{JSON.stringify(selectValue)}</code>
@@ -49,7 +52,7 @@ const Lab: FC = () => {
       </pre>
       <DateTimePicker
         value={date}
-        variant="default"
+        variant="date"
         placeholder="請選擇"
         onChange={handleChangeDate}
         min={new Date()}
