@@ -69,10 +69,6 @@ const DatePickerHeader: FC<DatePickerHeaderProps> = ({
   prevYearButtonDisabled,
   nextYearButtonDisabled,
 }) => {
-  useEffect(() => {
-    addEventListener('click', () => {});
-  });
-
   const years = range(1990, dayJs().get('year') + 100, 1);
   const yearsSource: IKeyValuePair<string, number>[] = years.map((item) => {
     return { key: `${item}`, value: item };
