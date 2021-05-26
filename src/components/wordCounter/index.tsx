@@ -1,8 +1,20 @@
 import type { FC, ReactElement } from 'react';
+import type { Theme } from '@material-ui/core/styles';
 import { cloneElement } from 'react';
 import { memo } from 'react';
 import { Grid } from '@material-ui/core';
-import { theme } from '@src/providers';
+
+function returnColor(theme: Theme, isDisabled: boolean, isError: boolean) {
+  if (isDisabled) {
+    return theme.palette.text.disabled;
+  }
+
+  if (isError) {
+    return theme.palette.error.main;
+  }
+
+  return theme.palette.text.primary;
+}
 
 interface WordCounterProps {
   children: ReactElement;
@@ -14,6 +26,7 @@ const WordCounter: FC<WordCounterProps> = ({ children }) => {
   const error = ChildElement?.props?.error || false;
   const isError = value.length > maxLength || error;
   const hasHelperText = ChildElement?.props?.helperText || '';
+  const isDisabled = ChildElement?.props?.disabled || false;
 
   return (
     <Grid container>
@@ -27,7 +40,7 @@ const WordCounter: FC<WordCounterProps> = ({ children }) => {
         justifyContent="flex-end"
         display="flex"
         sx={{
-          color: isError ? `${theme.palette.error.main}` : '',
+          color: (theme) => returnColor(theme, isDisabled, isError),
           position: error && hasHelperText ? 'relative' : 'static',
           top: '-20px',
         }}
