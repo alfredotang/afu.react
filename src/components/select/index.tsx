@@ -6,6 +6,7 @@ import MuiSelect from '@material-ui/core/Select';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import MenuItem from '@material-ui/core/MenuItem';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 type SelectProps = {
   helperText?: string;
@@ -16,6 +17,11 @@ const menuProps: Partial<MenuProps> = {
   anchorOrigin: {
     vertical: 'bottom',
     horizontal: 'left',
+  },
+  PaperProps: {
+    style: {
+      maxHeight: '300px',
+    },
   },
 };
 
@@ -52,6 +58,7 @@ const Select: ForwardRefExoticComponent<SelectProps> = forwardRef(
           name={name}
           onBlur={onBlur}
           value={value}
+          IconComponent={ExpandMoreIcon}
         >
           <MenuItem disabled value="">
             {placeholder}
