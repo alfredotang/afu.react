@@ -6,10 +6,12 @@ import Box from '@material-ui/core/Box';
 
 import styled from '@emotion/styled';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 import DateTimePickerBase, {
   DateTimePickerBaseProps,
   DateTimePickerVariant,
+  InputVariant,
 } from '@src/components/dateTimePickerBase';
 
 const StyleWrapper = styled.div<{ error: boolean }>`
@@ -20,59 +22,67 @@ const StyleWrapper = styled.div<{ error: boolean }>`
   margin: 0;
   vertical-align: top;
   width: 100%;
-  background-color: #fff;
   box-sizing: border-box;
-  border-radius: 4px;
-  border-width: 1px;
-  border-style: solid;
-  border-color: ${(props) =>
-    props.error ? props.theme.palette.error.main : 'rgba(0, 0, 0, 0.23)'};
 
-  &:hover {
-    border-color: rgb(0, 0, 0);
-  }
-
-  &:focus {
-    outline-color: ${(props) => props.theme.palette.error.main};
-    outline-width: 1px;
-    outline-style: solid;
-  }
-
-  .react-datepicker-wrapper {
-    font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
-    font-weight: 400;
-    font-size: 1rem;
-    line-height: 1.4375em;
-    letter-spacing: 0.00938em;
-    color: rgba(0, 0, 0, 0.87);
-    box-sizing: border-box;
+  .MuiInput-root {
+    border-color: ${(props) =>
+      props.error ? props.theme.palette.error.main : 'rgba(0, 0, 0, 0.23)'};
+    border-width: 1px;
+    border-style: solid;
     border-radius: 4px;
-    position: relative;
-    cursor: text;
-    display: inline-flex;
-    align-items: center;
-    position: relative;
-    width: 100%;
+    &.Mui-error {
+      &::after {
+        border-width: 0px;
+      }
+    }
+
+    &::before {
+      border-bottom: 0;
+    }
     &:hover {
-      border-color: rgb(0, 0, 0);
+      &:not(.Mui-disabled) {
+        &::before {
+          border-bottom-width: 1px;
+        }
+      }
+    }
+  }
+
+  .start-date-wrapper {
+    .MuiInput-root {
+      border-right-width: 0;
+      border-top-right-radius: 0px;
+      border-bottom-right-radius: 0px;
+    }
+  }
+
+  .end-date-wrapper {
+    .MuiInput-root {
+      border-left-width: 0;
+      border-top-left-radius: 0px;
+      border-bottom-left-radius: 0px;
     }
   }
 `;
 
 type DateTimePickerRangeProps = Omit<
   DateTimePickerBaseProps,
-  'selectsRange' | 'onChange' | 'value' | 'min' | 'max'
+  | 'selectsRange'
+  | 'onChange'
+  | 'value'
+  | 'min'
+  | 'max'
+  | 'name'
+  | 'inputVariant'
 > & {
-  error?: boolean;
-  helperText?: string;
-  onChange: (startDate: Date, endDate: Date) => void;
-  startDate: Date;
-  endDate: Date;
+  onChange: (date: [Date, Date]) => void;
   sx?: SxProps<Theme>;
   startDateMin?: Date;
   startDateMax?: Date;
   endDateMin?: Date;
   endDateMax?: Date;
+  value: [Date, Date];
+  helperText?: string;
 };
 
 function returnWidth(variant: DateTimePickerVariant): string {
@@ -93,21 +103,23 @@ const DateTimeRangePicker: ForwardRefExoticComponent<DateTimePickerRangeProps> =
       variant = 'default',
       onChange,
       onBlur,
-      startDate,
-      endDate,
       startDateMin,
       startDateMax,
       endDateMin,
       endDateMax,
       error,
       helperText,
-      timeIntervals = 15,
+      timeIntervals,
       placeholder,
       disabled,
+      value,
+      withPortal,
     } = props;
 
+    const inputVariant: InputVariant = 'standard';
+
     const handleChange = (startDateValue: Date, endDateValue: Date) => {
-      onChange(startDateValue, endDateValue);
+      onChange([startDateValue, endDateValue]);
     };
 
     return (
@@ -122,43 +134,55 @@ const DateTimeRangePicker: ForwardRefExoticComponent<DateTimePickerRangeProps> =
       >
         <StyleWrapper error={error}>
           <DateTimePickerBase
+            className="start-date-wrapper"
             variant={variant}
-            value={startDate}
+            value={value[0]}
             min={startDateMin}
             max={startDateMax}
             onChange={(date) => {
-              handleChange(date as Date, endDate);
+              handleChange(date as Date, value[1]);
             }}
             timeIntervals={timeIntervals}
-            placeholder={startDate || endDate ? '' : placeholder}
+            placeholder={!value || (!value[0] && !value[1]) ? placeholder : ''}
             onBlur={onBlur}
             disabled={disabled}
+            inputVariant={inputVariant}
+            error={error}
+            withPortal={withPortal}
           />
 
           <Box
             sx={{
               fontSize: '1.25rem',
-              display: startDate || endDate ? 'flex' : 'none',
+              display: value[0] || value[1] ? 'flex' : 'none',
               position: 'absolute',
               top: '5px',
               right: '50%',
               transform: 'translateX(-50%)',
+              color: (theme) =>
+                disabled
+                  ? theme.palette.text.disabled
+                  : theme.palette.text.primary,
             }}
           >
             -
           </Box>
 
           <DateTimePickerBase
+            className="end-date-wrapper"
             variant={variant}
-            value={endDate}
+            value={value[1]}
             min={endDateMin}
             max={endDateMax}
             onChange={(date) => {
-              handleChange(startDate, date as Date);
+              handleChange(value[0], date as Date);
             }}
             timeIntervals={timeIntervals}
             onBlur={onBlur}
             disabled={disabled}
+            inputVariant={inputVariant}
+            error={error}
+            withPortal={withPortal}
           />
 
           <Box
@@ -173,7 +197,7 @@ const DateTimeRangePicker: ForwardRefExoticComponent<DateTimePickerRangeProps> =
               pointerEvents: 'none',
             }}
           >
-            <ArrowDropDownIcon sx={{ fontSize: '1.25rem' }} />
+            <ExpandMoreIcon sx={{ fontSize: '1.25rem' }} />
           </Box>
         </StyleWrapper>
         {error && helperText && (
