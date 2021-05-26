@@ -7,8 +7,8 @@ import TextField from '@material-ui/core/TextField';
 import Divider from '@material-ui/core/Divider';
 
 const source: IKeyValuePair<string, string>[] = [
-  { key: 'a', value: 'A' },
-  { key: 'b', value: 'B' },
+  { key: '321134', value: 'A' },
+  { key: 'b24343214', value: 'B' },
 ];
 
 const Lab: FC = () => {
@@ -42,6 +42,11 @@ const Lab: FC = () => {
         value={selectValue}
         onChange={handleChangeSelected}
       />
+      <pre>
+        <code>{JSON.stringify(selectValue)}</code>
+        <br />
+        <code>{JSON.stringify(typeof selectValue)}</code>
+      </pre>
       <DateTimePicker
         value={date}
         variant="default"

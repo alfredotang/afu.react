@@ -85,6 +85,11 @@ type DateTimePickerRangeProps = Omit<
   helperText?: string;
 };
 
+/**
+ * @name returnWidth
+ * @description 根據 '日期 + 時間' | '時間' | '日期'，return 對應寬度
+ * @param {DateTimePickerVariant} variant 時間日期模組 模式
+ */
 function returnWidth(variant: DateTimePickerVariant): string {
   switch (variant) {
     case 'date':
@@ -96,6 +101,26 @@ function returnWidth(variant: DateTimePickerVariant): string {
   }
 }
 
+/**
+ * @name DateTimeRangePicker
+ * @description 時間日期模組 with 區間
+ * @param {DateTimePickerRangeProps} props
+ * @note 為了配合 React-hook-form
+ * 會 return date of array [startDate, endDate] 結構
+ * 若 api startDate, endDate 是2個欄位
+ * 在 form defaultValue 要寫
+ * defaultValue: {
+ *  range: [startDate, endDate]
+ * }
+ * 在 form 變成同一個 欄位
+ *
+ * @note 若還是希望維持
+ * defaultValue: {
+ *  starDate,
+ *  endDate,
+ * }
+ * 可以使用 DateTimePicker
+ */
 const DateTimeRangePicker: ForwardRefExoticComponent<DateTimePickerRangeProps> = forwardRef(
   (props, ref) => {
     const {
@@ -133,6 +158,7 @@ const DateTimeRangePicker: ForwardRefExoticComponent<DateTimePickerRangeProps> =
         ref={ref}
       >
         <StyleWrapper error={error}>
+          {/* start date  */}
           <DateTimePickerBase
             className="start-date-wrapper"
             variant={variant}
@@ -168,6 +194,7 @@ const DateTimeRangePicker: ForwardRefExoticComponent<DateTimePickerRangeProps> =
             -
           </Box>
 
+          {/* end date  */}
           <DateTimePickerBase
             className="end-date-wrapper"
             variant={variant}
@@ -200,6 +227,8 @@ const DateTimeRangePicker: ForwardRefExoticComponent<DateTimePickerRangeProps> =
             <ExpandMoreIcon sx={{ fontSize: '1.25rem' }} />
           </Box>
         </StyleWrapper>
+
+        {/* error message */}
         {error && helperText && (
           <Box
             sx={{

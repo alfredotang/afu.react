@@ -43,6 +43,11 @@ type DateTimePickerProps = Omit<
   helperText?: string;
 };
 
+/**
+ * @name DateTimePicker
+ * @description 時間日期模組
+ * @param {DateTimePickerProps} props
+ */
 const DateTimePicker: ForwardRefExoticComponent<DateTimePickerProps> = forwardRef(
   (props, ref) => {
     const {
@@ -71,6 +76,7 @@ const DateTimePicker: ForwardRefExoticComponent<DateTimePickerProps> = forwardRe
         ref={ref}
       >
         <StyleWrapper>
+          {/* 時間日期 核心功能 */}
           <DateTimePickerBase
             value={value}
             min={min}
@@ -85,6 +91,8 @@ const DateTimePicker: ForwardRefExoticComponent<DateTimePickerProps> = forwardRe
             error={error}
             withPortal={withPortal}
           />
+
+          {/* input 左側 icon 區塊 */}
           <Box
             sx={{
               position: 'absolute',
@@ -108,6 +116,8 @@ const DateTimePicker: ForwardRefExoticComponent<DateTimePickerProps> = forwardRe
             )}
           </Box>
         </StyleWrapper>
+
+        {/* error message */}
         {error && helperText && (
           <Box
             sx={{

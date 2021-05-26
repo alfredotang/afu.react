@@ -19,6 +19,16 @@ function returnColor(theme: Theme, isDisabled: boolean, isError: boolean) {
 interface WordCounterProps {
   children: ReactElement;
 }
+
+/**
+ * @name WordCounter
+ * @description 字數計算 wrapper
+ * @param {WordCounterProps} props
+ * @note 使用方式
+ * <WordCounter>
+ *  <Input maxLength={20} value={inputValue} type="text"/>
+ * </WordCounter>
+ */
 const WordCounter: FC<WordCounterProps> = ({ children }) => {
   const ChildElement = cloneElement(children);
   const value = ChildElement?.props?.value || '';

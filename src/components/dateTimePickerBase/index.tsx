@@ -3,8 +3,6 @@ import ReactDatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.min.css';
 import styled from '@emotion/styled';
 import TextField from '@material-ui/core/TextField';
-import isArray from 'lodash/isArray';
-import isDate from 'lodash/isDate';
 import DatePickerHeader from './datePickerHeader';
 
 export type DateTimePickerVariant = 'date' | 'time' | 'default';
@@ -31,33 +29,6 @@ export type DateTimePickerBaseProps = {
   className?: string;
   withPortal?: boolean;
 };
-
-export function returnValue(
-  selectsRange: boolean,
-  value: Date | [Date, Date]
-): { startDate: Date; endDate: Date; date: Date } {
-  if (selectsRange && isArray(value)) {
-    return {
-      startDate: value[0],
-      endDate: value[1],
-      date: value[0],
-    };
-  }
-
-  if (!selectsRange && isDate(value)) {
-    return {
-      startDate: null,
-      endDate: null,
-      date: value,
-    };
-  }
-
-  return {
-    startDate: null,
-    endDate: null,
-    date: null,
-  };
-}
 
 export function returnFormat(variant: DateTimePickerVariant): string {
   switch (variant) {
@@ -167,6 +138,11 @@ const StyleWrapper = styled.div`
   }
 `;
 
+/**
+ * @name DatePickerBase
+ * @description 時間日期模組 核心工能
+ * @param {DateTimePickerBaseProps} props
+ */
 const DatePickerBase: FC<DateTimePickerBaseProps> = (props) => {
   const {
     variant,

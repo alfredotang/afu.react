@@ -8,6 +8,19 @@ type InputProps = { maxLength?: number } & Omit<
   'InputProps'
 >;
 
+/**
+ * @name Input
+ * @description Input 、 textarea
+ * @param {InputProps} props
+ *
+ * @note 若要使用 textarea 模式
+ * 用 minRows 控制高度
+ * multiline must be true
+ *
+ * @note 若要使用 自動長高功能
+ * multiline must be true
+ * 切記！ input type 為 "number" 盡量不要使用
+ */
 const Input: ForwardRefExoticComponent<InputProps> = forwardRef(
   (props, ref) => {
     const {

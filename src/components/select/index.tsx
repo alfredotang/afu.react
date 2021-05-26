@@ -10,7 +10,11 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 type SelectProps = {
   helperText?: string;
-  source: IKeyValuePair<string, string | number>[];
+  source: IKeyValuePair<string | number, string | number>[];
+  // select value default 回傳 source 的 key
+  // 若希望回傳的是 source 的 value
+  // 可以設 打開此設定
+  usingSourceValueForSelectValue?: boolean;
 } & MuiSelectProps;
 
 const menuProps: Partial<MenuProps> = {
@@ -25,6 +29,11 @@ const menuProps: Partial<MenuProps> = {
   },
 };
 
+/**
+ * @name Select
+ * @description 下拉選單元件
+ * @param {SelectProps} props
+ */
 const Select: ForwardRefExoticComponent<SelectProps> = forwardRef(
   (props, ref) => {
     const {
@@ -38,6 +47,7 @@ const Select: ForwardRefExoticComponent<SelectProps> = forwardRef(
       value,
       onChange,
       onBlur,
+      usingSourceValueForSelectValue = false,
     } = props;
 
     return (
@@ -63,9 +73,12 @@ const Select: ForwardRefExoticComponent<SelectProps> = forwardRef(
           <MenuItem disabled value="">
             {placeholder}
           </MenuItem>
-          {source?.map(({ key, value }) => (
-            <MenuItem key={key} value={value}>
-              {value}
+          {source?.map(({ key: sourceKey, value: sourceValue }) => (
+            <MenuItem
+              key={sourceKey}
+              value={usingSourceValueForSelectValue ? sourceValue : sourceKey}
+            >
+              {sourceValue}
             </MenuItem>
           ))}
         </MuiSelect>

@@ -1,6 +1,7 @@
-import type { FC } from 'react';
+import type { FC, MouseEvent } from 'react';
 import { useState, useEffect } from 'react';
 import range from 'lodash/range';
+import find from 'lodash/find';
 import dayJs from '@src/providers/day';
 import IconButton from '@material-ui/core/IconButton';
 import ArrowBackIosNewIcon from '@material-ui/icons/ArrowBackIosNew';
@@ -25,36 +26,37 @@ type DatePickerHeaderProps = {
   nextYearButtonDisabled: boolean;
 };
 
-const months = [
-  'January',
-  'February',
-  'March',
-  'April',
-  'May',
-  'June',
-  'July',
-  'August',
-  'September',
-  'October',
-  'November',
-  'December',
+// 1990 years ~ (today + 100 ) years
+// ex. today is 2021/5/31
+// range: 1990 ~ 2121
+const yearsList = range(1990, dayJs().get('year') + 100, 1);
+
+// mapping [1990, 1991, ....., 2xxx]
+// To key value pairs object
+const yearsSource: IKeyValuePair<string, number>[] = yearsList.map((item) => {
+  return { key: `${item}`, value: item };
+});
+
+const monthsSources: IKeyValuePair<number, string>[] = [
+  { key: 0, value: 'January' },
+  { key: 1, value: 'February' },
+  { key: 2, value: 'March' },
+  { key: 3, value: 'April' },
+  { key: 4, value: 'May' },
+  { key: 5, value: 'June' },
+  { key: 6, value: 'July' },
+  { key: 7, value: 'August' },
+  { key: 8, value: 'September' },
+  { key: 9, value: 'October' },
+  { key: 10, value: 'November' },
+  { key: 11, value: 'December' },
 ];
 
-const monthsSources: IKeyValuePair<string, string>[] = [
-  { key: 'January', value: 'January' },
-  { key: 'February', value: 'February' },
-  { key: 'March', value: 'March' },
-  { key: 'April', value: 'April' },
-  { key: 'May', value: 'May' },
-  { key: 'June', value: 'June' },
-  { key: 'July', value: 'July' },
-  { key: 'August', value: 'August' },
-  { key: 'September', value: 'September' },
-  { key: 'October', value: 'October' },
-  { key: 'November', value: 'November' },
-  { key: 'December', value: 'December' },
-];
-
+/**
+ * @name DatePickerHeader
+ * @description custom dateTimePicker header
+ * @param {DatePickerHeaderProps} props
+ */
 const DatePickerHeader: FC<DatePickerHeaderProps> = ({
   date,
   changeYear,
@@ -69,19 +71,47 @@ const DatePickerHeader: FC<DatePickerHeaderProps> = ({
   prevYearButtonDisabled,
   nextYearButtonDisabled,
 }) => {
-  const years = range(1990, dayJs().get('year') + 100, 1);
-  const yearsSource: IKeyValuePair<string, number>[] = years.map((item) => {
-    return { key: `${item}`, value: item };
-  });
+  const currentYearValue = dayJs(date).get('year');
+  const currentMonthKey = dayJs(date).get('month');
+  const currentMonthValue = find(monthsSources, ['key', currentMonthKey]).value;
+
   const [openYears, setOpenYears] = useState(false);
   const [openMonths, setOpenMonths] = useState(false);
 
-  useEffect(() => {
-    const handleCloseAllList = (event) => {
-      setOpenYears(false);
-      setOpenMonths(false);
-    };
+  const handleCloseAllList = (event: globalThis.MouseEvent) => {
+    setOpenYears(false);
+    setOpenMonths(false);
+  };
 
+  /**
+   * @name handleClickYears
+   * @param event DOM event
+   * @description 點擊 years
+   */
+  const handleClickYears = (
+    event: MouseEvent<HTMLDivElement, globalThis.MouseEvent>
+  ) => {
+    event.stopPropagation();
+    setOpenMonths(false);
+    setOpenYears(true);
+  };
+
+  /**
+   * @name handleClickMonths
+   * @param event DOM event
+   * @description 點擊 months
+   */
+  const handleClickMonths = (
+    event: MouseEvent<HTMLDivElement, globalThis.MouseEvent>
+  ) => {
+    event.stopPropagation();
+    setOpenYears(false);
+    setOpenMonths(true);
+  };
+
+  useEffect(() => {
+    // close years & months list
+    // when click calendar other place
     addEventListener('click', handleCloseAllList);
 
     return () => {
@@ -99,26 +129,21 @@ const DatePickerHeader: FC<DatePickerHeaderProps> = ({
           alignItems: 'center',
         }}
       >
+        {/* years input */}
         <TextFiled
-          value={dayJs(date).get('year')}
-          onClick={(event) => {
-            event.stopPropagation();
-            setOpenMonths(false);
-            setOpenYears(true);
-          }}
+          value={currentYearValue}
+          onClick={handleClickYears}
           sx={{ marginRight: (theme) => theme.spacing(2), width: '100px' }}
         />
 
+        {/* months input */}
         <TextFiled
-          value={months[dayJs(date).get('month')]}
-          onClick={(event) => {
-            event.stopPropagation();
-            setOpenYears(false);
-            setOpenMonths(true);
-          }}
+          value={currentMonthValue}
+          onClick={handleClickMonths}
           sx={{ marginRight: (theme) => theme.spacing(2), width: '150px' }}
         />
 
+        {/* go previous month icon button */}
         <IconButton
           onClick={decreaseMonth}
           disableRipple={false}
@@ -127,6 +152,8 @@ const DatePickerHeader: FC<DatePickerHeaderProps> = ({
         >
           <ArrowBackIosNewIcon sx={{ fontSize: '1.275rem' }} />
         </IconButton>
+
+        {/* go next month icon button */}
         <IconButton
           disableRipple={false}
           disableTouchRipple={false}
@@ -136,6 +163,8 @@ const DatePickerHeader: FC<DatePickerHeaderProps> = ({
           <ArrowForwardIosIcon sx={{ fontSize: '1.275rem' }} />
         </IconButton>
       </Box>
+
+      {/* years list items */}
       {openYears && (
         <List
           sx={{
@@ -157,14 +186,16 @@ const DatePickerHeader: FC<DatePickerHeaderProps> = ({
                 changeYear(item.value);
                 setOpenYears(false);
               }}
-              selected={dayJs(date).get('year') === item.value}
-              autoFocus={dayJs(date).get('year') === item.value}
+              selected={currentYearValue === item.value}
+              autoFocus={currentYearValue === item.value}
             >
               {item.value}
             </ListItem>
           ))}
         </List>
       )}
+
+      {/* months list items */}
       {openMonths && (
         <List
           sx={{
@@ -183,11 +214,11 @@ const DatePickerHeader: FC<DatePickerHeaderProps> = ({
               button
               key={item.key}
               onClick={() => {
-                changeMonth(months.indexOf(item.value));
+                changeMonth(item.key);
                 setOpenMonths(false);
               }}
-              selected={months[dayJs(date).get('month')] === item.value}
-              autoFocus={months[dayJs(date).get('month')] === item.value}
+              selected={currentMonthKey === item.key}
+              autoFocus={currentMonthKey === item.key}
             >
               {item.value}
             </ListItem>
