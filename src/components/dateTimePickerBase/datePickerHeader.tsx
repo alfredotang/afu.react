@@ -55,27 +55,6 @@ const monthsSources: IKeyValuePair<string, string>[] = [
   { key: 'December', value: 'December' },
 ];
 
-{
-  /* <TextFiled
-value={dayJs(date).get('year')}
-onClick={(event) => {
-  event.stopPropagation();
-  setOpenMonths(false);
-  setOpenYears(true);
-}}
-sx={{ marginRight: (theme) => theme.spacing(2) }}
-/>
-
-<TextFiled
-value={months[dayJs(date).get('month')]}
-onClick={(event) => {
-  event.stopPropagation();
-  setOpenYears(false);
-  setOpenMonths(true);
-}}
-/> */
-}
-
 const DatePickerHeader: FC<DatePickerHeaderProps> = ({
   date,
   changeYear,
