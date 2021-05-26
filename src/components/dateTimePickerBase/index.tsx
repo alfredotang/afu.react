@@ -2,10 +2,13 @@ import type { FC } from 'react';
 import ReactDatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.min.css';
 import styled from '@emotion/styled';
+import TextField from '@material-ui/core/TextField';
 import isArray from 'lodash/isArray';
 import isDate from 'lodash/isDate';
+import DatePickerHeader from './datePickerHeader';
 
 export type DateTimePickerVariant = 'date' | 'time' | 'default';
+export type InputVariant = 'standard' | 'outlined' | 'filled';
 
 export type DateTimePickerBaseProps = {
   variant?: DateTimePickerVariant;
@@ -18,6 +21,15 @@ export type DateTimePickerBaseProps = {
   onChange: (date: Date | [Date, Date]) => void;
   value: Date;
   selectsRange?: boolean;
+  name?: string;
+  error?: boolean;
+  inputVariant?: InputVariant;
+  selectsStart?: boolean;
+  selectsEnd?: boolean;
+  startDate?: Date;
+  endDate?: Date;
+  className?: string;
+  withPortal?: boolean;
 };
 
 export function returnValue(
@@ -82,36 +94,6 @@ const StyleWrapper = styled.div`
         font-weight: 400 !important;
       }
     }
-    &__input-container {
-      width: 100%;
-      position: relative;
-      display: flex;
-      input {
-        font: inherit;
-        padding: 8px 14px;
-        letter-spacing: inherit;
-        color: currentColor;
-        border: 0;
-        box-sizing: content-box;
-        background: none;
-        height: 1.4375em;
-        margin: 0;
-        -webkit-tap-highlight-color: transparent;
-        display: block;
-        min-width: 0;
-        width: 100%;
-        max-width: 100%;
-        animation-name: mui-auto-fill-cancel;
-        animation-duration: 10ms;
-        outline: 0px;
-        line-height: 1.75rem;
-
-        &::placeholder {
-          color: #666;
-          font-size: 14px;
-        }
-      }
-    }
 
     &__triangle {
       display: none;
@@ -146,29 +128,12 @@ const StyleWrapper = styled.div`
         color: #fff !important;
         font-weight: 400 !important;
         background-color: ${(props) =>
-          props.theme.palette.primary.main} !important;
+          props.theme.palette.primary.light} !important;
       }
 
       &--today {
-        color: rgba(0, 0, 0, 0.77);
         position: relative;
-
-        &:hover {
-          &::after {
-            display: none;
-          }
-        }
-
-        &::after {
-          position: absolute;
-          border-radius: 100%;
-          top: 8px;
-          width: 8px;
-          height: 8px;
-          content: '';
-          color: ${(props) => props.theme.palette.primary.main};
-          background-color: ${(props) => props.theme.palette.primary.main};
-        }
+        color: ${(props) => props.theme.palette.primary.main} !important;
       }
       &--disabled {
         color: rgba(0, 0, 0, 0.47);
@@ -181,8 +146,9 @@ const StyleWrapper = styled.div`
         background-color: rgba(0, 0, 0, 0);
       }
       &--selected {
-        background-color: ${(props) => props.theme.palette.primary.main};
-        color: #fff;
+        background-color: ${(props) =>
+          props.theme.palette.primary.main}!important;
+        color: #fff !important;
         font-weight: 400;
       }
 
@@ -209,15 +175,27 @@ const DatePickerBase: FC<DateTimePickerBaseProps> = (props) => {
     value,
     max,
     min,
-    timeIntervals = 15,
+    timeIntervals = 60,
     placeholder,
     selectsRange = false,
     disabled,
+    name,
+    error,
+    inputVariant = 'outlined',
+    selectsStart,
+    selectsEnd,
+    startDate,
+    endDate,
+    className,
+    withPortal,
   } = props;
   return (
     <StyleWrapper>
       <ReactDatePicker
+        className={className}
         selected={value}
+        selectsStart={selectsStart}
+        selectsEnd={selectsEnd}
         minDate={min}
         maxDate={max}
         onChange={onChange}
@@ -234,6 +212,12 @@ const DatePickerBase: FC<DateTimePickerBaseProps> = (props) => {
         showMonthDropdown
         showYearDropdown
         dropdownMode="select"
+        name={name}
+        startDate={startDate}
+        endDate={endDate}
+        withPortal={withPortal}
+        customInput={<TextField error={error} variant={inputVariant} />}
+        renderCustomHeader={(props) => <DatePickerHeader {...props} />}
       />
     </StyleWrapper>
   );
