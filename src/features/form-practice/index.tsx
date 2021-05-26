@@ -15,6 +15,8 @@ import RadioDemo from './radioDemo';
 import WordCounterDemo from './wordCounterDemo';
 import SelectDemo from './selectDemo';
 import DateTimeDemo from './dateTimeDemo';
+import DateTimeRangeDemo from './dateTimeRangeDemo';
+
 import Result, { IResultData } from './result';
 
 /**
@@ -35,6 +37,7 @@ export interface IFormBase {
   h: string;
   i: string;
   startDate: Date;
+  dateRange: [Date, Date];
 }
 
 /**
@@ -51,6 +54,7 @@ export interface IForAPIEntity {
   h: string;
   i: string;
   startDate: Date;
+  dateRange: [Date, Date];
 }
 
 /**
@@ -84,8 +88,24 @@ const schema = yup.lazy((value: IFormBase) => {
         `不得超過 ${dayjs().add(7, 'days').format('YYYY/MM/DD')}`
       )
       .typeError('請輸入開始時間'),
+    dateRange: yup
+      .array()
+      .of(yup.date())
+      .required('必填')
+      .typeError('請輸入日期區間'),
   });
 });
+
+// startDate: yup
+// .date()
+// .required('必填')
+// .typeError('請輸入開始時間')
+// .max(yup.ref('dateRange.endDate'), `開始時間不得大於結束時間`),
+// endDate: yup
+// .date()
+// .required('必填')
+// .typeError('請輸入結束時間')
+// .min(yup.ref('dateRange.startDate'), `結束時間不得小於開始時間`),
 
 const defaultValues: IFormBase = {
   a: '',
@@ -98,6 +118,7 @@ const defaultValues: IFormBase = {
   h: '',
   i: '',
   startDate: new Date(),
+  dateRange: [new Date(), new Date()],
 };
 
 /**
@@ -147,7 +168,7 @@ const FormPractice: FC = () => {
     for (const val in data) {
       visibleTable.push({
         name: val,
-        value: data[val].toString(),
+        value: JSON.stringify(data[val]),
         type: typeof data[val],
       });
     }
@@ -283,6 +304,7 @@ const FormPractice: FC = () => {
               <WordCounterDemo />
               <SelectDemo />
               <DateTimeDemo />
+              <DateTimeRangeDemo />
             </Box>
           </form>
         </Box>
