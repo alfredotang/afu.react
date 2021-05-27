@@ -3,7 +3,7 @@ import type { IFormBase } from '@src/features/form-practice';
 
 import { useFormContext, Controller } from 'react-hook-form';
 import Grid from '@material-ui/core/Grid';
-import { DateTimeRangePicker } from '@src/components';
+import { DateTimeRangePickerForForm } from '@src/components';
 
 const DateTimeRangeDemo: FC = () => {
   const { control, watch } = useFormContext<IFormBase>();
@@ -13,20 +13,7 @@ const DateTimeRangeDemo: FC = () => {
         dateRange
       </Grid>
       <Grid item xs={10}>
-        <Controller
-          control={control}
-          name="dateRange"
-          render={({ field, fieldState: { error } }) => {
-            console.log({ field });
-            return (
-              <DateTimeRangePicker
-                error={Boolean(error)}
-                helperText={Boolean(error) ? error.message : ''}
-                {...field}
-              />
-            );
-          }}
-        />
+        <DateTimeRangePickerForForm name={['startDate', 'endDate']} />
       </Grid>
     </Grid>
   );

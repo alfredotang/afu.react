@@ -27,17 +27,18 @@ import Result, { IResultData } from './result';
  * ex. <input name="a" type="number" />
  */
 export interface IFormBase {
-  a: string;
-  b: string;
-  c: string;
-  d: StringBooleanOrEmpty;
-  e: string;
-  f: string;
-  g: string;
-  h: string;
-  i: string;
-  startDate: Date;
-  dateRange: [Date, Date];
+  a: string | null;
+  b: string | null;
+  c: string | null;
+  d: StringBooleanOrEmpty | null;
+  e: string | null;
+  f: string | null;
+  g: string | null;
+  h: string | null;
+  i: string | null;
+  startDate: Date | null;
+  endDate: Date | null;
+  date: Date | null;
 }
 
 /**
@@ -54,7 +55,8 @@ export interface IForAPIEntity {
   h: string;
   i: string;
   startDate: Date;
-  dateRange: [Date, Date];
+  endDate: Date;
+  date: Date;
 }
 
 /**
@@ -79,7 +81,7 @@ const schema = yup.lazy((value: IFormBase) => {
     g: yup.string().required('必填').max(10, '最多 10'),
     h: yup.string().required('必填').max(150, '最多150'),
     i: yup.string().required('必選'),
-    startDate: yup
+    date: yup
       .date()
       .required('必填')
       .min(dayjs().add(-1, 'day'), `至少要 ${dayjs().format('YYYY/MM/DD')}`)
@@ -88,28 +90,42 @@ const schema = yup.lazy((value: IFormBase) => {
         `不得超過 ${dayjs().add(7, 'days').format('YYYY/MM/DD')}`
       )
       .typeError('請輸入開始時間'),
-    dateRange: yup
-      .array()
-      .of(yup.date())
+    startDate: yup
+      .date()
       .required('必填')
-      .typeError('請輸入日期區間'),
+      .min(dayjs().add(-1, 'day'), `至少要 ${dayjs().format('YYYY/MM/DD')}`)
+      .max(yup.ref('endDate'), `不得超過結束時間`)
+      .typeError('請輸入開始時間'),
+    endDate: yup
+      .date()
+      .required('必填')
+      .min(yup.ref('startDate'), `不得小於結束時間`)
+      .max(
+        dayjs().add(7, 'days'),
+        `不得超過 ${dayjs().add(7, 'days').format('YYYY/MM/DD')}`
+      )
+      .typeError('請輸入開始時間'),
   });
 });
 
-// startDate: yup
-// .date()
-// .required('必填')
-// .typeError('請輸入開始時間')
-// .max(yup.ref('dateRange.endDate'), `開始時間不得大於結束時間`),
-// endDate: yup
-// .date()
-// .required('必填')
-// .typeError('請輸入結束時間')
-// .min(yup.ref('dateRange.startDate'), `結束時間不得小於開始時間`),
+// dateRange: yup.array().of(
+//   yup
+//     .date()
+//     .required('必填')
+//     .typeError('請輸入時間區間')
+//     .min(
+//       dayjs().add(-1, 'day'),
+//       `開始時間至少要 ${dayjs().format('YYYY/MM/DD')}`
+//     )
+//     .max(
+//       dayjs().add(7, 'days'),
+//       `結束時間不得超過 ${dayjs().add(7, 'days').format('YYYY/MM/DD')}`
+//     )
+// ),
 
 const defaultValues: IFormBase = {
   a: '',
-  b: '',
+  b: null,
   c: '',
   d: 'true',
   e: '',
@@ -117,8 +133,9 @@ const defaultValues: IFormBase = {
   g: '',
   h: '',
   i: '',
-  startDate: new Date(),
-  dateRange: [new Date(), new Date()],
+  startDate: null,
+  endDate: null,
+  date: null,
 };
 
 /**
@@ -137,6 +154,7 @@ const FormPractice: FC = () => {
   const formMethod = useForm<IFormBase>({
     defaultValues,
     resolver: yupResolver(schema),
+    shouldFocusError: true,
   });
 
   const {

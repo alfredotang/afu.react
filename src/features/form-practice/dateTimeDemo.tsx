@@ -10,12 +10,12 @@ const DateTimeDemo: FC = () => {
   return (
     <Grid container mb="20px" alignItems="center">
       <Grid item xs={2}>
-        StartDate
+        date
       </Grid>
       <Grid item xs={10}>
         <Controller
           control={control}
-          name="startDate"
+          name="date"
           render={({ field, fieldState: { error } }) => {
             return (
               <DateTimePicker
