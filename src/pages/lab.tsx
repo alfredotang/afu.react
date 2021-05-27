@@ -22,6 +22,9 @@ const Lab: FC = () => {
   const [date, setDate] = useState<Date>(null);
   const [time, setTime] = useState<Date>(null);
 
+  const [startDate, setStartDate] = useState<Date>(null);
+  const [endDate, setEndDate] = useState<Date>(null);
+
   const handleChangeSelected = (event: ChangeEvent<{ value: unknown }>) => {
     setSelectValue(event.target.value as string[]);
   };
@@ -58,31 +61,23 @@ const Lab: FC = () => {
         min={new Date()}
       />
       <DateTimeRangePicker
-        value={dateTimeDefault}
+        placeholder="請選擇"
         variant="default"
-        placeholder="請選擇"
-        onChange={handleChangeDateTimeDefault}
-        startDateMax={dateTimeDefault[1]}
-        endDateMin={dateTimeDefault[0]}
+        startDate={startDate}
+        endDate={endDate}
+        onChangeStartDate={(date) => {
+          setStartDate(date);
+        }}
+        onChangeEndDate={(date) => {
+          setEndDate(date);
+        }}
       />
       <pre>
-        <code>{JSON.stringify(dateTimeDefault[0])}</code>
-        <code>{JSON.stringify(dateTimeDefault[1])}</code>
+        <code>{JSON.stringify(startDate)}</code>
+        <code>{JSON.stringify(endDate)}</code>
         <br />
-        <code>{JSON.stringify(typeof dateTimeDefault[0])}</code>
-        <code>{JSON.stringify(typeof dateTimeDefault[1])}</code>
-      </pre>
-      <DateTimePicker
-        placeholder="請選擇"
-        variant="time"
-        value={time}
-        onChange={handleChangeTime}
-        min={new Date()}
-      />
-      <pre>
-        <code>{JSON.stringify(time)}</code>
-        <br />
-        <code>{JSON.stringify(typeof time)}</code>
+        <code>{JSON.stringify(typeof startDate)}</code>
+        <code>{JSON.stringify(typeof endDate)}</code>
       </pre>
     </Box>
   );
