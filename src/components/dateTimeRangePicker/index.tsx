@@ -5,8 +5,9 @@ import { forwardRef } from 'react';
 import Box from '@material-ui/core/Box';
 
 import styled from '@emotion/styled';
-import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+
+import dayjs from '@src/providers/day';
 
 import DateTimePickerBase, {
   DateTimePickerBaseProps,
@@ -74,6 +75,7 @@ type DateTimePickerRangeProps = Omit<
   | 'max'
   | 'name'
   | 'inputVariant'
+  | 'disabled'
 > & {
   onChange: (date: [Date, Date]) => void;
   sx?: SxProps<Theme>;
@@ -83,6 +85,7 @@ type DateTimePickerRangeProps = Omit<
   endDateMax?: Date;
   value: [Date, Date];
   helperText?: string;
+  disabled?: [boolean, boolean];
 };
 
 /**
@@ -141,10 +144,27 @@ const DateTimeRangePicker: ForwardRefExoticComponent<DateTimePickerRangeProps> =
       withPortal,
     } = props;
 
+    const [startDate, endDate] = value;
+
     const inputVariant: InputVariant = 'standard';
 
-    const handleChange = (startDateValue: Date, endDateValue: Date) => {
-      onChange([startDateValue, endDateValue]);
+    const handleChangeStartDate = (startDateValue: Date) => {
+      // startDate 超過 endDate 時
+      // startDate  要變成 null
+      if (dayjs(startDateValue).isAfter(endDate)) {
+        onChange([null, endDate]);
+      } else {
+        onChange([startDateValue, endDate]);
+      }
+    };
+    const handleChangeEndDate = (endDateValue: Date) => {
+      // endDate 小於 startDate 時
+      // endDate  要變成 null
+      if (dayjs(endDateValue).isBefore(startDate)) {
+        onChange([startDate, null]);
+      } else {
+        onChange([startDate, endDateValue]);
+      }
     };
 
     return (
@@ -162,16 +182,16 @@ const DateTimeRangePicker: ForwardRefExoticComponent<DateTimePickerRangeProps> =
           <DateTimePickerBase
             className="start-date-wrapper"
             variant={variant}
-            value={value[0]}
+            value={startDate}
             min={startDateMin}
             max={startDateMax}
             onChange={(date) => {
-              handleChange(date as Date, value[1]);
+              handleChangeStartDate(date as Date);
             }}
             timeIntervals={timeIntervals}
             placeholder={!value || (!value[0] && !value[1]) ? placeholder : ''}
             onBlur={onBlur}
-            disabled={disabled}
+            disabled={disabled[0]}
             inputVariant={inputVariant}
             error={error}
             withPortal={withPortal}
@@ -186,7 +206,7 @@ const DateTimeRangePicker: ForwardRefExoticComponent<DateTimePickerRangeProps> =
               right: '50%',
               transform: 'translateX(-50%)',
               color: (theme) =>
-                disabled
+                disabled.every((item) => item)
                   ? theme.palette.text.disabled
                   : theme.palette.text.primary,
             }}
@@ -198,15 +218,15 @@ const DateTimeRangePicker: ForwardRefExoticComponent<DateTimePickerRangeProps> =
           <DateTimePickerBase
             className="end-date-wrapper"
             variant={variant}
-            value={value[1]}
+            value={endDate}
             min={endDateMin}
             max={endDateMax}
             onChange={(date) => {
-              handleChange(value[0], date as Date);
+              handleChangeEndDate(date as Date);
             }}
             timeIntervals={timeIntervals}
             onBlur={onBlur}
-            disabled={disabled}
+            disabled={disabled[1]}
             inputVariant={inputVariant}
             error={error}
             withPortal={withPortal}
