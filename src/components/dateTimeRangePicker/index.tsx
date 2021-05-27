@@ -76,16 +76,21 @@ type DateTimePickerRangeProps = Omit<
   | 'name'
   | 'inputVariant'
   | 'disabled'
+  | 'value'
 > & {
-  onChange: (date: [Date, Date]) => void;
   sx?: SxProps<Theme>;
   startDateMin?: Date;
   startDateMax?: Date;
   endDateMin?: Date;
   endDateMax?: Date;
-  value: [Date, Date];
   helperText?: string;
   disabled?: [boolean, boolean];
+  startDate: Date;
+  endDate: Date;
+  onChangeStartDate: (date: Date) => void;
+  onChangeEndDate: (date: Date) => void;
+  startDateName?: string;
+  endDateName?: string;
 };
 
 /**
@@ -108,43 +113,29 @@ function returnWidth(variant: DateTimePickerVariant): string {
  * @name DateTimeRangePicker
  * @description 時間日期模組 with 區間
  * @param {DateTimePickerRangeProps} props
- * @note 為了配合 React-hook-form
- * 會 return date of array [startDate, endDate] 結構
- * 若 api startDate, endDate 是2個欄位
- * 在 form defaultValue 要寫
- * defaultValue: {
- *  range: [startDate, endDate]
- * }
- * 在 form 變成同一個 欄位
- *
- * @note 若還是希望維持
- * defaultValue: {
- *  starDate,
- *  endDate,
- * }
- * 可以使用 DateTimePicker
  */
 const DateTimeRangePicker: ForwardRefExoticComponent<DateTimePickerRangeProps> = forwardRef(
   (props, ref) => {
     const {
       sx = {},
       variant = 'default',
-      onChange,
       onBlur,
       startDateMin,
-      startDateMax = props.value && props.value[1] ? props.value[1] : null,
-      endDateMin = props.value && props.value[0] ? props.value[0] : null,
+      startDateMax = props.endDate || null,
+      endDateMin = props.startDate || null,
       endDateMax,
       error,
       helperText,
       timeIntervals,
       placeholder,
       disabled = [false, false],
-      value = [null, null],
+      endDate,
+      startDate,
       withPortal,
+      onChangeEndDate,
+      onChangeStartDate,
     } = props;
 
-    const [startDate, endDate] = value;
     const [startDateDisabled, endDateDisabled] = disabled;
     const inputVariant: InputVariant = 'standard';
 
@@ -152,18 +143,18 @@ const DateTimeRangePicker: ForwardRefExoticComponent<DateTimePickerRangeProps> =
       // startDate 超過 endDate 時
       // startDate  要變成 null
       if (dayjs(startDateValue).isAfter(endDate)) {
-        onChange([null, endDate]);
+        onChangeStartDate(null);
       } else {
-        onChange([startDateValue, endDate]);
+        onChangeStartDate(startDateValue);
       }
     };
     const handleChangeEndDate = (endDateValue: Date) => {
       // endDate 小於 startDate 時
       // endDate  要變成 null
       if (dayjs(endDateValue).isBefore(startDate)) {
-        onChange([startDate, null]);
+        onChangeEndDate(null);
       } else {
-        onChange([startDate, endDateValue]);
+        onChangeEndDate(endDateValue);
       }
     };
 
