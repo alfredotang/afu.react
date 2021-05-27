@@ -251,7 +251,9 @@ export const ChipInput: FC<ChipInputProps> = ({
         flexWrap: 'wrap',
         alignItems: 'flex-start',
         backgroundColor: disabled ? '#F8F8F8' : '#FFFFFF',
-        border: '1px solid #B9C4CE',
+        borderWidth: '1px',
+        borderStyle: 'solid',
+        borderColor: (theme) => `rgba(0, 0, 0, 0.23)`,
         boxSizing: 'border-box',
         borderRadius: '4px',
         padding: '8px 8px',
@@ -259,6 +261,9 @@ export const ChipInput: FC<ChipInputProps> = ({
         marginRight: '16px',
         minHeight: '70px',
         cursor: disabled ? 'not-allowed' : 'text',
+        '&:hover': {
+          borderColor: (theme) => `${theme.palette.text.primary}`,
+        },
         ...sx,
       }}
       onClick={handleClickBody}
