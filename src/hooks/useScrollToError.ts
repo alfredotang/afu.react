@@ -14,7 +14,7 @@ function useScrollToError<T>({ errors }: UseScrollToErrorProps<T>): void {
     // console.log({ ALL_ERROR: errors });
     const keys = Object.keys(errors);
     if (keys.length > 0) {
-      errors[keys[0]].ref.scrollIntoView({
+      errors[keys[0]]?.ref?.scrollIntoView({
         behavior: 'smooth',
         block: 'center',
       });
