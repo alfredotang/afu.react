@@ -5,10 +5,10 @@ import { useController, useFormContext } from 'react-hook-form';
 import Box from '@material-ui/core/Box';
 
 import DateTimeRangePicker, {
-  DateTimePickerRangeProps,
+  DateTimeRangePickerProps,
 } from '@src/components/dateTimeRangePicker';
 
-type DateTimeRangePickerForFormProps = Partial<DateTimePickerRangeProps> & {
+type DateTimeRangePickerForFormProps = Partial<DateTimeRangePickerProps> & {
   name: [string, string];
 };
 
