@@ -132,20 +132,20 @@ const DateTimeRangePicker: ForwardRefExoticComponent<DateTimePickerRangeProps> =
       onChange,
       onBlur,
       startDateMin,
-      startDateMax,
-      endDateMin,
+      startDateMax = props.value && props.value[1] ? props.value[1] : null,
+      endDateMin = props.value && props.value[0] ? props.value[0] : null,
       endDateMax,
       error,
       helperText,
       timeIntervals,
       placeholder,
-      disabled,
-      value,
+      disabled = [false, false],
+      value = [null, null],
       withPortal,
     } = props;
 
     const [startDate, endDate] = value;
-
+    const [startDateDisabled, endDateDisabled] = disabled;
     const inputVariant: InputVariant = 'standard';
 
     const handleChangeStartDate = (startDateValue: Date) => {
@@ -189,9 +189,9 @@ const DateTimeRangePicker: ForwardRefExoticComponent<DateTimePickerRangeProps> =
               handleChangeStartDate(date as Date);
             }}
             timeIntervals={timeIntervals}
-            placeholder={!value || (!value[0] && !value[1]) ? placeholder : ''}
+            placeholder={!startDate && !endDate ? placeholder : ''}
             onBlur={onBlur}
-            disabled={disabled[0]}
+            disabled={startDateDisabled}
             inputVariant={inputVariant}
             error={error}
             withPortal={withPortal}
@@ -200,13 +200,13 @@ const DateTimeRangePicker: ForwardRefExoticComponent<DateTimePickerRangeProps> =
           <Box
             sx={{
               fontSize: '1.25rem',
-              display: value[0] || value[1] ? 'flex' : 'none',
+              display: startDate || endDate ? 'flex' : 'none',
               position: 'absolute',
               top: '5px',
               right: '50%',
               transform: 'translateX(-50%)',
               color: (theme) =>
-                disabled.every((item) => item)
+                startDateDisabled && endDateDisabled
                   ? theme.palette.text.disabled
                   : theme.palette.text.primary,
             }}
@@ -226,7 +226,7 @@ const DateTimeRangePicker: ForwardRefExoticComponent<DateTimePickerRangeProps> =
             }}
             timeIntervals={timeIntervals}
             onBlur={onBlur}
-            disabled={disabled[1]}
+            disabled={endDateDisabled}
             inputVariant={inputVariant}
             error={error}
             withPortal={withPortal}
