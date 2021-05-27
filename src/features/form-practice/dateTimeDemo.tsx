@@ -3,7 +3,7 @@ import type { IFormBase } from '@src/features/form-practice';
 
 import { useFormContext, Controller } from 'react-hook-form';
 import Grid from '@material-ui/core/Grid';
-import { DateTimePicker } from '@src/components';
+import { DateTimePickerForForm } from '@src/components';
 
 const DateTimeDemo: FC = () => {
   const { control, watch } = useFormContext<IFormBase>();
@@ -13,19 +13,7 @@ const DateTimeDemo: FC = () => {
         date
       </Grid>
       <Grid item xs={10}>
-        <Controller
-          control={control}
-          name="date"
-          render={({ field, fieldState: { error } }) => {
-            return (
-              <DateTimePicker
-                error={Boolean(error)}
-                helperText={Boolean(error) ? error.message : ''}
-                {...field}
-              />
-            );
-          }}
-        />
+        <DateTimePickerForForm name="date" />
       </Grid>
     </Grid>
   );
