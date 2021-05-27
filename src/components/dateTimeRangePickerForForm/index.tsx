@@ -1,5 +1,5 @@
 import type { ForwardRefExoticComponent } from 'react';
-import type { UseControllerProps, FieldError } from 'react-hook-form';
+import type { FieldError } from 'react-hook-form';
 import { forwardRef } from 'react';
 import { useController, useFormContext } from 'react-hook-form';
 import Box from '@material-ui/core/Box';

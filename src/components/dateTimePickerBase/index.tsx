@@ -1,4 +1,4 @@
-import type { FC, ForwardedRef, ForwardRefExoticComponent } from 'react';
+import type { FC, Ref, ForwardRefExoticComponent } from 'react';
 import { forwardRef } from 'react';
 import ReactDatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.min.css';
@@ -30,7 +30,7 @@ export type DateTimePickerBaseProps = {
   endDate?: Date;
   className?: string;
   withPortal?: boolean;
-  ref?: ForwardedRef<any>;
+  ref?: Ref<any>;
 };
 
 export function returnFormat(variant: DateTimePickerVariant): string {
@@ -170,7 +170,7 @@ const DatePickerBase: ForwardRefExoticComponent<DateTimePickerBaseProps> = forwa
       withPortal,
     } = props;
     return (
-      <StyleWrapper>
+      <StyleWrapper ref={ref}>
         <ReactDatePicker
           className={className}
           selected={value}
@@ -198,7 +198,6 @@ const DatePickerBase: ForwardRefExoticComponent<DateTimePickerBaseProps> = forwa
           withPortal={withPortal}
           customInput={<TextField error={error} variant={inputVariant} />}
           renderCustomHeader={(props) => <DatePickerHeader {...props} />}
-          ref={ref}
         />
       </StyleWrapper>
     );
