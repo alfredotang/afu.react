@@ -28,7 +28,7 @@ type DatePickerHeaderProps = {
 
 // 1990 years ~ (today + 100 ) years
 // ex. today is 2021/5/31
-// range: 1990 ~ 2121
+// range: 1990 ~ 2120
 const yearsList = range(1990, dayJs().get('year') + 100, 1);
 
 // mapping [1990, 1991, ....., 2xxx]
