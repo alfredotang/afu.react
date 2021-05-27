@@ -3,7 +3,7 @@ import type { IFormBase } from '@src/features/form-practice';
 
 import { useFormContext, Controller } from 'react-hook-form';
 import Grid from '@material-ui/core/Grid';
-import { Select } from '@src/components';
+import { SelectForForm } from '@src/components';
 
 const selectSource: IKeyValuePair<string, string>[] = [
   {
@@ -21,27 +21,16 @@ const selectSource: IKeyValuePair<string, string>[] = [
 ];
 
 const SelectDemo: FC = () => {
-  const { control, watch } = useFormContext<IFormBase>();
   return (
     <Grid container mb="20px" alignItems="center">
       <Grid item xs={2}>
         i
       </Grid>
       <Grid item xs={10}>
-        <Controller
-          control={control}
+        <SelectForForm
           name="i"
-          render={({ field, fieldState: { error } }) => {
-            return (
-              <Select
-                placeholder="請選擇Hello"
-                error={Boolean(error)}
-                source={selectSource}
-                helperText={Boolean(error) ? error.message : ''}
-                {...field}
-              />
-            );
-          }}
+          placeholder="請選擇Hello"
+          source={selectSource}
         />
       </Grid>
     </Grid>

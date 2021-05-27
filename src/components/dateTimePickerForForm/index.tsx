@@ -15,7 +15,7 @@ type DateTimeRangePickerForFormProps = Partial<DateTimePickerProps> & {
 const DateTimePickerForForm: ForwardRefExoticComponent<DateTimeRangePickerForFormProps> = forwardRef(
   (props, ref) => {
     const { control } = useFormContext();
-    const { name = '', sx, withPortal, variant, disabled } = props;
+    const { name } = props;
     const {
       field,
       fieldState: { error },
@@ -23,12 +23,9 @@ const DateTimePickerForForm: ForwardRefExoticComponent<DateTimeRangePickerForFor
 
     return (
       <DateTimePicker
-        sx={sx}
+        {...props}
         error={Boolean(error)}
         helperText={error?.message || ''}
-        withPortal={withPortal}
-        variant={variant}
-        disabled={disabled}
         {...field}
       />
     );

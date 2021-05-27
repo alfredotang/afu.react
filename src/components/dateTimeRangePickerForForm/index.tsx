@@ -30,17 +30,7 @@ function mappingErrorMsg(
 const DateTimeRangePickerForForm: ForwardRefExoticComponent<DateTimeRangePickerForFormProps> = forwardRef(
   (props, ref) => {
     const { control } = useFormContext();
-    const {
-      name = ['', ''],
-      sx,
-      startDateMin,
-      startDateMax,
-      endDateMax,
-      endDateMin,
-      disabled,
-      withPortal,
-      variant,
-    } = props;
+    const { name, sx } = props;
     const {
       field: startDateField,
       fieldState: { error: startDateError },
@@ -54,12 +44,8 @@ const DateTimeRangePickerForForm: ForwardRefExoticComponent<DateTimeRangePickerF
     return (
       <Box sx={sx} ref={startDateField.ref}>
         <DateTimeRangePicker
-          startDateMin={startDateMin}
-          startDateMax={startDateMax}
-          endDateMax={endDateMax}
-          endDateMin={endDateMin}
-          disabled={disabled}
-          withPortal={withPortal}
+          {...props}
+          sx={{}}
           ref={endDateField.ref}
           onChangeStartDate={startDateField.onChange}
           onChangeEndDate={endDateField.onChange}
@@ -69,7 +55,6 @@ const DateTimeRangePickerForForm: ForwardRefExoticComponent<DateTimeRangePickerF
           helperText={mappingErrorMsg(startDateError, endDateError)}
           startDate={startDateField.value}
           endDate={endDateField.value}
-          variant={variant}
         />
       </Box>
     );

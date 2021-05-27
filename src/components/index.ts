@@ -8,6 +8,8 @@ import Input from './input';
 import DateTimeRangePicker from './dateTimeRangePicker';
 import DateTimeRangePickerForForm from './dateTimeRangePickerForForm';
 import DateTimePickerForForm from './dateTimePickerForForm';
+import InputForForm from './inputForForm';
+import SelectForForm from './selectForForm';
 
 export {
   Header,
@@ -20,4 +22,6 @@ export {
   DateTimeRangePicker,
   DateTimeRangePickerForForm,
   DateTimePickerForForm,
+  InputForForm,
+  SelectForForm,
 };

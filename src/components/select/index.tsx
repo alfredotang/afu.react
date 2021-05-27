@@ -10,7 +10,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Checkbox from '@material-ui/core/Checkbox';
 import ListItemText from '@material-ui/core/ListItemText';
 
-type SelectProps = {
+export type SelectProps = {
   helperText?: string;
   source: IKeyValuePair<string | number, string | number>[];
   // select value default 回傳 source 的 key

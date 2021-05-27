@@ -8,7 +8,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useScrollToError } from '@src/hooks';
 import { regExpHelper } from '@src/helpers';
-import { Input } from '@src/components';
+import { Input, InputForForm } from '@src/components';
 import dayjs from '@src/providers/day';
 
 import RadioDemo from './radioDemo';
@@ -240,21 +240,11 @@ const FormPractice: FC = () => {
                   A
                 </Grid>
                 <Grid item xs={10}>
-                  <Controller
-                    control={control}
+                  <InputForForm
                     name="a"
-                    render={({ field, fieldState: { error } }) => {
-                      return (
-                        <Input
-                          minRows={4}
-                          multiline
-                          placeholder="填A 的啦"
-                          error={Boolean(error)}
-                          helperText={Boolean(error) ? error.message : ''}
-                          {...field}
-                        />
-                      );
-                    }}
+                    minRows={4}
+                    multiline
+                    placeholder="填A 的啦"
                   />
                 </Grid>
               </Grid>

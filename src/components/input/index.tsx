@@ -3,7 +3,7 @@ import type { TextFieldProps as MuiTextFieldProps } from '@material-ui/core/Text
 import { forwardRef } from 'react';
 import MuiTextField from '@material-ui/core/TextField';
 
-type InputProps = { maxLength?: number } & Omit<
+export type InputProps = { maxLength?: number } & Omit<
   MuiTextFieldProps,
   'InputProps'
 >;

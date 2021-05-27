@@ -27,7 +27,7 @@ const StyleWrapper = styled.div`
   }
 `;
 
-type DateTimePickerProps = Omit<
+export type DateTimePickerProps = Omit<
   DateTimePickerBaseProps,
   | 'selectsRange'
   | 'onChange'

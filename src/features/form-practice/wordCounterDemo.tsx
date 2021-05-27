@@ -11,7 +11,7 @@ import {
 } from '@material-ui/core';
 import { useFormContext, Controller } from 'react-hook-form';
 import type { IFormBase } from '@src/features/form-practice';
-import { WordCounter, Input } from '@src/components';
+import { WordCounter, Input, InputForForm } from '@src/components';
 
 /**
  * @name InputWithCounter
@@ -27,22 +27,11 @@ const WordCounterDemo: FC = () => {
           G
         </Grid>
         <Grid item xs={10}>
-          <Controller
-            control={control}
+          <InputForForm
             name="g"
-            render={({ field, fieldState: { error } }) => {
-              return (
-                <WordCounter>
-                  <Input
-                    placeholder="填G 的啦"
-                    maxLength={10}
-                    error={Boolean(error)}
-                    helperText={Boolean(error) ? error.message : ''}
-                    {...field}
-                  />
-                </WordCounter>
-              );
-            }}
+            placeholder="填G 的啦"
+            maxLength={10}
+            enabledWordCounter
           />
         </Grid>
       </Grid>
@@ -51,24 +40,13 @@ const WordCounterDemo: FC = () => {
           H
         </Grid>
         <Grid item xs={10}>
-          <Controller
-            control={control}
+          <InputForForm
             name="h"
-            render={({ field, fieldState: { error } }) => {
-              return (
-                <WordCounter>
-                  <Input
-                    placeholder="填h 的啦"
-                    multiline
-                    minRows={4}
-                    maxLength={10}
-                    error={Boolean(error)}
-                    helperText={Boolean(error) ? error.message : ''}
-                    {...field}
-                  />
-                </WordCounter>
-              );
-            }}
+            placeholder="填h 的啦"
+            multiline
+            minRows={4}
+            maxLength={10}
+            enabledWordCounter
           />
         </Grid>
       </Grid>

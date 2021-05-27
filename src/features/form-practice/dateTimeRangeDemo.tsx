@@ -6,14 +6,16 @@ import Grid from '@material-ui/core/Grid';
 import { DateTimeRangePickerForForm } from '@src/components';
 
 const DateTimeRangeDemo: FC = () => {
-  const { control, watch } = useFormContext<IFormBase>();
   return (
     <Grid container mb="20px" alignItems="center">
       <Grid item xs={2}>
         dateRange
       </Grid>
       <Grid item xs={10}>
-        <DateTimeRangePickerForForm name={['startDate', 'endDate']} />
+        <DateTimeRangePickerForForm
+          name={['startDate', 'endDate']}
+          placeholder="選"
+        />
       </Grid>
     </Grid>
   );

@@ -3,6 +3,7 @@ import type { Theme } from '@material-ui/core/styles';
 import { cloneElement } from 'react';
 import { memo } from 'react';
 import { Grid } from '@material-ui/core';
+import { LocalConvenienceStoreOutlined } from '@material-ui/icons';
 
 function returnColor(theme: Theme, isDisabled: boolean, isError: boolean) {
   if (isDisabled) {
@@ -37,6 +38,8 @@ const WordCounter: FC<WordCounterProps> = ({ children }) => {
   const isError = value.length > maxLength || error;
   const hasHelperText = ChildElement?.props?.helperText || '';
   const isDisabled = ChildElement?.props?.disabled || false;
+
+  console.log(children.props);
 
   return (
     <Grid container>
