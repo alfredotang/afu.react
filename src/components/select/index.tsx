@@ -49,6 +49,7 @@ const Select: ForwardRefExoticComponent<SelectProps> = forwardRef(
       value,
       onChange,
       onBlur,
+      onFocus,
       usingSourceValueForSelectValue = false,
     } = props;
 
@@ -71,6 +72,7 @@ const Select: ForwardRefExoticComponent<SelectProps> = forwardRef(
           onBlur={onBlur}
           value={value}
           IconComponent={ExpandMoreIcon}
+          onFocus={onFocus}
           renderValue={
             multiple
               ? (selected) => {
