@@ -10,6 +10,7 @@ import DateTimeRangePickerForForm from './dateTimeRangePickerForForm';
 import DateTimePickerForForm from './dateTimePickerForForm';
 import InputForForm from './inputForForm';
 import SelectForForm from './selectForForm';
+import ScrollToErrorWrapper from './scrollToErrorWrapper';
 
 export {
   Header,
@@ -24,4 +25,5 @@ export {
   DateTimePickerForForm,
   InputForForm,
   SelectForForm,
+  ScrollToErrorWrapper,
 };

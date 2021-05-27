@@ -6,9 +6,8 @@ import { Box, Grid, Button, Typography, Radio } from '@material-ui/core';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useScrollToError } from '@src/hooks';
 import { regExpHelper } from '@src/helpers';
-import { Input, InputForForm } from '@src/components';
+import { Input, InputForForm, ScrollToErrorWrapper } from '@src/components';
 import dayjs from '@src/providers/day';
 
 import RadioDemo from './radioDemo';
@@ -186,10 +185,8 @@ const FormPractice: FC = () => {
     setFormData({ isSuccess: false, data: [] });
   };
 
-  useScrollToError<IFormBase>({ errors });
-
   return (
-    <>
+    <ScrollToErrorWrapper errors={errors}>
       <FormProvider {...formMethod}>
         <Box p="1em">
           <form noValidate onSubmit={handleSubmit(onSubmit)}>
@@ -311,7 +308,7 @@ const FormPractice: FC = () => {
         data={formData.data}
         onClose={handleClose}
       />
-    </>
+    </ScrollToErrorWrapper>
   );
 };
 
