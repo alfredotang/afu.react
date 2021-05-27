@@ -1,0 +1,69 @@
+{
+  "polyfillFiles": [
+    "static/chunks/polyfills-bba4e3ae2a1f646feca8.js"
+  ],
+  "devFiles": [],
+  "ampDevFiles": [],
+  "lowPriorityFiles": [
+    "static/0.1.0-2021/05/27-14:16/_buildManifest.js",
+    "static/0.1.0-2021/05/27-14:16/_ssgManifest.js"
+  ],
+  "pages": {
+    "/": [
+      "static/chunks/webpack-9a0cebd05b74e6876066.js",
+      "static/chunks/framework-7d856e1b5fd8c3089fb0.js",
+      "static/chunks/597-ca17b82ae3a8c5e9cfc6.js",
+      "static/chunks/778-a33b629a3e2cdf739419.js",
+      "static/chunks/main-55a2fbb44ee00b5dc02b.js",
+      "static/chunks/944-f468f99dc79b74ae946f.js",
+      "static/chunks/pages/index-479155f762a9450a63cf.js"
+    ],
+    "/_app": [
+      "static/chunks/webpack-9a0cebd05b74e6876066.js",
+      "static/chunks/framework-7d856e1b5fd8c3089fb0.js",
+      "static/chunks/597-ca17b82ae3a8c5e9cfc6.js",
+      "static/chunks/778-a33b629a3e2cdf739419.js",
+      "static/chunks/main-55a2fbb44ee00b5dc02b.js",
+      "static/chunks/944-f468f99dc79b74ae946f.js",
+      "static/css/427b0c982e30320b7162.css",
+      "static/chunks/818-2ae9bb6a39f72ac6114b.js",
+      "static/chunks/214-df9dd574b882b9c1edad.js",
+      "static/chunks/354-6eafab50a1b7d9cd9a8f.js",
+      "static/chunks/pages/_app-3d0a0e78cd768e45b9ae.js"
+    ],
+    "/_error": [
+      "static/chunks/webpack-9a0cebd05b74e6876066.js",
+      "static/chunks/framework-7d856e1b5fd8c3089fb0.js",
+      "static/chunks/597-ca17b82ae3a8c5e9cfc6.js",
+      "static/chunks/778-a33b629a3e2cdf739419.js",
+      "static/chunks/main-55a2fbb44ee00b5dc02b.js",
+      "static/chunks/pages/_error-0f21afb6d746532c8dcc.js"
+    ],
+    "/form-practice": [
+      "static/chunks/webpack-9a0cebd05b74e6876066.js",
+      "static/chunks/framework-7d856e1b5fd8c3089fb0.js",
+      "static/chunks/597-ca17b82ae3a8c5e9cfc6.js",
+      "static/chunks/778-a33b629a3e2cdf739419.js",
+      "static/chunks/main-55a2fbb44ee00b5dc02b.js",
+      "static/chunks/944-f468f99dc79b74ae946f.js",
+      "static/css/427b0c982e30320b7162.css",
+      "static/chunks/818-2ae9bb6a39f72ac6114b.js",
+      "static/chunks/162-ace90cd017c5160fb344.js",
+      "static/chunks/354-6eafab50a1b7d9cd9a8f.js",
+      "static/chunks/pages/form-practice-281eab77cbaff16586a6.js"
+    ],
+    "/lab": [
+      "static/chunks/webpack-9a0cebd05b74e6876066.js",
+      "static/chunks/framework-7d856e1b5fd8c3089fb0.js",
+      "static/chunks/597-ca17b82ae3a8c5e9cfc6.js",
+      "static/chunks/778-a33b629a3e2cdf739419.js",
+      "static/chunks/main-55a2fbb44ee00b5dc02b.js",
+      "static/chunks/944-f468f99dc79b74ae946f.js",
+      "static/css/427b0c982e30320b7162.css",
+      "static/chunks/818-2ae9bb6a39f72ac6114b.js",
+      "static/chunks/354-6eafab50a1b7d9cd9a8f.js",
+      "static/chunks/pages/lab-90b1acde26b73565047d.js"
+    ]
+  },
+  "ampFirstPages": []
+}
