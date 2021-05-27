@@ -38,6 +38,7 @@ const Input: ForwardRefExoticComponent<InputProps> = forwardRef(
       minRows,
       name,
       disabled,
+      onFocus,
     } = props;
     return (
       <MuiTextField
@@ -55,6 +56,7 @@ const Input: ForwardRefExoticComponent<InputProps> = forwardRef(
         minRows={minRows}
         name={name}
         disabled={disabled}
+        onFocus={onFocus}
       />
     );
   }
