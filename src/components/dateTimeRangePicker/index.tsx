@@ -66,7 +66,7 @@ const StyleWrapper = styled.div<{ error: boolean }>`
   }
 `;
 
-type DateTimePickerRangeProps = Omit<
+export type DateTimePickerRangeProps = Omit<
   DateTimePickerBaseProps,
   | 'selectsRange'
   | 'onChange'
