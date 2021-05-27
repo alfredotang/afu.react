@@ -39,6 +39,7 @@ export interface IFormBase {
   startDate: Date | null;
   endDate: Date | null;
   date: Date | null;
+  multipleSelect: string[];
 }
 
 /**
@@ -57,6 +58,7 @@ export interface IForAPIEntity {
   startDate: Date;
   endDate: Date;
   date: Date;
+  multipleSelect: string[];
 }
 
 /**
@@ -105,23 +107,9 @@ const schema = yup.lazy((value: IFormBase) => {
         `不得超過 ${dayjs().add(7, 'days').format('YYYY/MM/DD')}`
       )
       .typeError('請輸入開始時間'),
+    multipleSelect: yup.array().of(yup.string()).min(1, '請選擇'),
   });
 });
-
-// dateRange: yup.array().of(
-//   yup
-//     .date()
-//     .required('必填')
-//     .typeError('請輸入時間區間')
-//     .min(
-//       dayjs().add(-1, 'day'),
-//       `開始時間至少要 ${dayjs().format('YYYY/MM/DD')}`
-//     )
-//     .max(
-//       dayjs().add(7, 'days'),
-//       `結束時間不得超過 ${dayjs().add(7, 'days').format('YYYY/MM/DD')}`
-//     )
-// ),
 
 const defaultValues: IFormBase = {
   a: '',
@@ -136,6 +124,7 @@ const defaultValues: IFormBase = {
   startDate: null,
   endDate: null,
   date: null,
+  multipleSelect: [],
 };
 
 /**
@@ -236,7 +225,7 @@ const FormPractice: FC = () => {
               }}
             >
               <Grid container mb="20px">
-                <Grid item xs={2}>
+                <Grid item xs={2} className="required">
                   A
                 </Grid>
                 <Grid item xs={10}>

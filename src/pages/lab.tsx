@@ -19,6 +19,7 @@ const source: IKeyValuePair<string, string>[] = [
 ];
 
 const Lab: FC = () => {
+  const [selectValue, setSelectValue] = useState<string[]>([]);
   const [value, setValue] = useState<string[]>([]);
 
   const handleAdd = (chip: string[]) => {
@@ -42,6 +43,18 @@ const Lab: FC = () => {
       </Box>
       <pre>
         <code>{JSON.stringify(value)}</code>
+      </pre>
+      <Select
+        source={source}
+        placeholder="請選擇"
+        value={selectValue}
+        onChange={(event) => setSelectValue(event.target.value as string[])}
+        multiple
+      />
+      <pre>
+        <code>{JSON.stringify(selectValue)}</code>
+        <br />
+        <code>{JSON.stringify(typeof selectValue)}</code>
       </pre>
     </>
   );

@@ -1,7 +1,5 @@
 import type { FC } from 'react';
-import type { IFormBase } from '@src/features/form-practice';
 
-import { useFormContext, Controller } from 'react-hook-form';
 import Grid from '@material-ui/core/Grid';
 import { SelectForForm } from '@src/components';
 
@@ -22,18 +20,33 @@ const selectSource: IKeyValuePair<string, string>[] = [
 
 const SelectDemo: FC = () => {
   return (
-    <Grid container mb="20px" alignItems="center">
-      <Grid item xs={2}>
-        i
+    <>
+      <Grid container mb="20px" alignItems="center">
+        <Grid item xs={2}>
+          i
+        </Grid>
+        <Grid item xs={10}>
+          <SelectForForm
+            name="i"
+            placeholder="請選擇Hello"
+            source={selectSource}
+          />
+        </Grid>
       </Grid>
-      <Grid item xs={10}>
-        <SelectForForm
-          name="i"
-          placeholder="請選擇Hello"
-          source={selectSource}
-        />
+      <Grid container mb="20px" alignItems="center">
+        <Grid item xs={2}>
+          multiple select
+        </Grid>
+        <Grid item xs={10}>
+          <SelectForForm
+            name="multipleSelect"
+            placeholder="請選擇multipleSelect"
+            source={selectSource}
+            multiple
+          />
+        </Grid>
       </Grid>
-    </Grid>
+    </>
   );
 };
 
