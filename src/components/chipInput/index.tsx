@@ -7,6 +7,7 @@ import Chip from '@material-ui/core/Chip';
 import Box from '@material-ui/core/Box';
 import { v4 as uuid } from 'uuid';
 import cloneDeep from 'lodash/cloneDeep';
+import uniq from 'lodash/uniq';
 
 type ChipData = {
   currentInputValue: string;
@@ -18,7 +19,7 @@ type ChipInputProps = {
   value?: string[];
   placeholder?: string;
   sx?: SxProps<Theme>;
-  onAdd?: (newItem: string) => void;
+  onAdd?: (newItem: string[]) => void;
   onDelete?: (item: string, index: number) => void;
 };
 
@@ -94,17 +95,62 @@ export const ChipInput: FC<ChipInputProps> = ({
       return;
     }
 
-    setChipData((preState) => {
-      const stateCopy = cloneDeep(preState);
-      const newState: ChipData = {
-        ...stateCopy,
-        currentInputValue: '',
-      };
-      newState.value.push({ key: uuid(), value: stateCopy.currentInputValue });
-      return newState;
-    });
+    // 檢查有沒有用 ,
+    const currentValueSplitByComma = uniq(
+      chipData.currentInputValue.split(',')
+    );
 
-    onAdd(chipData.currentInputValue);
+    // 若輸入 s,m,l
+    // 可以一次新增 s m l
+    if (currentValueSplitByComma.length > 1) {
+      // 檢查是否有重複的值已存在
+      // 若有則 不 set state
+      if (
+        currentValueSplitByComma.some(
+          (item) => item === chipData.currentInputValue
+        )
+      ) {
+        return;
+      }
+
+      const result: IKeyValuePair<string, string>[] = currentValueSplitByComma
+        .map((item) => {
+          return {
+            key: uuid(),
+            value: item.trim(),
+          };
+        })
+        .filter((item) => item.value);
+
+      setChipData((preState) => {
+        const stateCopy = cloneDeep(preState);
+        const newState: ChipData = {
+          ...stateCopy,
+          currentInputValue: '',
+        };
+        newState.value.concat(result);
+        return newState;
+      });
+
+      const resultForCB = result.map((item) => item.value);
+
+      onAdd(resultForCB);
+    } else {
+      setChipData((preState) => {
+        const stateCopy = cloneDeep(preState);
+        const newState: ChipData = {
+          ...stateCopy,
+          currentInputValue: '',
+        };
+        newState.value.push({
+          key: uuid(),
+          value: stateCopy.currentInputValue,
+        });
+        return newState;
+      });
+
+      onAdd([chipData.currentInputValue]);
+    }
   };
 
   /**
