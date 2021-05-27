@@ -68,13 +68,7 @@ const DateTimePicker: ForwardRefExoticComponent<DateTimePickerProps> = forwardRe
     } = props;
 
     return (
-      <Box
-        display="flex"
-        flexDirection="column"
-        width="200px"
-        sx={{ ...sx }}
-        ref={ref}
-      >
+      <Box display="flex" flexDirection="column" width="200px" sx={{ ...sx }}>
         <StyleWrapper>
           {/* 時間日期 核心功能 */}
           <DateTimePickerBase
@@ -90,6 +84,7 @@ const DateTimePicker: ForwardRefExoticComponent<DateTimePickerProps> = forwardRe
             name={name}
             error={error}
             withPortal={withPortal}
+            ref={ref}
           />
 
           {/* input 左側 icon 區塊 */}

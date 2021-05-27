@@ -1,9 +1,11 @@
-import type { FC } from 'react';
+import type { FC, ForwardedRef, ForwardRefExoticComponent } from 'react';
+import { forwardRef } from 'react';
 import ReactDatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.min.css';
 import styled from '@emotion/styled';
 import TextField from '@material-ui/core/TextField';
 import DatePickerHeader from './datePickerHeader';
+import Box from '@material-ui/core/Box';
 
 export type DateTimePickerVariant = 'date' | 'time' | 'default';
 export type InputVariant = 'standard' | 'outlined' | 'filled';
@@ -28,6 +30,7 @@ export type DateTimePickerBaseProps = {
   endDate?: Date;
   className?: string;
   withPortal?: boolean;
+  ref?: ForwardedRef<any>;
 };
 
 export function returnFormat(variant: DateTimePickerVariant): string {
@@ -42,7 +45,7 @@ export function returnFormat(variant: DateTimePickerVariant): string {
   }
 }
 
-const StyleWrapper = styled.div`
+const StyleWrapper = styled(Box)`
   .react-datepicker {
     box-shadow: ${(props) => props.theme.shadows[10]};
     border: none;
@@ -143,60 +146,63 @@ const StyleWrapper = styled.div`
  * @description 時間日期模組 核心工能
  * @param {DateTimePickerBaseProps} props
  */
-const DatePickerBase: FC<DateTimePickerBaseProps> = (props) => {
-  const {
-    variant,
-    onChange,
-    onBlur,
-    value,
-    max,
-    min,
-    timeIntervals = 60,
-    placeholder,
-    selectsRange = false,
-    disabled,
-    name,
-    error,
-    inputVariant = 'outlined',
-    selectsStart,
-    selectsEnd,
-    startDate,
-    endDate,
-    className,
-    withPortal,
-  } = props;
-  return (
-    <StyleWrapper>
-      <ReactDatePicker
-        className={className}
-        selected={value}
-        selectsStart={selectsStart}
-        selectsEnd={selectsEnd}
-        minDate={min}
-        maxDate={max}
-        onChange={onChange}
-        dateFormat={returnFormat(variant)}
-        timeFormat="HH:mm"
-        showTimeSelect={variant !== 'date'}
-        showTimeSelectOnly={variant === 'time'}
-        timeIntervals={timeIntervals}
-        placeholderText={placeholder}
-        onBlur={onBlur}
-        selectsRange={selectsRange}
-        disabled={disabled}
-        peekNextMonth
-        showMonthDropdown
-        showYearDropdown
-        dropdownMode="select"
-        name={name}
-        startDate={startDate}
-        endDate={endDate}
-        withPortal={withPortal}
-        customInput={<TextField error={error} variant={inputVariant} />}
-        renderCustomHeader={(props) => <DatePickerHeader {...props} />}
-      />
-    </StyleWrapper>
-  );
-};
+const DatePickerBase: ForwardRefExoticComponent<DateTimePickerBaseProps> = forwardRef(
+  (props, ref) => {
+    const {
+      variant,
+      onChange,
+      onBlur,
+      value,
+      max,
+      min,
+      timeIntervals = 60,
+      placeholder,
+      selectsRange = false,
+      disabled,
+      name,
+      error,
+      inputVariant = 'outlined',
+      selectsStart,
+      selectsEnd,
+      startDate,
+      endDate,
+      className,
+      withPortal,
+    } = props;
+    return (
+      <StyleWrapper>
+        <ReactDatePicker
+          className={className}
+          selected={value}
+          selectsStart={selectsStart}
+          selectsEnd={selectsEnd}
+          minDate={min}
+          maxDate={max}
+          onChange={onChange}
+          dateFormat={returnFormat(variant)}
+          timeFormat="HH:mm"
+          showTimeSelect={variant !== 'date'}
+          showTimeSelectOnly={variant === 'time'}
+          timeIntervals={timeIntervals}
+          placeholderText={placeholder}
+          onBlur={onBlur}
+          selectsRange={selectsRange}
+          disabled={disabled}
+          peekNextMonth
+          showMonthDropdown
+          showYearDropdown
+          dropdownMode="select"
+          name={name}
+          startDate={startDate}
+          endDate={endDate}
+          withPortal={withPortal}
+          customInput={<TextField error={error} variant={inputVariant} />}
+          renderCustomHeader={(props) => <DatePickerHeader {...props} />}
+          ref={ref}
+        />
+      </StyleWrapper>
+    );
+  }
+);
 
 export default DatePickerBase;
