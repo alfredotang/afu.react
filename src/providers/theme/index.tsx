@@ -8,6 +8,7 @@ import {
 import { NoSsr } from '@material-ui/core';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { light } from './palette';
+import { GlobalFormStyle } from './globalFormStyle';
 
 export const theme: Theme = createMuiTheme({
   palette: light,
@@ -87,6 +88,7 @@ const ThemeProvider: FC = ({ children }) => {
     <EmotionThemeProvider theme={theme}>
       <MuiThemeProvider theme={theme}>
         <CssBaseline />
+        <GlobalFormStyle />
         {/* FIX material ui ssr bug */}
         <NoSsr>{children}</NoSsr>
       </MuiThemeProvider>
