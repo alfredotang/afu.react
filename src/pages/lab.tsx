@@ -1,7 +1,12 @@
 import type { FC, ChangeEvent } from 'react';
 import { useState } from 'react';
 import { dayjs } from '@src/providers';
-import { Select, DateTimePicker, DateTimeRangePicker } from '@src/components';
+import {
+  Select,
+  DateTimePicker,
+  DateTimeRangePicker,
+  ChipInput,
+} from '@src/components';
 import Box from '@material-ui/core/Box';
 import TextField from '@material-ui/core/TextField';
 import Divider from '@material-ui/core/Divider';
@@ -14,72 +19,31 @@ const source: IKeyValuePair<string, string>[] = [
 ];
 
 const Lab: FC = () => {
-  const [selectValue, setSelectValue] = useState<string[]>([]);
-  const [dateTimeDefault, setDateTimeDefault] = useState<[Date, Date]>([
-    null,
-    null,
-  ]);
-  const [date, setDate] = useState<Date>(null);
-  const [time, setTime] = useState<Date>(null);
+  const [value, setValue] = useState<string[]>([]);
 
-  const [startDate, setStartDate] = useState<Date>(null);
-  const [endDate, setEndDate] = useState<Date>(null);
-
-  const handleChangeSelected = (event: ChangeEvent<{ value: unknown }>) => {
-    setSelectValue(event.target.value as string[]);
+  const handleAdd = (chip: string[]) => {
+    setValue((pre) => {
+      const newState = pre.concat(chip);
+      return newState;
+    });
   };
 
-  const handleChangeDateTimeDefault = ([startDate, endDate]: [Date, Date]) => {
-    setDateTimeDefault([startDate, endDate]);
-  };
-  const handleChangeDate = (date: Date) => {
-    setDate(date);
-  };
-  const handleChangeTime = (date: Date) => {
-    setTime(date);
+  const handleDelete = (item: string, idx: number) => {
+    setValue((pre) => {
+      const newState = pre.filter((val, index) => index !== idx);
+      return newState;
+    });
   };
 
   return (
-    <Box display="flex" gap="20px" flexDirection="column">
-      <Select
-        source={source}
-        placeholder="請選擇"
-        value={selectValue}
-        onChange={handleChangeSelected}
-        multiple
-      />
+    <>
+      <Box display="flex" gap="20px" flexDirection="column">
+        <ChipInput value={value} onAdd={handleAdd} onDelete={handleDelete} />
+      </Box>
       <pre>
-        <code>{JSON.stringify(selectValue)}</code>
-        <br />
-        <code>{JSON.stringify(typeof selectValue)}</code>
+        <code>{JSON.stringify(value)}</code>
       </pre>
-      <DateTimePicker
-        value={date}
-        variant="date"
-        placeholder="請選擇"
-        onChange={handleChangeDate}
-        min={new Date()}
-      />
-      <DateTimeRangePicker
-        placeholder="請選擇"
-        variant="default"
-        startDate={startDate}
-        endDate={endDate}
-        onChangeStartDate={(date) => {
-          setStartDate(date);
-        }}
-        onChangeEndDate={(date) => {
-          setEndDate(date);
-        }}
-      />
-      <pre>
-        <code>{JSON.stringify(startDate)}</code>
-        <code>{JSON.stringify(endDate)}</code>
-        <br />
-        <code>{JSON.stringify(typeof startDate)}</code>
-        <code>{JSON.stringify(typeof endDate)}</code>
-      </pre>
-    </Box>
+    </>
   );
 };
 
