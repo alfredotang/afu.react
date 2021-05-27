@@ -5,10 +5,10 @@ import { useController, useFormContext } from 'react-hook-form';
 import Box from '@material-ui/core/Box';
 
 import DateTimeRangePicker, {
-  DateTimeRangePickerProps,
+  DateTimePickerRangeProps,
 } from '@src/components/dateTimeRangePicker';
 
-type DateTimeRangePickerForFormProps = Partial<DateTimeRangePickerProps> & {
+type DateTimeRangePickerForFormProps = Partial<DateTimePickerRangeProps> & {
   name: [string, string];
 };
 
@@ -39,6 +39,7 @@ const DateTimeRangePickerForForm: ForwardRefExoticComponent<DateTimeRangePickerF
       endDateMin,
       disabled,
       withPortal,
+      variant,
     } = props;
     const {
       field: startDateField,
@@ -68,6 +69,7 @@ const DateTimeRangePickerForForm: ForwardRefExoticComponent<DateTimeRangePickerF
           helperText={mappingErrorMsg(startDateError, endDateError)}
           startDate={startDateField.value}
           endDate={endDateField.value}
+          variant={variant}
         />
       </Box>
     );
