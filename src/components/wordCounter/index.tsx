@@ -1,9 +1,7 @@
-import type { FC, ReactElement } from 'react';
+import type { FC, ReactElement, ReactNode } from 'react';
 import type { Theme } from '@material-ui/core/styles';
-import { cloneElement } from 'react';
 import { memo } from 'react';
 import { Grid } from '@material-ui/core';
-import { LocalConvenienceStoreOutlined } from '@material-ui/icons';
 
 function returnColor(theme: Theme, isDisabled: boolean, isError: boolean) {
   if (isDisabled) {
@@ -19,6 +17,11 @@ function returnColor(theme: Theme, isDisabled: boolean, isError: boolean) {
 
 interface WordCounterProps {
   children: ReactElement;
+  value: any;
+  maxLength?: number;
+  error?: boolean;
+  helperText?: ReactNode | string;
+  disabled?: boolean;
 }
 
 /**
@@ -26,25 +29,26 @@ interface WordCounterProps {
  * @description 字數計算 wrapper
  * @param {WordCounterProps} props
  * @note 使用方式
- * <WordCounter>
+ * <WordCounter
+ *    value={inputValue}
+ *    maxLength={20}
+ *    error={error}
+ *    helperText={helperText}>
  *  <Input maxLength={20} value={inputValue} type="text"/>
  * </WordCounter>
  */
-const WordCounter: FC<WordCounterProps> = ({ children }) => {
-  const ChildElement = cloneElement(children);
-  const value = ChildElement?.props?.value || '';
-  const maxLength = ChildElement?.props?.maxLength || null;
-  const error = ChildElement?.props?.error || false;
-  const isError = value.length > maxLength || error;
-  const hasHelperText = ChildElement?.props?.helperText || '';
-  const isDisabled = ChildElement?.props?.disabled || false;
-
-  console.log(children.props);
-
+const WordCounter: FC<WordCounterProps> = ({
+  children,
+  value,
+  maxLength = null,
+  error,
+  helperText,
+  disabled,
+}) => {
   return (
     <Grid container>
       <Grid item xs={12}>
-        {ChildElement}
+        {children}
       </Grid>
       <Grid
         item
@@ -53,8 +57,8 @@ const WordCounter: FC<WordCounterProps> = ({ children }) => {
         justifyContent="flex-end"
         display="flex"
         sx={{
-          color: (theme) => returnColor(theme, isDisabled, isError),
-          position: error && hasHelperText ? 'relative' : 'static',
+          color: (theme) => returnColor(theme, disabled, error),
+          position: error && helperText ? 'relative' : 'static',
           top: '-20px',
         }}
       >
