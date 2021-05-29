@@ -66,7 +66,7 @@ const StyleWrapper = styled.div<{ error: boolean }>`
   }
 `;
 
-export type DateTimePickerRangeProps = Omit<
+export type DateTimeRangePickerProps = Omit<
   DateTimePickerBaseProps,
   | 'selectsRange'
   | 'onChange'
@@ -77,6 +77,7 @@ export type DateTimePickerRangeProps = Omit<
   | 'inputVariant'
   | 'disabled'
   | 'value'
+  | 'name'
 > & {
   sx?: SxProps<Theme>;
   startDateMin?: Date;
@@ -84,7 +85,8 @@ export type DateTimePickerRangeProps = Omit<
   endDateMin?: Date;
   endDateMax?: Date;
   helperText?: string;
-  disabled?: [boolean, boolean];
+  startDateDisabled?: boolean;
+  endDateDisabled?: boolean;
   startDate: Date;
   endDate: Date;
   onChangeStartDate: (date: Date) => void;
@@ -114,7 +116,7 @@ function returnWidth(variant: DateTimePickerVariant): string {
  * @description 時間日期模組 with 區間
  * @param {DateTimePickerRangeProps} props
  */
-const DateTimeRangePicker: ForwardRefExoticComponent<DateTimePickerRangeProps> = forwardRef(
+const DateTimeRangePicker: ForwardRefExoticComponent<DateTimeRangePickerProps> = forwardRef(
   (props, ref) => {
     const {
       sx = {},
@@ -128,15 +130,17 @@ const DateTimeRangePicker: ForwardRefExoticComponent<DateTimePickerRangeProps> =
       helperText,
       timeIntervals,
       placeholder,
-      disabled = [false, false],
+      startDateDisabled,
+      endDateDisabled,
       endDate,
       startDate,
       withPortal,
       onChangeEndDate,
       onChangeStartDate,
+      startDateName,
+      endDateName,
     } = props;
 
-    const [startDateDisabled, endDateDisabled] = disabled;
     const inputVariant: InputVariant = 'standard';
 
     const handleChangeStartDate = (startDateValue: Date) => {
@@ -186,6 +190,7 @@ const DateTimeRangePicker: ForwardRefExoticComponent<DateTimePickerRangeProps> =
             inputVariant={inputVariant}
             error={error}
             withPortal={withPortal}
+            name={startDateName}
           />
 
           <Box
@@ -221,6 +226,7 @@ const DateTimeRangePicker: ForwardRefExoticComponent<DateTimePickerRangeProps> =
             inputVariant={inputVariant}
             error={error}
             withPortal={withPortal}
+            name={endDateName}
           />
 
           <Box

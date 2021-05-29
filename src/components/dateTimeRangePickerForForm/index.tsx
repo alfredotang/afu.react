@@ -8,8 +8,17 @@ import DateTimeRangePicker, {
   DateTimePickerRangeProps,
 } from '@src/components/dateTimeRangePicker';
 
-type DateTimeRangePickerForFormProps = Partial<DateTimePickerRangeProps> & {
-  name: [string, string];
+type DateTimeRangePickerForFormProps = Omit<
+  DateTimePickerRangeProps,
+  | 'startDate'
+  | 'endDate'
+  | 'onChangeStartDate'
+  | 'onChangeEndDate'
+  | 'startDateName'
+  | 'endDateName'
+> & {
+  startDateName: string;
+  endDateName: string;
 };
 
 function mappingErrorMsg(
@@ -30,16 +39,16 @@ function mappingErrorMsg(
 const DateTimeRangePickerForForm: ForwardRefExoticComponent<DateTimeRangePickerForFormProps> = forwardRef(
   (props, ref) => {
     const { control } = useFormContext();
-    const { name, sx } = props;
+    const { sx, startDateName, endDateName } = props;
     const {
       field: startDateField,
       fieldState: { error: startDateError },
-    } = useController({ name: name[0], control });
+    } = useController({ name: startDateName, control });
 
     const {
       field: endDateField,
       fieldState: { error: endDateError },
-    } = useController({ name: name[1], control });
+    } = useController({ name: endDateName, control });
 
     return (
       <Box sx={sx} ref={startDateField.ref}>
