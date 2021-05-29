@@ -21,6 +21,7 @@ export type SelectProps = Pick<
   | 'onChange'
   | 'onBlur'
   | 'onFocus'
+  | 'disabled'
 > & {
   helperText?: string;
   source: IKeyValuePair<string | number, string | number>[];
@@ -62,6 +63,7 @@ const Select: ForwardRefExoticComponent<SelectProps> = forwardRef(
       onBlur,
       onFocus,
       usingSourceValueForSelectValue = false,
+      disabled,
     } = props;
 
     return (
@@ -84,6 +86,7 @@ const Select: ForwardRefExoticComponent<SelectProps> = forwardRef(
           value={value}
           IconComponent={ExpandMoreIcon}
           onFocus={onFocus}
+          disabled={disabled}
           renderValue={
             multiple
               ? (selected) => {
