@@ -5,17 +5,20 @@ import { useController, useFormContext } from 'react-hook-form';
 import Box from '@material-ui/core/Box';
 
 import DateTimeRangePicker, {
-  DateTimePickerRangeProps,
+  DateTimeRangePickerProps,
 } from '@src/components/dateTimeRangePicker';
 
 type DateTimeRangePickerForFormProps = Omit<
-  DateTimePickerRangeProps,
+  DateTimeRangePickerProps,
   | 'startDate'
   | 'endDate'
   | 'onChangeStartDate'
   | 'onChangeEndDate'
   | 'startDateName'
   | 'endDateName'
+  | 'ref'
+  | 'error'
+  | 'helperText'
 > & {
   startDateName: string;
   endDateName: string;

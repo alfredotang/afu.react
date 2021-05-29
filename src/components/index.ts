@@ -4,11 +4,11 @@ import WordCounter from './wordCounter';
 import ChipInput from './chipInput';
 import Select from './select';
 import DateTimePicker from './dateTimePicker';
-import Input from './input';
 import DateTimeRangePicker from './dateTimeRangePicker';
 import DateTimeRangePickerForForm from './dateTimeRangePickerForForm';
 import DateTimePickerForForm from './dateTimePickerForForm';
-import InputForForm from './inputForForm';
+import TextFieldForForm from './textFieldForForm';
+import TextField from './textField';
 import SelectForForm from './selectForForm';
 import ScrollToErrorWrapper from './scrollToErrorWrapper';
 
@@ -19,11 +19,11 @@ export {
   ChipInput,
   Select,
   DateTimePicker,
-  Input,
+  TextField,
+  TextFieldForForm,
   DateTimeRangePicker,
   DateTimeRangePickerForForm,
   DateTimePickerForForm,
-  InputForForm,
   SelectForForm,
   ScrollToErrorWrapper,
 };

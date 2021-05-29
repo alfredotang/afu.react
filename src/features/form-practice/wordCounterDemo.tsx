@@ -11,7 +11,7 @@ import {
 } from '@material-ui/core';
 import { useFormContext, Controller } from 'react-hook-form';
 import type { IFormBase } from '@src/features/form-practice';
-import { WordCounter, Input, InputForForm } from '@src/components';
+import { TextFieldForForm } from '@src/components';
 
 /**
  * @name InputWithCounter
@@ -27,7 +27,7 @@ const WordCounterDemo: FC = () => {
           G
         </Grid>
         <Grid item xs={10}>
-          <InputForForm
+          <TextFieldForForm
             name="g"
             placeholder="填G 的啦"
             maxLength={10}
@@ -40,7 +40,7 @@ const WordCounterDemo: FC = () => {
           H
         </Grid>
         <Grid item xs={10}>
-          <InputForForm
+          <TextFieldForForm
             name="h"
             placeholder="填h 的啦"
             multiline

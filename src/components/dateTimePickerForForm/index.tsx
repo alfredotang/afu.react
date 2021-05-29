@@ -10,7 +10,7 @@ import DateTimePicker, {
 
 type DateTimePickerForFormProps = Omit<
   DateTimePickerProps,
-  'value' | 'name' | 'ref' | 'onChange'
+  'value' | 'name' | 'ref' | 'onChange' | 'error' | 'helperText'
 > & {
   name: string;
 };

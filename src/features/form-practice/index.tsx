@@ -7,7 +7,11 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { regExpHelper } from '@src/helpers';
-import { Input, InputForForm, ScrollToErrorWrapper } from '@src/components';
+import {
+  TextFieldForForm,
+  TextField,
+  ScrollToErrorWrapper,
+} from '@src/components';
 import dayjs from '@src/providers/day';
 
 import RadioDemo from './radioDemo';
@@ -226,7 +230,7 @@ const FormPractice: FC = () => {
                   A
                 </Grid>
                 <Grid item xs={10}>
-                  <InputForForm
+                  <TextFieldForForm
                     name="a"
                     minRows={4}
                     multiline
@@ -243,7 +247,7 @@ const FormPractice: FC = () => {
                     control={control}
                     name="b"
                     render={({ field, fieldState: { error } }) => (
-                      <Input
+                      <TextField
                         type="number"
                         placeholder="請填寫B"
                         error={Boolean(error)}
@@ -263,7 +267,7 @@ const FormPractice: FC = () => {
                     control={control}
                     name="c"
                     render={({ field, fieldState: { error } }) => (
-                      <Input
+                      <TextField
                         multiline
                         minRows={4}
                         placeholder="請填寫C"
@@ -285,7 +289,7 @@ const FormPractice: FC = () => {
                     control={control}
                     name="f"
                     render={({ field, fieldState: { error } }) => (
-                      <Input
+                      <TextField
                         placeholder="請輸入網址"
                         error={Boolean(error)}
                         helperText={Boolean(error) ? error.message : ''}

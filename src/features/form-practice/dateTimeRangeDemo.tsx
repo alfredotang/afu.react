@@ -15,7 +15,6 @@ const DateTimeRangeDemo: FC = () => {
         <DateTimeRangePickerForForm
           startDateName="startDate"
           endDateName="endDate"
-          name={['startDate', 'endDate']}
           placeholder="選"
         />
       </Grid>

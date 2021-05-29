@@ -2,26 +2,14 @@ import type { ForwardRefExoticComponent } from 'react';
 import type { TextFieldProps as MuiTextFieldProps } from '@material-ui/core/TextField';
 import { forwardRef } from 'react';
 import MuiTextField from '@material-ui/core/TextField';
+import { WordCounter } from '@src/components';
 
-export type InputProps = { maxLength?: number } & Omit<
+export type TextFieldBaseProps = { maxLength?: number } & Omit<
   MuiTextFieldProps,
   'InputProps'
 >;
 
-/**
- * @name Input
- * @description Input 、 textarea
- * @param {InputProps} props
- *
- * @note 若要使用 textarea 模式
- * 用 minRows 控制高度
- * multiline must be true
- *
- * @note 若要使用 自動長高功能
- * multiline must be true
- * 切記！ input type 為 "number" 盡量不要使用
- */
-const Input: ForwardRefExoticComponent<InputProps> = forwardRef(
+export const TextFieldBase: ForwardRefExoticComponent<TextFieldBaseProps> = forwardRef(
   (props, ref) => {
     const {
       maxLength,
@@ -39,6 +27,8 @@ const Input: ForwardRefExoticComponent<InputProps> = forwardRef(
       name,
       disabled,
       onFocus,
+      variant,
+      value,
     } = props;
     return (
       <MuiTextField
@@ -57,9 +47,10 @@ const Input: ForwardRefExoticComponent<InputProps> = forwardRef(
         name={name}
         disabled={disabled}
         onFocus={onFocus}
+        variant={variant}
+        value={value}
       />
     );
   }
 );
-
-export default Input;
+export default TextFieldBase;

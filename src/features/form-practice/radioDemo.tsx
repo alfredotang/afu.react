@@ -12,7 +12,7 @@ import {
 } from '@material-ui/core';
 import { useFormContext, Controller } from 'react-hook-form';
 import type { IFormBase } from '@src/features/form-practice';
-import { Input } from '@src/components';
+import { TextField } from '@src/components';
 
 /**
  * @name RadioForm
@@ -59,7 +59,7 @@ const RadioForm: FC = () => {
               name="e"
               render={({ field, fieldState: { error } }) => {
                 return (
-                  <Input
+                  <TextField
                     placeholder="填E 的啦"
                     error={Boolean(error)}
                     helperText={Boolean(error) ? error.message : ''}
