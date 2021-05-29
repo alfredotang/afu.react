@@ -10,14 +10,25 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Checkbox from '@material-ui/core/Checkbox';
 import ListItemText from '@material-ui/core/ListItemText';
 
-export type SelectProps = {
+export type SelectProps = Pick<
+  MuiSelectProps,
+  | 'sx'
+  | 'error'
+  | 'placeholder'
+  | 'multiple'
+  | 'name'
+  | 'value'
+  | 'onChange'
+  | 'onBlur'
+  | 'onFocus'
+> & {
   helperText?: string;
   source: IKeyValuePair<string | number, string | number>[];
   // select value default 回傳 source 的 key
   // 若希望回傳的是 source 的 value
   // 可以設 打開此設定
   usingSourceValueForSelectValue?: boolean;
-} & MuiSelectProps;
+};
 
 const menuProps: Partial<MenuProps> = {
   anchorOrigin: {
