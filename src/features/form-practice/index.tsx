@@ -94,7 +94,7 @@ const schema = yup.lazy((value: IFormBase) => {
     startDate: yup
       .date()
       .required('必填')
-      .min(dayjs().add(-1, 'day'), `至少要 ${dayjs().format('YYYY/MM/DD')}`)
+      .min(dayjs().startOf('days'), `至少要 ${dayjs().format('YYYY/MM/DD')}`)
       .max(yup.ref('endDate'), `不得超過結束時間`)
       .typeError('請輸入開始時間'),
     endDate: yup
