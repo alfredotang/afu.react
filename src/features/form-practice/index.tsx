@@ -79,10 +79,7 @@ const schema = yup.lazy((value: IFormBase) => {
     c: yup.string().required('必填'),
     d: yup.boolean().required('必填'),
     e: value.d === 'true' ? yup.string().required('必填') : yup.string(),
-    f: yup
-      .string()
-      .matches(regExpHelper.httpRegEx, '請輸入有效網址')
-      .required('必填'),
+    f: yup.string().url('請輸入有效網址').required('必填'),
     g: yup.string().required('必填').max(10, '最多 10'),
     h: yup.string().required('必填').max(150, '最多150'),
     i: yup.string().required('必選'),
