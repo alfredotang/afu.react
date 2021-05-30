@@ -116,7 +116,11 @@ const Select: ForwardRefExoticComponent<SelectProps> = forwardRef(
               {multiple ? (
                 <>
                   <Checkbox
-                    checked={(value as any[])?.indexOf(sourceKey) > -1}
+                    checked={
+                      (value as any[])?.indexOf(
+                        usingSourceValueForSelectValue ? sourceValue : sourceKey
+                      ) > -1
+                    }
                   />
                   <ListItemText primary={sourceValue} />
                 </>
