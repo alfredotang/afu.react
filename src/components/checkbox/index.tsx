@@ -23,14 +23,23 @@ export type CheckboxProps = Omit<MuiCheckboxProps, 'onChange' | 'checked'> & {
 
 export const Checkbox: ForwardRefExoticComponent<CheckboxProps> = forwardRef(
   (props, ref) => {
-    const { sx, error, helperText, value, name, label, onChange } = props;
+    const {
+      sx,
+      error,
+      helperText,
+      value,
+      name,
+      label,
+      onChange,
+      disabled,
+    } = props;
 
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
       onChange(event.target.checked);
     };
 
     return (
-      <FormControl sx={sx}>
+      <FormControl sx={sx} disabled={disabled}>
         <FormControlLabel
           control={
             <MuiCheckbox
