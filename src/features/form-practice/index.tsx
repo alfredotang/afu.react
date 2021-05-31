@@ -67,18 +67,31 @@ export interface IForAPIEntity {
   show: boolean;
 }
 
+function B_Logic(value: IFormBase) {
+  if (value.d) {
+    return yup
+      .number()
+      .required('必填')
+      .typeError('請輸入數字')
+      .min(50, '至少50')
+      .max(100, '最多100');
+  }
+
+  return yup
+    .number()
+    .required('必填')
+    .typeError('請輸入數字')
+    .min(3, '至少3')
+    .max(9, '最多9');
+}
+
 /**
  * dynamic schema setting
  */
 const schema = yup.lazy((value: IFormBase) => {
   return yup.object().shape({
     a: yup.string().required('必填'),
-    b: yup
-      .number()
-      .required('必填')
-      .typeError('請輸入數字')
-      .min(3, '至少3')
-      .max(9, '最多9'),
+    b: B_Logic(value),
     c: yup.string().required('必填'),
     d: yup.boolean().required('必填').typeError('請選擇'),
     e: value.d ? yup.string().required('必填') : yup.string(),
@@ -122,7 +135,11 @@ const schema = yup.lazy((value: IFormBase) => {
       )
       .typeError('請輸入開始時間'),
     multipleSelect: yup.array().of(yup.string()).min(1, '請選擇'),
-    show: yup.boolean().required('必填').typeError('請選擇'),
+    show: yup
+      .boolean()
+      .required('必填')
+      .equals([true], '必須要勾喔')
+      .typeError('請選擇'),
   });
 });
 
