@@ -6,13 +6,15 @@ import {
   Button,
   Typography,
   Radio,
-  FormControl,
   RadioGroup,
   FormControlLabel,
 } from '@material-ui/core';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import FormControl from '@material-ui/core/FormControl';
+
 import { useFormContext, Controller } from 'react-hook-form';
 import type { IFormBase } from '@src/features/form-practice';
-import { TextField } from '@src/components';
+import { TextField, RadioForForm, IRadioSource } from '@src/components';
 
 /**
  * @name RadioForm
@@ -28,27 +30,22 @@ const RadioForm: FC = () => {
           D
         </Grid>
         <Grid item xs={10}>
-          <Controller
-            control={control}
+          <RadioForForm
             name="d"
-            render={({ field, fieldState: { error } }) => (
-              <RadioGroup row {...field}>
-                <FormControlLabel
-                  value="true"
-                  control={<Radio />}
-                  label="顯示"
-                />
-                <FormControlLabel
-                  value="false"
-                  control={<Radio />}
-                  label="隱藏"
-                />
-              </RadioGroup>
-            )}
+            source={[
+              {
+                label: `顯示`,
+                value: true,
+              },
+              {
+                label: `隱藏`,
+                value: false,
+              },
+            ]}
           />
         </Grid>
       </Grid>
-      {d === 'true' && (
+      {d && (
         <Grid container mb="20px" alignItems="center">
           <Grid item xs={2}>
             E

@@ -19,6 +19,7 @@ import WordCounterDemo from './wordCounterDemo';
 import SelectDemo from './selectDemo';
 import DateTimeDemo from './dateTimeDemo';
 import DateTimeRangeDemo from './dateTimeRangeDemo';
+import CheckboxDemo from './checkBoxDemo';
 
 import Result, { IResultData } from './result';
 
@@ -31,9 +32,9 @@ import Result, { IResultData } from './result';
  */
 export interface IFormBase {
   a: string | null;
-  b: string | null;
+  b: number | null;
   c: string | null;
-  d: StringBooleanOrEmpty | null;
+  d: boolean | null;
   e: string | null;
   f: string | null;
   g: string | null;
@@ -43,6 +44,7 @@ export interface IFormBase {
   endDate: Date | null;
   date: Date | null;
   multipleSelect: string[];
+  show: boolean | null;
 }
 
 /**
@@ -62,6 +64,7 @@ export interface IForAPIEntity {
   endDate: Date;
   date: Date;
   multipleSelect: string[];
+  show: boolean;
 }
 
 /**
@@ -77,8 +80,8 @@ const schema = yup.lazy((value: IFormBase) => {
       .min(3, '至少3')
       .max(9, '最多9'),
     c: yup.string().required('必填'),
-    d: yup.boolean().required('必填'),
-    e: value.d === 'true' ? yup.string().required('必填') : yup.string(),
+    d: yup.boolean().required('必填').typeError('請選擇'),
+    e: value.d ? yup.string().required('必填') : yup.string(),
     f: yup.string().url('請輸入有效網址').required('必填'),
     g: yup.string().required('必填').max(10, '最多 10'),
     h: yup.string().required('必填').max(150, '最多150'),
@@ -92,12 +95,23 @@ const schema = yup.lazy((value: IFormBase) => {
         `不得超過 ${dayjs().add(7, 'days').format('YYYY/MM/DD')}`
       )
       .typeError('請輸入開始時間'),
+
     startDate: yup
       .date()
       .required('必填')
       .min(dayjs().startOf('days'), `至少要 ${dayjs().format('YYYY/MM/DD')}`)
       .max(yup.ref('endDate'), `不得超過結束時間`)
-      .typeError('請輸入開始時間'),
+      .typeError('請輸入開始時間')
+      .test('date-diff', '', function () {
+        const { path, createError } = this;
+        if (dayjs(value.endDate).diff(value.startDate, 'days') > 3) {
+          return createError({
+            path,
+            message: `開始時間和結束時間相差不得大於 3 天`,
+          });
+        }
+        return true;
+      }),
     endDate: yup
       .date()
       .required('必填')
@@ -108,6 +122,7 @@ const schema = yup.lazy((value: IFormBase) => {
       )
       .typeError('請輸入開始時間'),
     multipleSelect: yup.array().of(yup.string()).min(1, '請選擇'),
+    show: yup.boolean().required('必填').typeError('請選擇'),
   });
 });
 
@@ -115,7 +130,7 @@ const defaultValues: IFormBase = {
   a: '',
   b: null,
   c: '',
-  d: 'true',
+  d: null,
   e: '',
   f: '',
   g: '',
@@ -125,6 +140,7 @@ const defaultValues: IFormBase = {
   endDate: null,
   date: null,
   multipleSelect: [],
+  show: null,
 };
 
 /**
@@ -300,6 +316,7 @@ const FormPractice: FC = () => {
               <SelectDemo />
               <DateTimeDemo />
               <DateTimeRangeDemo />
+              <CheckboxDemo />
             </Box>
           </form>
         </Box>
