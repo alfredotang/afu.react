@@ -3,14 +3,14 @@ import { useController, useFormContext } from 'react-hook-form';
 
 import Select, { SelectProps } from '@src/components/select';
 
-type InputForFormProps = Omit<
+type SelectForFormProps = Omit<
   SelectProps,
   'error' | 'helperText' | 'value' | 'onChange' | 'ref' | 'name'
 > & {
   name: string;
 };
 
-const SelectForForm: FC<InputForFormProps> = (props) => {
+const SelectForForm: FC<SelectForFormProps> = (props) => {
   const { control } = useFormContext();
   const { name } = props;
   const {

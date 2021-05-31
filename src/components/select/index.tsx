@@ -1,4 +1,9 @@
-import type { ForwardRefExoticComponent } from 'react';
+import type {
+  ForwardRefExoticComponent,
+  ChangeEvent,
+  ReactNode,
+  SyntheticEvent,
+} from 'react';
 import type { SelectProps as MuiSelectProps } from '@material-ui/core/Select';
 import type { MenuProps } from '@material-ui/core/Menu';
 import { forwardRef } from 'react';
@@ -18,7 +23,6 @@ export type SelectProps = Pick<
   | 'multiple'
   | 'name'
   | 'value'
-  | 'onChange'
   | 'onBlur'
   | 'onFocus'
   | 'disabled'
@@ -29,6 +33,7 @@ export type SelectProps = Pick<
   // 若希望回傳的是 source 的 value
   // 可以設 打開此設定
   usingSourceValueForSelectValue?: boolean;
+  onChange: (value: unknown) => void;
 };
 
 const menuProps: Partial<MenuProps> = {
@@ -58,13 +63,24 @@ const Select: ForwardRefExoticComponent<SelectProps> = forwardRef(
       placeholder,
       multiple,
       name,
-      value,
+      value = '',
       onChange,
       onBlur,
       onFocus,
       usingSourceValueForSelectValue = false,
       disabled,
     } = props;
+
+    const handleChange = (
+      event: ChangeEvent<{
+        name?: string;
+        value: unknown;
+        event: Event | SyntheticEvent<Element, Event>;
+      }>,
+      child: ReactNode
+    ) => {
+      onChange(event.target.value);
+    };
 
     return (
       <FormControl error={error}>
@@ -79,7 +95,7 @@ const Select: ForwardRefExoticComponent<SelectProps> = forwardRef(
           multiple={multiple}
           MenuProps={menuProps}
           placeholder={placeholder}
-          onChange={onChange}
+          onChange={handleChange}
           ref={ref}
           name={name}
           onBlur={onBlur}
