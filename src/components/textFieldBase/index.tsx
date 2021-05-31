@@ -6,8 +6,12 @@ import { WordCounter } from '@src/components';
 
 export type TextFieldBaseProps = Omit<
   MuiTextFieldProps,
-  'onChange' | 'InputProps'
-> & { maxLength?: number; onChange: (value: unknown) => void };
+  'onChange' | 'InputProps' | 'type'
+> & {
+  maxLength?: number;
+  onChange: (value: unknown) => void;
+  type?: 'text' | 'number';
+};
 
 export const TextFieldBase: ForwardRefExoticComponent<TextFieldBaseProps> = forwardRef(
   (props, ref) => {
