@@ -20,11 +20,22 @@ export type RadioProps = Omit<RadioGroupProps, 'onChange'> & {
   helperText?: string;
   source: IRadioSource[];
   onChange: (value: unknown) => void;
+  disabled?: boolean;
 };
 
 export const Radio: ForwardRefExoticComponent<RadioProps> = forwardRef(
   (props, ref) => {
-    const { sx, error, helperText, row, onChange, value, source, name } = props;
+    const {
+      sx,
+      error,
+      helperText,
+      row,
+      onChange,
+      value,
+      source,
+      name,
+      disabled,
+    } = props;
 
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
       const newValue = event.target.value;
@@ -39,7 +50,7 @@ export const Radio: ForwardRefExoticComponent<RadioProps> = forwardRef(
     };
 
     return (
-      <FormControl sx={sx}>
+      <FormControl sx={sx} disabled={disabled}>
         <RadioGroup
           row={row}
           onChange={handleChange}
@@ -50,7 +61,7 @@ export const Radio: ForwardRefExoticComponent<RadioProps> = forwardRef(
           {source.map((item, index) => {
             return (
               <FormControlLabel
-                key={JSON.stringify(item.label) + index}
+                key={JSON.stringify(item.value) + index}
                 value={item.value}
                 control={
                   <MuiRadio
