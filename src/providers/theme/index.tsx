@@ -80,6 +80,11 @@ export const theme: Theme = createMuiTheme({
         },
       },
     },
+    MuiCheckbox: {
+      defaultProps: {
+        color: 'primary',
+      },
+    },
   },
 });
 
