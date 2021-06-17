@@ -3,8 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "cross-env NODE_ENV=dev next dev",
-    "build": "cross-env NODE_ENV=prod next build && next export",
+    "dev": "next dev",
+    "build": "next build && next export",
     "start": "next start"
   },
   "dependencies": {
