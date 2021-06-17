@@ -1,5 +1,6 @@
 import type { FC } from 'react';
-import { Box, Link, Button, List, ListItem } from '@material-ui/core';
+import { Box, Button, List, ListItem } from '@material-ui/core';
+import Link from 'next/link';
 
 const Sidebar: FC = () => {
   return (
@@ -13,15 +14,21 @@ const Sidebar: FC = () => {
       }}
     >
       <List>
-        <ListItem button href="/" component="a">
-          home
-        </ListItem>
-        <ListItem button href="/form-practice" component="a">
-          FormPractice
-        </ListItem>
-        <ListItem button href="/lab" component="a">
-          lab
-        </ListItem>
+        <Link href="/">
+          <ListItem button component="a">
+            home
+          </ListItem>
+        </Link>
+        <Link href="/form-practice">
+          <ListItem button component="a">
+            FormPractice
+          </ListItem>
+        </Link>
+        <Link href="/lab">
+          <ListItem button component="a">
+            lab
+          </ListItem>
+        </Link>
       </List>
     </Box>
   );
