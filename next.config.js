@@ -5,10 +5,10 @@ const env =  process.env.NODE_ENV || 'dev';
 
 module.exports = {
   distDir: 'build',
-  assetPrefix: '/',
+  assetPrefix: env === 'dev' ? '' : '/afu.react',
   reactStrictMode: true,
   generateBuildId: async () => {
     return `0.1.0-${dayjs().format('YYYY/MM/DD-HH:mm')}`;
   },
-  basePath: env === 'dev' ? '/' : '/afu.react',
+  basePath: env === 'dev' ? '' : '/afu.react',
 };
