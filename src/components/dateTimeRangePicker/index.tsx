@@ -1,19 +1,19 @@
-import type { ForwardRefExoticComponent } from 'react';
-import type { SxProps } from '@material-ui/system';
-import type { Theme } from '@material-ui/core/styles';
-import { forwardRef } from 'react';
-import Box from '@material-ui/core/Box';
+import type { ForwardRefExoticComponent } from 'react'
+import type { SxProps } from '@material-ui/system'
+import type { Theme } from '@mui/material/styles'
+import { forwardRef } from 'react'
+import Box from '@mui/material/Box'
 
-import styled from '@emotion/styled';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import styled from '@emotion/styled'
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 
-import dayjs from '@src/providers/day';
+import dayjs from '@src/providers/day'
 
 import DateTimePickerBase, {
   DateTimePickerBaseProps,
   DateTimePickerVariant,
   InputVariant,
-} from '@src/components/dateTimePickerBase';
+} from '@src/components/dateTimePickerBase'
 
 const StyleWrapper = styled.div<{ error: boolean }>`
   position: relative;
@@ -26,7 +26,7 @@ const StyleWrapper = styled.div<{ error: boolean }>`
   box-sizing: border-box;
 
   .MuiInput-root {
-    border-color: ${(props) =>
+    border-color: ${props =>
       props.error ? props.theme.palette.error.main : 'rgba(0, 0, 0, 0.23)'};
     border-width: 1px;
     border-style: solid;
@@ -64,7 +64,7 @@ const StyleWrapper = styled.div<{ error: boolean }>`
       border-bottom-left-radius: 0px;
     }
   }
-`;
+`
 
 export type DateTimeRangePickerProps = Omit<
   DateTimePickerBaseProps,
@@ -79,21 +79,21 @@ export type DateTimeRangePickerProps = Omit<
   | 'value'
   | 'name'
 > & {
-  sx?: SxProps<Theme>;
-  startDateMin?: Date;
-  startDateMax?: Date;
-  endDateMin?: Date;
-  endDateMax?: Date;
-  helperText?: string;
-  startDateDisabled?: boolean;
-  endDateDisabled?: boolean;
-  startDate: Date;
-  endDate: Date;
-  onChangeStartDate: (date: Date) => void;
-  onChangeEndDate: (date: Date) => void;
-  startDateName?: string;
-  endDateName?: string;
-};
+  sx?: SxProps<Theme>
+  startDateMin?: Date
+  startDateMax?: Date
+  endDateMin?: Date
+  endDateMax?: Date
+  helperText?: string
+  startDateDisabled?: boolean
+  endDateDisabled?: boolean
+  startDate: Date
+  endDate: Date
+  onChangeStartDate: (date: Date) => void
+  onChangeEndDate: (date: Date) => void
+  startDateName?: string
+  endDateName?: string
+}
 
 /**
  * @name returnWidth
@@ -103,11 +103,11 @@ export type DateTimeRangePickerProps = Omit<
 function returnWidth(variant: DateTimePickerVariant): string {
   switch (variant) {
     case 'date':
-      return '260px';
+      return '260px'
     case 'time':
-      return '198px';
+      return '198px'
     default:
-      return '350px';
+      return '350px'
   }
 }
 
@@ -139,28 +139,28 @@ const DateTimeRangePicker: ForwardRefExoticComponent<DateTimeRangePickerProps> =
       onChangeStartDate,
       startDateName,
       endDateName,
-    } = props;
+    } = props
 
-    const inputVariant: InputVariant = 'standard';
+    const inputVariant: InputVariant = 'standard'
 
     const handleChangeStartDate = (startDateValue: Date) => {
       // startDate 超過 endDate 時
       // startDate  要變成 null
       if (dayjs(startDateValue).isAfter(endDate)) {
-        onChangeStartDate(null);
+        onChangeStartDate(null)
       } else {
-        onChangeStartDate(startDateValue);
+        onChangeStartDate(startDateValue)
       }
-    };
+    }
     const handleChangeEndDate = (endDateValue: Date) => {
       // endDate 小於 startDate 時
       // endDate  要變成 null
       if (dayjs(endDateValue).isBefore(startDate)) {
-        onChangeEndDate(null);
+        onChangeEndDate(null)
       } else {
-        onChangeEndDate(endDateValue);
+        onChangeEndDate(endDateValue)
       }
-    };
+    }
 
     return (
       <Box
@@ -180,8 +180,8 @@ const DateTimeRangePicker: ForwardRefExoticComponent<DateTimeRangePickerProps> =
             value={startDate}
             min={startDateMin}
             max={startDateMax}
-            onChange={(date) => {
-              handleChangeStartDate(date as Date);
+            onChange={date => {
+              handleChangeStartDate(date as Date)
             }}
             timeIntervals={timeIntervals}
             placeholder={!startDate && !endDate ? placeholder : ''}
@@ -201,7 +201,7 @@ const DateTimeRangePicker: ForwardRefExoticComponent<DateTimeRangePickerProps> =
               top: '5px',
               right: '50%',
               transform: 'translateX(-50%)',
-              color: (theme) =>
+              color: theme =>
                 startDateDisabled && endDateDisabled
                   ? theme.palette.text.disabled
                   : theme.palette.text.primary,
@@ -217,8 +217,8 @@ const DateTimeRangePicker: ForwardRefExoticComponent<DateTimeRangePickerProps> =
             value={endDate}
             min={endDateMin}
             max={endDateMax}
-            onChange={(date) => {
-              handleChangeEndDate(date as Date);
+            onChange={date => {
+              handleChangeEndDate(date as Date)
             }}
             timeIntervals={timeIntervals}
             onBlur={onBlur}
@@ -249,7 +249,7 @@ const DateTimeRangePicker: ForwardRefExoticComponent<DateTimeRangePickerProps> =
         {error && helperText && (
           <Box
             sx={{
-              color: (theme) => theme.palette.error.main,
+              color: theme => theme.palette.error.main,
               fontWeight: '400',
               fontSize: '0.75rem',
               lineHeight: '1.66',
@@ -264,7 +264,7 @@ const DateTimeRangePicker: ForwardRefExoticComponent<DateTimeRangePickerProps> =
           </Box>
         )}
       </Box>
-    );
+    )
   }
-);
-export default DateTimeRangePicker;
+)
+export default DateTimeRangePicker

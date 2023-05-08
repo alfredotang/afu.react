@@ -1,11 +1,10 @@
-import type { FC } from 'react';
-import type { AppProps } from 'next/app';
-import Head from 'next/head';
-import { ThemeProvider } from '@src/providers';
-import { Header, Sidebar } from '@src/components';
-import Box from '@material-ui/core/Box';
+import type { AppProps } from 'next/app'
+import Head from 'next/head'
+import { ThemeProvider } from '@src/providers'
+import { Header, Sidebar } from '@src/components'
+import Box from '@mui/material/Box'
 
-const App: FC<AppProps> = ({ Component, pageProps }) => {
+const App = ({ Component, pageProps }: AppProps) => {
   return (
     <>
       <Head>
@@ -24,7 +23,7 @@ const App: FC<AppProps> = ({ Component, pageProps }) => {
         </Box>
       </ThemeProvider>
     </>
-  );
-};
+  )
+}
 
-export default App;
+export default App

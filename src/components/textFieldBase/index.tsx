@@ -1,17 +1,14 @@
-import type { ForwardRefExoticComponent, ChangeEvent } from 'react';
-import type { TextFieldProps as MuiTextFieldProps } from '@material-ui/core/TextField';
-import { forwardRef } from 'react';
-import MuiTextField from '@material-ui/core/TextField';
-import { WordCounter } from '@src/components';
+import type { ForwardRefExoticComponent, ChangeEvent } from 'react'
+import type { TextFieldProps as MuiTextFieldProps } from '@mui/material/TextField'
+import { forwardRef } from 'react'
+import MuiTextField from '@mui/material/TextField'
+import { WordCounter } from '@src/components'
 
-export type TextFieldBaseProps = Omit<
-  MuiTextFieldProps,
-  'onChange' | 'InputProps' | 'type'
-> & {
-  maxLength?: number;
-  onChange: (value: unknown) => void;
-  type?: 'text' | 'number';
-};
+export type TextFieldBaseProps = Omit<MuiTextFieldProps, 'onChange' | 'InputProps' | 'type'> & {
+  maxLength?: number
+  onChange: (value: unknown) => void
+  type?: 'text' | 'number'
+}
 
 export const TextFieldBase: ForwardRefExoticComponent<TextFieldBaseProps> = forwardRef(
   (props, ref) => {
@@ -33,20 +30,20 @@ export const TextFieldBase: ForwardRefExoticComponent<TextFieldBaseProps> = forw
       onFocus,
       variant,
       value,
-    } = props;
+    } = props
 
     const handleChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
-      const newValue = event.target.value;
+      const newValue = event.target.value
 
-      let mappingValue: unknown = null;
+      let mappingValue: unknown = null
       if (!multiline && type === 'number' && Number(newValue)) {
-        mappingValue = Number(newValue);
+        mappingValue = Number(newValue)
       } else {
-        mappingValue = `${newValue}`;
+        mappingValue = `${newValue}`
       }
 
-      onChange(mappingValue);
-    };
+      onChange(mappingValue)
+    }
 
     return (
       <MuiTextField
@@ -68,7 +65,7 @@ export const TextFieldBase: ForwardRefExoticComponent<TextFieldBaseProps> = forw
         variant={variant}
         value={value}
       />
-    );
+    )
   }
-);
-export default TextFieldBase;
+)
+export default TextFieldBase

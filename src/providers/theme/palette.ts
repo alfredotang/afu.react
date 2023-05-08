@@ -1,4 +1,4 @@
-import { PaletteOptions } from '@material-ui/core/styles/createPalette';
+import { PaletteOptions } from '@mui/material/styles/createPalette'
 
 export const light: PaletteOptions = {
   mode: 'light',
@@ -24,4 +24,4 @@ export const light: PaletteOptions = {
     secondary: 'rgba(0, 0, 0, 0.54)',
     disabled: 'rgba(0, 0, 0, 0.38)',
   },
-};
+}

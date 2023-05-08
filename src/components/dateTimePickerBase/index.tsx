@@ -1,53 +1,53 @@
-import type { FC, Ref, ForwardRefExoticComponent } from 'react';
-import { forwardRef } from 'react';
-import ReactDatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.min.css';
-import styled from '@emotion/styled';
-import TextField from '@material-ui/core/TextField';
-import DatePickerHeader from './datePickerHeader';
-import Box from '@material-ui/core/Box';
+import type { FC, Ref, ForwardRefExoticComponent } from 'react'
+import { forwardRef } from 'react'
+import ReactDatePicker from 'react-datepicker'
+import 'react-datepicker/dist/react-datepicker.min.css'
+import styled from '@emotion/styled'
+import TextField from '@mui/material/TextField'
+import DatePickerHeader from './datePickerHeader'
+import Box from '@mui/material/Box'
 
-export type DateTimePickerVariant = 'date' | 'time' | 'default';
-export type InputVariant = 'standard' | 'outlined' | 'filled';
+export type DateTimePickerVariant = 'date' | 'time' | 'default'
+export type InputVariant = 'standard' | 'outlined' | 'filled'
 
 export type DateTimePickerBaseProps = {
-  variant?: DateTimePickerVariant;
-  max?: Date;
-  min?: Date;
-  timeIntervals?: number;
-  placeholder?: string;
-  onBlur?: () => void;
-  disabled?: boolean;
-  onChange: (date: Date | [Date, Date]) => void;
-  value: Date;
-  selectsRange?: boolean;
-  name?: string;
-  error?: boolean;
-  inputVariant?: InputVariant;
-  selectsStart?: boolean;
-  selectsEnd?: boolean;
-  startDate?: Date;
-  endDate?: Date;
-  className?: string;
-  withPortal?: boolean;
-  ref?: Ref<any>;
-};
+  variant?: DateTimePickerVariant
+  max?: Date
+  min?: Date
+  timeIntervals?: number
+  placeholder?: string
+  onBlur?: () => void
+  disabled?: boolean
+  onChange: (date: Date | [Date, Date]) => void
+  value: Date
+  selectsRange?: boolean
+  name?: string
+  error?: boolean
+  inputVariant?: InputVariant
+  selectsStart?: boolean
+  selectsEnd?: boolean
+  startDate?: Date
+  endDate?: Date
+  className?: string
+  withPortal?: boolean
+  ref?: Ref<any>
+}
 
 export function returnFormat(variant: DateTimePickerVariant): string {
   switch (variant) {
     case 'date':
-      return 'yyyy/MM/dd';
+      return 'yyyy/MM/dd'
     case 'time': {
-      return 'HH:mm';
+      return 'HH:mm'
     }
     default:
-      return 'yyyy/MM/dd HH:mm';
+      return 'yyyy/MM/dd HH:mm'
   }
 }
 
 const StyleWrapper = styled(Box)`
   .react-datepicker {
-    box-shadow: ${(props) => props.theme.shadows[10]};
+    box-shadow: ${props => props.theme.shadows[10]};
     border: none;
     font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
     line-height: 1.5;
@@ -56,14 +56,12 @@ const StyleWrapper = styled(Box)`
     &__time-list-item {
       line-height: 30px;
       &--selected {
-        background-color: ${(props) =>
-          props.theme.palette.primary.main} !important;
+        background-color: ${props => props.theme.palette.primary.main} !important;
         color: #fff !important;
         font-weight: 400 !important;
       }
       &:hover {
-        background-color: ${(props) =>
-          props.theme.palette.primary.main}!important;
+        background-color: ${props => props.theme.palette.primary.main}!important;
         color: #fff !important;
         font-weight: 400 !important;
       }
@@ -74,10 +72,10 @@ const StyleWrapper = styled(Box)`
     }
 
     &__header {
-      background-color: ${(props) => props.theme.palette.background.paper};
+      background-color: ${props => props.theme.palette.background.paper};
       &__dropdown {
         &--select {
-          margin: ${(props) => props.theme.spacing(2)};
+          margin: ${props => props.theme.spacing(2)};
         }
       }
     }
@@ -101,13 +99,12 @@ const StyleWrapper = styled(Box)`
       &:hover {
         color: #fff !important;
         font-weight: 400 !important;
-        background-color: ${(props) =>
-          props.theme.palette.primary.light} !important;
+        background-color: ${props => props.theme.palette.primary.light} !important;
       }
 
       &--today {
         position: relative;
-        color: ${(props) => props.theme.palette.primary.main} !important;
+        color: ${props => props.theme.palette.primary.main} !important;
       }
       &--disabled {
         color: rgba(0, 0, 0, 0.47);
@@ -120,26 +117,25 @@ const StyleWrapper = styled(Box)`
         background-color: rgba(0, 0, 0, 0);
       }
       &--selected {
-        background-color: ${(props) =>
-          props.theme.palette.primary.main}!important;
+        background-color: ${props => props.theme.palette.primary.main}!important;
         color: #fff !important;
         font-weight: 400;
       }
 
       &--in-range {
-        background-color: ${(props) => props.theme.palette.primary.main};
+        background-color: ${props => props.theme.palette.primary.main};
         color: #fff;
         font-weight: 400;
       }
 
       &--in-selecting-range {
-        background-color: ${(props) => props.theme.palette.primary.light};
+        background-color: ${props => props.theme.palette.primary.light};
         color: #fff;
         font-weight: 400;
       }
     }
   }
-`;
+`
 
 /**
  * @name DatePickerBase
@@ -168,7 +164,7 @@ const DatePickerBase: ForwardRefExoticComponent<DateTimePickerBaseProps> = forwa
       endDate,
       className,
       withPortal,
-    } = props;
+    } = props
     return (
       <StyleWrapper ref={ref}>
         <ReactDatePicker
@@ -197,11 +193,11 @@ const DatePickerBase: ForwardRefExoticComponent<DateTimePickerBaseProps> = forwa
           endDate={endDate}
           withPortal={withPortal}
           customInput={<TextField error={error} variant={inputVariant} />}
-          renderCustomHeader={(props) => <DatePickerHeader {...props} />}
+          renderCustomHeader={props => <DatePickerHeader {...props} />}
         />
       </StyleWrapper>
-    );
+    )
   }
-);
+)
 
-export default DatePickerBase;
+export default DatePickerBase

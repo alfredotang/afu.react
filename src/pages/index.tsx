@@ -1,10 +1,9 @@
-import type { FC } from 'react';
-import { Fragment } from 'react';
-import Head from 'next/head';
-import { Button } from '@material-ui/core';
+import { Fragment } from 'react'
+import Head from 'next/head'
+import { Button } from '@mui/material'
 
-const Home: FC = () => {
-  return <div>Home</div>;
-};
+const Home = () => {
+  return <div>Home</div>
+}
 
-export default Home;
+export default Home

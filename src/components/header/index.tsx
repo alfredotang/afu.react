@@ -1,18 +1,13 @@
-import type { FC } from 'react';
-import Link from 'next/link';
-import styled from '@emotion/styled';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
+import Link from 'next/link'
+import styled from '@emotion/styled'
+import AppBar from '@mui/material/AppBar'
+import Toolbar from '@mui/material/Toolbar'
+import Typography from '@mui/material/Typography'
 
-const Header: FC = () => {
+const Header = () => {
   return (
     <>
-      <AppBar
-        position="fixed"
-        color="default"
-        sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
-      >
+      <AppBar position="fixed" color="default" sx={{ zIndex: theme => theme.zIndex.drawer + 1 }}>
         <Toolbar>
           <Link href="/">
             <Typography variant="overline">AFU React Practice</Typography>
@@ -24,7 +19,7 @@ const Header: FC = () => {
       {/* 故放一個 Toolbar 來撐高度 */}
       <Toolbar />
     </>
-  );
-};
+  )
+}
 
-export default Header;
+export default Header

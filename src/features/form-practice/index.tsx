@@ -1,27 +1,22 @@
-import type { FC } from 'react';
-import { useState, useEffect, createElement } from 'react';
-import { useForm, Controller, FormProvider } from 'react-hook-form';
-import * as yup from 'yup';
-import { Box, Grid, Button, Typography, Radio } from '@material-ui/core';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { regExpHelper } from '@src/helpers';
-import {
-  TextFieldForForm,
-  TextField,
-  ScrollToErrorWrapper,
-} from '@src/components';
-import dayjs from '@src/providers/day';
+import { useState } from 'react'
+import { useForm, Controller, FormProvider } from 'react-hook-form'
+import * as yup from 'yup'
+import { Box, Grid, Button, Typography, Radio } from '@mui/material'
+import AppBar from '@mui/material/AppBar'
+import Toolbar from '@mui/material/Toolbar'
+import { yupResolver } from '@hookform/resolvers/yup'
+import { regExpHelper } from '@src/helpers'
+import { TextFieldForForm, TextField, ScrollToErrorWrapper } from '@src/components'
+import dayjs from '@src/providers/day'
 
-import RadioDemo from './radioDemo';
-import WordCounterDemo from './wordCounterDemo';
-import SelectDemo from './selectDemo';
-import DateTimeDemo from './dateTimeDemo';
-import DateTimeRangeDemo from './dateTimeRangeDemo';
-import CheckboxDemo from './checkBoxDemo';
+import RadioDemo from './radioDemo'
+import WordCounterDemo from './wordCounterDemo'
+import SelectDemo from './selectDemo'
+import DateTimeDemo from './dateTimeDemo'
+import DateTimeRangeDemo from './dateTimeRangeDemo'
+import CheckboxDemo from './checkBoxDemo'
 
-import Result, { IResultData } from './result';
+import Result, { IResultData } from './result'
 
 /**
  * @description
@@ -31,40 +26,40 @@ import Result, { IResultData } from './result';
  * ex. <input name="a" type="number" />
  */
 export interface IFormBase {
-  a: string | null;
-  b: number | null;
-  c: string | null;
-  d: boolean | null;
-  e: string | null;
-  f: string | null;
-  g: string | null;
-  h: string | null;
-  i: string | null;
-  startDate: Date | null;
-  endDate: Date | null;
-  date: Date | null;
-  multipleSelect: string[];
-  show: boolean | null;
+  a: string | null
+  b: number | null
+  c: string | null
+  d: boolean | null
+  e: string | null
+  f: string | null
+  g: string | null
+  h: string | null
+  i: string | null
+  startDate: Date | null
+  endDate: Date | null
+  date: Date | null
+  multipleSelect: string[]
+  show: boolean | null
 }
 
 /**
  * GET or POST (for or to Server) data entity
  */
 export interface IForAPIEntity {
-  a: string;
-  b: number;
-  c: string;
-  d: boolean;
-  e: string;
-  f: string;
-  g: string;
-  h: string;
-  i: string;
-  startDate: Date;
-  endDate: Date;
-  date: Date;
-  multipleSelect: string[];
-  show: boolean;
+  a: string
+  b: number
+  c: string
+  d: boolean
+  e: string
+  f: string
+  g: string
+  h: string
+  i: string
+  startDate: Date
+  endDate: Date
+  date: Date
+  multipleSelect: string[]
+  show: boolean
 }
 
 function B_Logic(value: IFormBase) {
@@ -74,15 +69,10 @@ function B_Logic(value: IFormBase) {
       .required('必填')
       .typeError('請輸入數字')
       .min(50, '至少50')
-      .max(100, '最多100');
+      .max(100, '最多100')
   }
 
-  return yup
-    .number()
-    .required('必填')
-    .typeError('請輸入數字')
-    .min(3, '至少3')
-    .max(9, '最多9');
+  return yup.number().required('必填').typeError('請輸入數字').min(3, '至少3').max(9, '最多9')
 }
 
 /**
@@ -103,10 +93,7 @@ const schema = yup.lazy((value: IFormBase) => {
       .date()
       .required('必填')
       .min(dayjs().add(-1, 'day'), `至少要 ${dayjs().format('YYYY/MM/DD')}`)
-      .max(
-        dayjs().add(7, 'days'),
-        `不得超過 ${dayjs().add(7, 'days').format('YYYY/MM/DD')}`
-      )
+      .max(dayjs().add(7, 'days'), `不得超過 ${dayjs().add(7, 'days').format('YYYY/MM/DD')}`)
       .typeError('請輸入開始時間'),
 
     startDate: yup
@@ -116,32 +103,25 @@ const schema = yup.lazy((value: IFormBase) => {
       .max(yup.ref('endDate'), `不得超過結束時間`)
       .typeError('請輸入開始時間')
       .test('date-diff', '', function () {
-        const { path, createError } = this;
+        const { path, createError } = this
         if (dayjs(value.endDate).diff(value.startDate, 'days') > 3) {
           return createError({
             path,
             message: `開始時間和結束時間相差不得大於 3 天`,
-          });
+          })
         }
-        return true;
+        return true
       }),
     endDate: yup
       .date()
       .required('必填')
       .min(yup.ref('startDate'), `不得小於結束時間`)
-      .max(
-        dayjs().add(7, 'days'),
-        `不得超過 ${dayjs().add(7, 'days').format('YYYY/MM/DD')}`
-      )
+      .max(dayjs().add(7, 'days'), `不得超過 ${dayjs().add(7, 'days').format('YYYY/MM/DD')}`)
       .typeError('請輸入開始時間'),
     multipleSelect: yup.array().of(yup.string()).min(1, '請選擇'),
-    show: yup
-      .boolean()
-      .required('必填')
-      .equals([true], '必須要勾喔')
-      .typeError('請選擇'),
-  });
-});
+    show: yup.boolean().required('必填').equals([true], '必須要勾喔').typeError('請選擇'),
+  })
+})
 
 const defaultValues: IFormBase = {
   a: '',
@@ -158,17 +138,17 @@ const defaultValues: IFormBase = {
   date: null,
   multipleSelect: [],
   show: null,
-};
+}
 
 /**
  * @description pages form-practice 的內容
  * @returns react function component
  */
-const FormPractice: FC = () => {
+const FormPractice = () => {
   const [formData, setFormData] = useState<{
-    isSuccess: boolean;
-    data: IResultData[];
-  }>({ isSuccess: false, data: [] });
+    isSuccess: boolean
+    data: IResultData[]
+  }>({ isSuccess: false, data: [] })
 
   /**
    * @description form config setting
@@ -177,7 +157,7 @@ const FormPractice: FC = () => {
     defaultValues,
     resolver: yupResolver(schema),
     shouldFocusError: true,
-  });
+  })
 
   const {
     handleSubmit,
@@ -185,7 +165,7 @@ const FormPractice: FC = () => {
     register,
     control,
     formState: { errors },
-  } = formMethod;
+  } = formMethod
 
   /**
    * @description 送出表單前 Mapping Data
@@ -195,29 +175,29 @@ const FormPractice: FC = () => {
     // d 為 false 時，
     // 要清空 e
     if (!data.d) {
-      data.e = '';
+      data.e = ''
     }
-  };
+  }
 
   /**
    * @param {IForAPIEntity} data
    */
   const onSubmit = (data: IForAPIEntity) => {
-    mappingSubmitData(data);
-    const visibleTable: IResultData[] = [];
+    mappingSubmitData(data)
+    const visibleTable: IResultData[] = []
     for (const val in data) {
       visibleTable.push({
         name: val,
         value: JSON.stringify(data[val]),
         type: typeof data[val],
-      });
+      })
     }
-    setFormData({ isSuccess: true, data: visibleTable });
-  };
+    setFormData({ isSuccess: true, data: visibleTable })
+  }
 
   const handleClose = () => {
-    setFormData({ isSuccess: false, data: [] });
-  };
+    setFormData({ isSuccess: false, data: [] })
+  }
 
   return (
     <ScrollToErrorWrapper errors={errors}>
@@ -228,7 +208,7 @@ const FormPractice: FC = () => {
               position="fixed"
               color="default"
               sx={{
-                zIndex: (theme) => theme.zIndex.drawer + 1,
+                zIndex: theme => theme.zIndex.drawer + 1,
                 boxShadow: 'none',
               }}
             >
@@ -237,7 +217,7 @@ const FormPractice: FC = () => {
                   variant="h6"
                   sx={{
                     flexGrow: 1,
-                    color: (theme) => theme.palette.secondary.main,
+                    color: theme => theme.palette.secondary.main,
                   }}
                 >
                   Form Practice
@@ -260,12 +240,7 @@ const FormPractice: FC = () => {
                   A
                 </Grid>
                 <Grid item xs={10}>
-                  <TextFieldForForm
-                    name="a"
-                    minRows={4}
-                    multiline
-                    placeholder="填A 的啦"
-                  />
+                  <TextFieldForForm name="a" minRows={4} multiline placeholder="填A 的啦" />
                 </Grid>
               </Grid>
               <Grid container mb="20px">
@@ -338,13 +313,9 @@ const FormPractice: FC = () => {
           </form>
         </Box>
       </FormProvider>
-      <Result
-        open={formData.isSuccess}
-        data={formData.data}
-        onClose={handleClose}
-      />
+      <Result open={formData.isSuccess} data={formData.data} onClose={handleClose} />
     </ScrollToErrorWrapper>
-  );
-};
+  )
+}
 
-export default FormPractice;
+export default FormPractice

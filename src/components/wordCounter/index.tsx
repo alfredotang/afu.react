@@ -1,27 +1,27 @@
-import type { FC, ReactElement, ReactNode } from 'react';
-import type { Theme } from '@material-ui/core/styles';
-import { memo } from 'react';
-import { Grid } from '@material-ui/core';
+import type { FC, ReactElement, ReactNode } from 'react'
+import type { Theme } from '@mui/material/styles'
+import { memo } from 'react'
+import { Grid } from '@mui/material'
 
 function returnColor(theme: Theme, isDisabled: boolean, isError: boolean) {
   if (isDisabled) {
-    return theme.palette.text.disabled;
+    return theme.palette.text.disabled
   }
 
   if (isError) {
-    return theme.palette.error.main;
+    return theme.palette.error.main
   }
 
-  return theme.palette.text.primary;
+  return theme.palette.text.primary
 }
 
 interface WordCounterProps {
-  children: ReactElement;
-  value: any;
-  maxLength?: number;
-  error?: boolean;
-  helperText?: ReactNode | string;
-  disabled?: boolean;
+  children: ReactElement
+  value: any
+  maxLength?: number
+  error?: boolean
+  helperText?: ReactNode | string
+  disabled?: boolean
 }
 
 /**
@@ -37,14 +37,14 @@ interface WordCounterProps {
  *  <Input maxLength={20} value={inputValue} type="text"/>
  * </WordCounter>
  */
-const WordCounter: FC<WordCounterProps> = ({
+const WordCounter = ({
   children,
   value,
   maxLength = null,
   error,
   helperText,
   disabled,
-}) => {
+}: WordCounterProps) => {
   return (
     <Grid container>
       <Grid item xs={12}>
@@ -57,7 +57,7 @@ const WordCounter: FC<WordCounterProps> = ({
         justifyContent="flex-end"
         display="flex"
         sx={{
-          color: (theme) => returnColor(theme, disabled, error),
+          color: theme => returnColor(theme, disabled, error),
           position: error && helperText ? 'relative' : 'static',
           top: '-20px',
         }}
@@ -65,7 +65,7 @@ const WordCounter: FC<WordCounterProps> = ({
         ({value.length}/{maxLength})
       </Grid>
     </Grid>
-  );
-};
+  )
+}
 
-export default memo(WordCounter);
+export default memo(WordCounter)

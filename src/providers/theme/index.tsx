@@ -1,14 +1,10 @@
-import type { FC } from 'react';
-import type { Theme } from '@emotion/react';
-import { ThemeProvider as EmotionThemeProvider } from '@emotion/react';
-import {
-  ThemeProvider as MuiThemeProvider,
-  createMuiTheme,
-} from '@material-ui/core/styles';
-import { NoSsr } from '@material-ui/core';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import { light } from './palette';
-import { GlobalFormStyle } from './globalFormStyle';
+import type { Theme } from '@emotion/react'
+import { ThemeProvider as EmotionThemeProvider } from '@emotion/react'
+import { ThemeProvider as MuiThemeProvider, createMuiTheme } from '@mui/material/styles'
+import { NoSsr } from '@mui/material'
+import CssBaseline from '@mui/material/CssBaseline'
+import { light } from './palette'
+import { GlobalFormStyle } from './globalFormStyle'
 
 export const theme: Theme = createMuiTheme({
   palette: light,
@@ -86,9 +82,9 @@ export const theme: Theme = createMuiTheme({
       },
     },
   },
-});
+})
 
-const ThemeProvider: FC = ({ children }) => {
+const ThemeProvider = ({ children }) => {
   return (
     <EmotionThemeProvider theme={theme}>
       <MuiThemeProvider theme={theme}>
@@ -98,7 +94,7 @@ const ThemeProvider: FC = ({ children }) => {
         <NoSsr>{children}</NoSsr>
       </MuiThemeProvider>
     </EmotionThemeProvider>
-  );
-};
+  )
+}
 
-export default ThemeProvider;
+export default ThemeProvider

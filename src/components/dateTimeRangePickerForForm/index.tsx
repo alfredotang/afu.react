@@ -1,12 +1,10 @@
-import type { ForwardRefExoticComponent } from 'react';
-import type { FieldError } from 'react-hook-form';
-import { forwardRef } from 'react';
-import { useController, useFormContext } from 'react-hook-form';
-import Box from '@material-ui/core/Box';
+import type { ForwardRefExoticComponent } from 'react'
+import type { FieldError } from 'react-hook-form'
+import { forwardRef } from 'react'
+import { useController, useFormContext } from 'react-hook-form'
+import Box from '@mui/material/Box'
 
-import DateTimeRangePicker, {
-  DateTimeRangePickerProps,
-} from '@src/components/dateTimeRangePicker';
+import DateTimeRangePicker, { DateTimeRangePickerProps } from '@src/components/dateTimeRangePicker'
 
 type DateTimeRangePickerForFormProps = Omit<
   DateTimeRangePickerProps,
@@ -20,38 +18,35 @@ type DateTimeRangePickerForFormProps = Omit<
   | 'error'
   | 'helperText'
 > & {
-  startDateName: string;
-  endDateName: string;
-};
+  startDateName: string
+  endDateName: string
+}
 
-function mappingErrorMsg(
-  startDateError: FieldError,
-  endDateError: FieldError
-): string {
+function mappingErrorMsg(startDateError: FieldError, endDateError: FieldError): string {
   if (Boolean(startDateError)) {
-    return startDateError?.message || '';
+    return startDateError?.message || ''
   }
 
   if (Boolean(endDateError)) {
-    return endDateError?.message;
+    return endDateError?.message
   }
 
-  return '';
+  return ''
 }
 
 const DateTimeRangePickerForForm: ForwardRefExoticComponent<DateTimeRangePickerForFormProps> = forwardRef(
   (props, ref) => {
-    const { control } = useFormContext();
-    const { sx, startDateName, endDateName } = props;
+    const { control } = useFormContext()
+    const { sx, startDateName, endDateName } = props
     const {
       field: startDateField,
       fieldState: { error: startDateError },
-    } = useController({ name: startDateName, control });
+    } = useController({ name: startDateName, control })
 
     const {
       field: endDateField,
       fieldState: { error: endDateError },
-    } = useController({ name: endDateName, control });
+    } = useController({ name: endDateName, control })
 
     return (
       <Box sx={sx} ref={startDateField.ref}>
@@ -69,8 +64,8 @@ const DateTimeRangePickerForForm: ForwardRefExoticComponent<DateTimeRangePickerF
           endDate={endDateField.value}
         />
       </Box>
-    );
+    )
   }
-);
+)
 
-export default DateTimeRangePickerForForm;
+export default DateTimeRangePickerForForm

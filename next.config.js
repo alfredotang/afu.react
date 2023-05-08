@@ -1,15 +1,12 @@
-const prod = process.env.NODE_ENV === 'production'
+const isProd = process.env.NODE_ENV === 'isProduction'
 
-console.log('-------------------------');
-console.log(`\x1b[32m env:\x1b[0m ${process.env.NODE_ENV}`);
-console.log(`\x1b[32m isProd:\x1b[0m ${prod}`);
-console.log(`\x1b[32m isDev:\x1b[0m ${!prod}`);
-console.log('-------------------------');
-
-
-module.exports = {
+/** @type {import('next').NextConfig} */
+const nextConfig = {
   distDir: 'build',
-  assetPrefix: prod ?  '/afu.react' : '',
+  assetPrefix: isProd ? '/afu.react' : '',
   reactStrictMode: true,
-  basePath: prod ?  '/afu.react' : '',
-};
+  basePath: isProd ? '/afu.react' : '',
+  swcMinify: true,
+}
+
+module.exports = nextConfig

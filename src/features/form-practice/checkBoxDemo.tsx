@@ -1,13 +1,12 @@
-import type { FC } from 'react';
-import type { IFormBase } from '@src/features/form-practice';
+import type { IFormBase } from '@src/features/form-practice'
 
-import Grid from '@material-ui/core/Grid';
-import { CheckboxForForm } from '@src/components';
+import Grid from '@mui/material/Grid'
+import { CheckboxForForm } from '@src/components'
 
-import { useFormContext } from 'react-hook-form';
+import { useFormContext } from 'react-hook-form'
 
-const CheckboxDemo: FC = () => {
-  const { register } = useFormContext<IFormBase>();
+const CheckboxDemo = () => {
+  const { register } = useFormContext<IFormBase>()
   return (
     <>
       <Grid container mb="20px" alignItems="center">
@@ -19,7 +18,7 @@ const CheckboxDemo: FC = () => {
         </Grid>
       </Grid>
     </>
-  );
-};
+  )
+}
 
-export default CheckboxDemo;
+export default CheckboxDemo

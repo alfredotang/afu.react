@@ -1,8 +1,7 @@
-import type { FC } from 'react';
-import { Box, Button, List, ListItem } from '@material-ui/core';
-import Link from 'next/link';
+import { Box, Button, List, ListItem } from '@mui/material'
+import Link from 'next/link'
 
-const Sidebar: FC = () => {
+const Sidebar = () => {
   return (
     <Box
       sx={{
@@ -10,7 +9,7 @@ const Sidebar: FC = () => {
         width: '25%',
         height: '100%',
         p: 1,
-        borderRight: (theme) => `1px solid ${theme.palette.divider}`,
+        borderRight: theme => `1px solid ${theme.palette.divider}`,
       }}
     >
       <List>
@@ -31,7 +30,7 @@ const Sidebar: FC = () => {
         </Link>
       </List>
     </Box>
-  );
-};
+  )
+}
 
-export default Sidebar;
+export default Sidebar

@@ -1,7 +1,5 @@
-import type { FC } from 'react';
-
-import Grid from '@material-ui/core/Grid';
-import { SelectForForm } from '@src/components';
+import Grid from '@mui/material/Grid'
+import { SelectForForm } from '@src/components'
 
 const selectSource: IKeyValuePair<string, string>[] = [
   {
@@ -16,9 +14,9 @@ const selectSource: IKeyValuePair<string, string>[] = [
     key: 'hi',
     value: 'hello',
   },
-];
+]
 
-const SelectDemo: FC = () => {
+const SelectDemo = () => {
   return (
     <>
       <Grid container mb="20px" alignItems="center">
@@ -26,11 +24,7 @@ const SelectDemo: FC = () => {
           i
         </Grid>
         <Grid item xs={10}>
-          <SelectForForm
-            name="i"
-            placeholder="請選擇Hello"
-            source={selectSource}
-          />
+          <SelectForForm name="i" placeholder="請選擇Hello" source={selectSource} />
         </Grid>
       </Grid>
       <Grid container mb="20px" alignItems="center">
@@ -47,7 +41,7 @@ const SelectDemo: FC = () => {
         </Grid>
       </Grid>
     </>
-  );
-};
+  )
+}
 
-export default SelectDemo;
+export default SelectDemo

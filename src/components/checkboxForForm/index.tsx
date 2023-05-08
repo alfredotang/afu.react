@@ -1,31 +1,23 @@
-import type { FC } from 'react';
-import { useController, useFormContext } from 'react-hook-form';
+import { useController, useFormContext } from 'react-hook-form'
 
-import { Checkbox, CheckboxProps } from '@src/components/checkbox';
+import { Checkbox, CheckboxProps } from '@src/components/checkbox'
 
 type CheckboxForFormForFormProps = Omit<
   CheckboxProps,
   'error' | 'helperText' | 'value' | 'onChange' | 'ref' | 'name'
 > & {
-  name: string;
-};
+  name: string
+}
 
-export const CheckboxForForm: FC<CheckboxForFormForFormProps> = (props) => {
-  const { control } = useFormContext();
-  const { name } = props;
+export const CheckboxForForm = (props: CheckboxForFormForFormProps) => {
+  const { control } = useFormContext()
+  const { name } = props
   const {
     field,
     fieldState: { error },
-  } = useController({ name, control });
+  } = useController({ name, control })
 
-  return (
-    <Checkbox
-      {...props}
-      {...field}
-      error={Boolean(error)}
-      helperText={error?.message || ''}
-    />
-  );
-};
+  return <Checkbox {...props} {...field} error={Boolean(error)} helperText={error?.message || ''} />
+}
 
-export default CheckboxForForm;
+export default CheckboxForForm

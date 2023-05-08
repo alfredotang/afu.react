@@ -1,4 +1,3 @@
-import type { FC } from 'react';
 import {
   Box,
   Grid,
@@ -8,17 +7,17 @@ import {
   FormControl,
   RadioGroup,
   FormControlLabel,
-} from '@material-ui/core';
-import { useFormContext, Controller } from 'react-hook-form';
-import type { IFormBase } from '@src/features/form-practice';
-import { TextFieldForForm } from '@src/components';
+} from '@mui/material'
+import { useFormContext, Controller } from 'react-hook-form'
+import type { IFormBase } from '@src/features/form-practice'
+import { TextFieldForForm } from '@src/components'
 
 /**
  * @name InputWithCounter
  * @description demo input with counter & maxLength
  */
-const WordCounterDemo: FC = () => {
-  const { control } = useFormContext<IFormBase>();
+const WordCounterDemo = () => {
+  const { control } = useFormContext<IFormBase>()
 
   return (
     <>
@@ -27,12 +26,7 @@ const WordCounterDemo: FC = () => {
           G
         </Grid>
         <Grid item xs={10}>
-          <TextFieldForForm
-            name="g"
-            placeholder="填G 的啦"
-            maxLength={10}
-            enabledWordCounter
-          />
+          <TextFieldForForm name="g" placeholder="填G 的啦" maxLength={10} enabledWordCounter />
         </Grid>
       </Grid>
       <Grid container mb="20px">
@@ -51,7 +45,7 @@ const WordCounterDemo: FC = () => {
         </Grid>
       </Grid>
     </>
-  );
-};
+  )
+}
 
-export default WordCounterDemo;
+export default WordCounterDemo

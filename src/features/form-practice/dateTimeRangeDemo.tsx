@@ -1,11 +1,10 @@
-import type { FC } from 'react';
-import type { IFormBase } from '@src/features/form-practice';
+import type { IFormBase } from '@src/features/form-practice'
 
-import { useFormContext, Controller } from 'react-hook-form';
-import Grid from '@material-ui/core/Grid';
-import { DateTimeRangePickerForForm } from '@src/components';
+import { useFormContext, Controller } from 'react-hook-form'
+import Grid from '@mui/material/Grid'
+import { DateTimeRangePickerForForm } from '@src/components'
 
-const DateTimeRangeDemo: FC = () => {
+const DateTimeRangeDemo = () => {
   return (
     <Grid container mb="20px" alignItems="center">
       <Grid item xs={2}>
@@ -19,7 +18,7 @@ const DateTimeRangeDemo: FC = () => {
         />
       </Grid>
     </Grid>
-  );
-};
+  )
+}
 
-export default DateTimeRangeDemo;
+export default DateTimeRangeDemo
