@@ -10,11 +10,31 @@ jobs:
       - name: Checkout 🛎️
         uses: actions/checkout@v2.3.1
 
-      - name: Install and Build 🔧 # This example project is built using npm and outputs the result to the 'build' folder. Replace with the commands required to build your project, or remove this step entirely if your site is pre-built.
+      - uses: pnpm/action-setup@v2
+        name: Install pnpm
+        id: pnpm-install
+        with:
+          version: 7
+          run_install: false
+      - name: Get pnpm store directory
+        id: pnpm-cache
+        shell: bash
         run: |
-          npm install -g pnpm
-          pnpm install
-          pnpm run deploy
+          echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_OUTPUT
+      - uses: actions/cache@v3
+        name: Setup pnpm cache
+        with:
+          path: ${{ steps.pnpm-cache.outputs.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
+      - name: Install dependencies
+        run: pnpm install
+      - name: Build 🔧
+        run: |
+          pnpm build:prod
+          touch out/.nojekyll
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@4.0.0
         with:
