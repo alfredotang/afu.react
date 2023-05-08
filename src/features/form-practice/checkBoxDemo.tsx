@@ -1,4 +1,4 @@
-import type { IFormBase } from '@src/features/form-practice'
+import type { FormFieldType } from '@src/features/form-practice'
 
 import Grid from '@mui/material/Grid'
 import { CheckboxForForm } from '@src/components'
@@ -6,7 +6,7 @@ import { CheckboxForForm } from '@src/components'
 import { useFormContext } from 'react-hook-form'
 
 const CheckboxDemo = () => {
-  const { register } = useFormContext<IFormBase>()
+  const { register } = useFormContext<FormFieldType>()
   return (
     <>
       <Grid container mb="20px" alignItems="center">

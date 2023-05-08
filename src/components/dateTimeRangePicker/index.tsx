@@ -88,8 +88,8 @@ export type DateTimeRangePickerProps = Omit<
   endDateDisabled?: boolean
   startDate: Date
   endDate: Date
-  onChangeStartDate: (date: Date) => void
-  onChangeEndDate: (date: Date) => void
+  onChangeStartDate: (date: Date | null) => void
+  onChangeEndDate: (date: Date | null) => void
   startDateName?: string
   endDateName?: string
 }
@@ -125,7 +125,7 @@ const DateTimeRangePicker: ForwardRefExoticComponent<DateTimeRangePickerProps> =
       startDateMax = props.endDate || null,
       endDateMin = props.startDate || null,
       endDateMax,
-      error,
+      error = false,
       helperText,
       timeIntervals,
       placeholder,

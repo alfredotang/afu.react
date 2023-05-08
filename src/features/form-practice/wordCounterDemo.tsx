@@ -9,7 +9,7 @@ import {
   FormControlLabel,
 } from '@mui/material'
 import { useFormContext, Controller } from 'react-hook-form'
-import type { IFormBase } from '@src/features/form-practice'
+import type { FormFieldType } from '@src/features/form-practice'
 import { TextFieldForForm } from '@src/components'
 
 /**
@@ -17,7 +17,7 @@ import { TextFieldForForm } from '@src/components'
  * @description demo input with counter & maxLength
  */
 const WordCounterDemo = () => {
-  const { control } = useFormContext<IFormBase>()
+  const { control } = useFormContext<FormFieldType>()
 
   return (
     <>

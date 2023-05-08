@@ -40,10 +40,10 @@ interface WordCounterProps {
 const WordCounter = ({
   children,
   value,
-  maxLength = null,
-  error,
+  maxLength,
+  error = false,
   helperText,
-  disabled,
+  disabled = false,
 }: WordCounterProps) => {
   return (
     <Grid container>

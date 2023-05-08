@@ -73,7 +73,7 @@ const DatePickerHeader = ({
 }: DatePickerHeaderProps) => {
   const currentYearValue = dayJs(date).get('year')
   const currentMonthKey = dayJs(date).get('month')
-  const currentMonthValue = find(monthsSources, ['key', currentMonthKey]).value
+  const currentMonthValue = find(monthsSources, ['key', currentMonthKey])?.value || ''
 
   const [openYears, setOpenYears] = useState(false)
   const [openMonths, setOpenMonths] = useState(false)
@@ -207,7 +207,6 @@ const DatePickerHeader = ({
         >
           {monthsSources.map(item => (
             <ListItem
-              button
               key={item.key}
               onClick={() => {
                 changeMonth(item.key)

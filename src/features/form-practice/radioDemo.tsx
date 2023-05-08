@@ -4,7 +4,7 @@ import FormHelperText from '@mui/material/FormHelperText'
 import FormControl from '@mui/material/FormControl'
 
 import { useFormContext, Controller } from 'react-hook-form'
-import type { IFormBase } from '@src/features/form-practice'
+import type { FormFieldType } from '@src/features/form-practice'
 import { TextField, RadioForForm, IRadioSource } from '@src/components'
 
 /**
@@ -12,7 +12,7 @@ import { TextField, RadioForForm, IRadioSource } from '@src/components'
  * @description demo radio & useFormContext & dynamic required (field E)
  */
 const RadioForm = () => {
-  const { control, watch } = useFormContext<IFormBase>()
+  const { control, watch } = useFormContext<FormFieldType>()
   const d = watch('d')
   return (
     <>
@@ -50,7 +50,7 @@ const RadioForm = () => {
                   <TextField
                     placeholder="填E 的啦"
                     error={Boolean(error)}
-                    helperText={Boolean(error) ? error.message : ''}
+                    helperText={error?.message || ''}
                     {...field}
                   />
                 )

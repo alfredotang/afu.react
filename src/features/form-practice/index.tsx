@@ -1,13 +1,13 @@
 import { useState } from 'react'
 import { useForm, Controller, FormProvider } from 'react-hook-form'
 import * as yup from 'yup'
-import { Box, Grid, Button, Typography, Radio } from '@mui/material'
+import { Box, Grid, Button, Typography } from '@mui/material'
 import AppBar from '@mui/material/AppBar'
 import Toolbar from '@mui/material/Toolbar'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { regExpHelper } from '@src/helpers'
-import { TextFieldForForm, TextField, ScrollToErrorWrapper } from '@src/components'
+import { TextFieldForForm, TextField } from '@src/components'
 import dayjs from '@src/providers/day'
+import { useScrollToError } from '@src/hooks'
 
 import RadioDemo from './radioDemo'
 import WordCounterDemo from './wordCounterDemo'
@@ -19,33 +19,9 @@ import CheckboxDemo from './checkBoxDemo'
 import Result, { IResultData } from './result'
 
 /**
- * @description
- * TIP: 這裡型別定義什麼，defaultValues & element 上 都必須照個型別
- * 且 defaultValues 不要用 undefined or null
- * ex. type a = number -> const defaultValue = { a: 0 };
- * ex. <input name="a" type="number" />
- */
-export interface IFormBase {
-  a: string | null
-  b: number | null
-  c: string | null
-  d: boolean | null
-  e: string | null
-  f: string | null
-  g: string | null
-  h: string | null
-  i: string | null
-  startDate: Date | null
-  endDate: Date | null
-  date: Date | null
-  multipleSelect: string[]
-  show: boolean | null
-}
-
-/**
  * GET or POST (for or to Server) data entity
  */
-export interface IForAPIEntity {
+export interface FormFieldType {
   a: string
   b: number
   c: string
@@ -62,83 +38,63 @@ export interface IForAPIEntity {
   show: boolean
 }
 
-function B_Logic(value: IFormBase) {
-  if (value.d) {
-    return yup
-      .number()
-      .required('必填')
-      .typeError('請輸入數字')
-      .min(50, '至少50')
-      .max(100, '最多100')
-  }
-
-  return yup.number().required('必填').typeError('請輸入數字').min(3, '至少3').max(9, '最多9')
-}
-
 /**
  * dynamic schema setting
  */
-const schema = yup.lazy((value: IFormBase) => {
-  return yup.object().shape({
-    a: yup.string().required('必填'),
-    b: B_Logic(value),
-    c: yup.string().required('必填'),
-    d: yup.boolean().required('必填').typeError('請選擇'),
-    e: value.d ? yup.string().required('必填') : yup.string(),
-    f: yup.string().url('請輸入有效網址').required('必填'),
-    g: yup.string().required('必填').max(10, '最多 10'),
-    h: yup.string().required('必填').max(150, '最多150'),
-    i: yup.string().required('必選'),
-    date: yup
-      .date()
-      .required('必填')
-      .min(dayjs().add(-1, 'day'), `至少要 ${dayjs().format('YYYY/MM/DD')}`)
-      .max(dayjs().add(7, 'days'), `不得超過 ${dayjs().add(7, 'days').format('YYYY/MM/DD')}`)
-      .typeError('請輸入開始時間'),
+const schema = yup.object({
+  a: yup.string().required('必填'),
+  b: yup
+    .number()
+    .required('必填')
+    .typeError('請輸入數字')
+    .when('d', {
+      is: true,
+      then: schema => schema.min(50, '至少50').max(100, '最多100'),
+      otherwise: schema => schema.min(3, '至少3').max(9, '最多9'),
+    }),
+  c: yup.string().required('必填'),
+  d: yup.boolean().required('必填').typeError('請選擇'),
+  e: yup.string().when('d', {
+    is: true,
+    then: schema => schema.required('必填'),
+    otherwise: schema => schema,
+  }),
+  f: yup.string().url('請輸入有效網址').required('必填'),
+  g: yup.string().required('必填').max(10, '最多 10'),
+  h: yup.string().required('必填').max(150, '最多150'),
+  i: yup.string().required('必選'),
+  date: yup
+    .date()
+    .required('必填')
+    .min(dayjs().add(-1, 'day'), `至少要 ${dayjs().format('YYYY/MM/DD')}`)
+    .max(dayjs().add(7, 'days'), `不得超過 ${dayjs().add(7, 'days').format('YYYY/MM/DD')}`)
+    .typeError('請輸入開始時間'),
 
-    startDate: yup
-      .date()
-      .required('必填')
-      .min(dayjs().startOf('days'), `至少要 ${dayjs().format('YYYY/MM/DD')}`)
-      .max(yup.ref('endDate'), `不得超過結束時間`)
-      .typeError('請輸入開始時間')
-      .test('date-diff', '', function () {
-        const { path, createError } = this
-        if (dayjs(value.endDate).diff(value.startDate, 'days') > 3) {
-          return createError({
-            path,
-            message: `開始時間和結束時間相差不得大於 3 天`,
-          })
-        }
-        return true
-      }),
-    endDate: yup
-      .date()
-      .required('必填')
-      .min(yup.ref('startDate'), `不得小於結束時間`)
-      .max(dayjs().add(7, 'days'), `不得超過 ${dayjs().add(7, 'days').format('YYYY/MM/DD')}`)
-      .typeError('請輸入開始時間'),
-    multipleSelect: yup.array().of(yup.string()).min(1, '請選擇'),
-    show: yup.boolean().required('必填').equals([true], '必須要勾喔').typeError('請選擇'),
-  })
+  startDate: yup
+    .date()
+    .required('必填')
+    .min(dayjs().startOf('days'), `至少要 ${dayjs().format('YYYY/MM/DD')}`)
+    .max(yup.ref('endDate'), `不得超過結束時間`)
+    .typeError('請輸入開始時間')
+    .test('date-diff', '開始時間和結束時間相差不得大於 3 天', (value, context) => {
+      const { endDate } = context.parent
+      const isInvalid = dayjs(endDate).diff(value, 'days') > 3
+      return !isInvalid
+    }),
+  endDate: yup
+    .date()
+    .required('必填')
+    .min(yup.ref('startDate'), `不得小於結束時間`)
+    .max(dayjs().add(7, 'days'), `不得超過 ${dayjs().add(7, 'days').format('YYYY/MM/DD')}`)
+    .typeError('請輸入開始時間')
+    .test('date-diff', '開始時間和結束時間相差不得大於 3 天', (value, context) => {
+      const { startDate } = context.parent
+      const isInvalid = dayjs(value).diff(startDate, 'days') > 3
+      return !isInvalid
+    }),
+  multipleSelect: yup.array().of(yup.string()).min(1, '請選擇'),
+  show: yup.boolean().required('必填').equals([true], '必須要勾喔').typeError('請選擇'),
 })
-
-const defaultValues: IFormBase = {
-  a: '',
-  b: null,
-  c: '',
-  d: null,
-  e: '',
-  f: '',
-  g: '',
-  h: '',
-  i: '',
-  startDate: null,
-  endDate: null,
-  date: null,
-  multipleSelect: [],
-  show: null,
-}
 
 /**
  * @description pages form-practice 的內容
@@ -153,8 +109,23 @@ const FormPractice = () => {
   /**
    * @description form config setting
    */
-  const formMethod = useForm<IFormBase>({
-    defaultValues,
+  const formMethod = useForm<FormFieldType>({
+    defaultValues: {
+      a: '',
+      b: undefined,
+      c: '',
+      d: false,
+      e: '',
+      f: '',
+      g: '',
+      h: '',
+      i: '',
+      startDate: undefined,
+      endDate: undefined,
+      date: undefined,
+      multipleSelect: [],
+      show: false,
+    },
     resolver: yupResolver(schema),
     shouldFocusError: true,
   })
@@ -167,11 +138,13 @@ const FormPractice = () => {
     formState: { errors },
   } = formMethod
 
+  useScrollToError(errors)
+
   /**
    * @description 送出表單前 Mapping Data
-   * @param {IForAPIEntity} data
+   * @param {FormFieldType} data
    */
-  const mappingSubmitData = (data: IForAPIEntity) => {
+  const mappingSubmitData = (data: FormFieldType) => {
     // d 為 false 時，
     // 要清空 e
     if (!data.d) {
@@ -180,16 +153,17 @@ const FormPractice = () => {
   }
 
   /**
-   * @param {IForAPIEntity} data
+   * @param {FormFieldType} data
    */
-  const onSubmit = (data: IForAPIEntity) => {
+  const onSubmit = (data: FormFieldType) => {
     mappingSubmitData(data)
     const visibleTable: IResultData[] = []
     for (const val in data) {
+      const value = (data as any)[val]
       visibleTable.push({
         name: val,
-        value: JSON.stringify(data[val]),
-        type: typeof data[val],
+        value: JSON.stringify(value),
+        type: typeof value,
       })
     }
     setFormData({ isSuccess: true, data: visibleTable })
@@ -200,10 +174,15 @@ const FormPractice = () => {
   }
 
   return (
-    <ScrollToErrorWrapper errors={errors}>
+    <>
       <FormProvider {...formMethod}>
         <Box p="1em">
-          <form noValidate onSubmit={handleSubmit(onSubmit)}>
+          <form
+            noValidate
+            onSubmit={handleSubmit(data => {
+              onSubmit(data)
+            })}
+          >
             <AppBar
               position="fixed"
               color="default"
@@ -256,7 +235,7 @@ const FormPractice = () => {
                         type="number"
                         placeholder="請填寫B"
                         error={Boolean(error)}
-                        helperText={Boolean(error) ? error.message : ''}
+                        helperText={error?.message || ''}
                         {...field}
                       />
                     )}
@@ -277,7 +256,7 @@ const FormPractice = () => {
                         minRows={4}
                         placeholder="請填寫C"
                         error={Boolean(error)}
-                        helperText={Boolean(error) ? error.message : ''}
+                        helperText={error?.message || ''}
                         {...field}
                       />
                     )}
@@ -297,7 +276,7 @@ const FormPractice = () => {
                       <TextField
                         placeholder="請輸入網址"
                         error={Boolean(error)}
-                        helperText={Boolean(error) ? error.message : ''}
+                        helperText={error?.message || ''}
                         {...field}
                       />
                     )}
@@ -314,7 +293,7 @@ const FormPractice = () => {
         </Box>
       </FormProvider>
       <Result open={formData.isSuccess} data={formData.data} onClose={handleClose} />
-    </ScrollToErrorWrapper>
+    </>
   )
 }
 

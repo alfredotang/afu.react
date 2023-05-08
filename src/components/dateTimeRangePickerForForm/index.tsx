@@ -22,16 +22,8 @@ type DateTimeRangePickerForFormProps = Omit<
   endDateName: string
 }
 
-function mappingErrorMsg(startDateError: FieldError, endDateError: FieldError): string {
-  if (Boolean(startDateError)) {
-    return startDateError?.message || ''
-  }
-
-  if (Boolean(endDateError)) {
-    return endDateError?.message
-  }
-
-  return ''
+function mappingErrorMsg(startDateError?: FieldError, endDateError?: FieldError): string {
+  return startDateError?.message || endDateError?.message || ''
 }
 
 const DateTimeRangePickerForForm: ForwardRefExoticComponent<DateTimeRangePickerForFormProps> = forwardRef(
