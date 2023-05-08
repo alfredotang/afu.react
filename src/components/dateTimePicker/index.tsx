@@ -1,6 +1,5 @@
 import type { ForwardRefExoticComponent } from 'react'
-import type { SxProps } from '@material-ui/system'
-import type { Theme } from '@mui/material/styles'
+import type { Theme, SxProps } from '@mui/material/styles'
 import { forwardRef } from 'react'
 import Box from '@mui/material/Box'
 import styled from '@emotion/styled'

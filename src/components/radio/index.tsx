@@ -1,6 +1,5 @@
 import type { ForwardRefExoticComponent, ReactNode, ChangeEvent } from 'react'
-import type { SxProps } from '@material-ui/system'
-import type { Theme } from '@mui/material/styles'
+import type { Theme, SxProps } from '@mui/material/styles'
 import type { RadioGroupProps, FormControlLabelProps } from '@mui/material'
 import { forwardRef } from 'react'
 import MuiRadio from '@mui/material/Radio'
