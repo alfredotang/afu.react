@@ -2,7 +2,6 @@ const isProd = process.env.NODE_ENV === 'isProduction'
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  distDir: 'build',
   assetPrefix: isProd ? '/afu.react' : '',
   reactStrictMode: true,
   basePath: isProd ? '/afu.react' : '',
