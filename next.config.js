@@ -1,4 +1,4 @@
-const isProd = process.env.NODE_ENV === 'isProduction'
+const isProd = process.env.NODE_ENV === 'prod'
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {

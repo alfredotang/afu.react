@@ -4,9 +4,9 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build && next export",
+    "build:prod": "NODE_ENV=prod next build && next export",
     "start": "next start",
-    "deploy": "pnpm run build && touch out/.nojekyll",
+    "deploy": "pnpm run build:prod && touch out/.nojekyll",
     "ts:check": "tsc -v && tsc --noEmit"
   },
   "dependencies": {
