@@ -57,14 +57,7 @@ const Select: ForwardRefExoticComponent<SelectProps> = forwardRef((props, ref) =
     disabled,
   } = props
 
-  const handleChange = (
-    event: ChangeEvent<{
-      name?: string
-      value: unknown
-      event: Event | SyntheticEvent<Element, Event>
-    }>,
-    child: ReactNode
-  ) => {
+  const handleChange: MuiSelectProps['onChange'] = (event, child: ReactNode) => {
     onChange(event.target.value)
   }
 
@@ -89,23 +82,20 @@ const Select: ForwardRefExoticComponent<SelectProps> = forwardRef((props, ref) =
         IconComponent={ExpandMoreIcon}
         onFocus={onFocus}
         disabled={disabled}
-        renderValue={
-          multiple
-            ? selected => {
-                const displayValueList = (selected as any[])?.map(item => {
-                  const resultSourceIndex = source.findIndex(val => {
-                    if (usingSourceValueForSelectValue) {
-                      return val.value === item
-                    }
-                    return val.key === item
-                  })
-
-                  return source[resultSourceIndex].value
-                })
-                return displayValueList.join(', ')
+        renderValue={selected => {
+          if (!multiple) return selected as ReactNode
+          const displayValueList = (selected as string[])?.map(item => {
+            const resultSourceIndex = source.findIndex(val => {
+              if (usingSourceValueForSelectValue) {
+                return val.value === item
               }
-            : null
-        }
+              return val.key === item
+            })
+
+            return source[resultSourceIndex].value
+          })
+          return displayValueList.join(', ')
+        }}
       >
         <MenuItem disabled value="">
           {placeholder}

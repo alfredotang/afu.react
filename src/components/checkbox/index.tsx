@@ -13,7 +13,7 @@ export type CheckboxProps = Omit<MuiCheckboxProps, 'onChange' | 'checked'> & {
   error?: boolean
   helperText?: string
   label: ReactNode
-  onChange?: (checked: boolean) => void
+  onChange: (checked: boolean) => void
   value: boolean
 }
 
@@ -29,7 +29,7 @@ export const Checkbox: ForwardRefExoticComponent<CheckboxProps> = forwardRef((pr
       <FormControlLabel
         control={
           <MuiCheckbox
-            sx={{ color: theme => error && theme.palette.error.main }}
+            sx={{ color: theme => (error ? theme.palette.error.main : '') }}
             checked={value}
             onChange={handleChange}
             name={name}

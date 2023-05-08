@@ -1,12 +1,12 @@
 import type { Theme } from '@emotion/react'
 import { ThemeProvider as EmotionThemeProvider } from '@emotion/react'
-import { ThemeProvider as MuiThemeProvider, createMuiTheme } from '@mui/material/styles'
+import { ThemeProvider as MuiThemeProvider, createTheme } from '@mui/material/styles'
 import { NoSsr } from '@mui/material'
 import CssBaseline from '@mui/material/CssBaseline'
 import { light } from './palette'
 import { GlobalFormStyle } from './globalFormStyle'
 
-export const theme: Theme = createMuiTheme({
+export const theme: Theme = createTheme({
   palette: light,
   components: {
     MuiButtonBase: {
@@ -84,7 +84,7 @@ export const theme: Theme = createMuiTheme({
   },
 })
 
-const ThemeProvider = ({ children }) => {
+const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
   return (
     <EmotionThemeProvider theme={theme}>
       <MuiThemeProvider theme={theme}>

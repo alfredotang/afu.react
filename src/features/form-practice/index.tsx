@@ -109,7 +109,7 @@ const FormPractice = () => {
   /**
    * @description form config setting
    */
-  const formMethod = useForm<FormFieldType>({
+  const methods = useForm<FormFieldType>({
     defaultValues: {
       a: '',
       b: undefined,
@@ -132,11 +132,9 @@ const FormPractice = () => {
 
   const {
     handleSubmit,
-    watch,
-    register,
     control,
     formState: { errors },
-  } = formMethod
+  } = methods
 
   useScrollToError(errors)
 
@@ -175,7 +173,7 @@ const FormPractice = () => {
 
   return (
     <>
-      <FormProvider {...formMethod}>
+      <FormProvider {...methods}>
         <Box p="1em">
           <form
             noValidate

@@ -18,7 +18,7 @@ export type DateTimePickerBaseProps = {
   placeholder?: string
   onBlur?: () => void
   disabled?: boolean
-  onChange: (date: Date | [Date, Date]) => void
+  onChange: (date: Date) => void
   value: Date
   selectsRange?: boolean
   name?: string
@@ -145,7 +145,7 @@ const StyleWrapper = styled(Box)`
 const DatePickerBase: ForwardRefExoticComponent<DateTimePickerBaseProps> = forwardRef(
   (props, ref) => {
     const {
-      variant,
+      variant = 'default',
       onChange,
       onBlur,
       value,

@@ -45,7 +45,9 @@ export const Radio: ForwardRefExoticComponent<RadioProps> = forwardRef((props, r
             <FormControlLabel
               key={JSON.stringify(item.value) + index}
               value={item.value}
-              control={<MuiRadio sx={{ color: theme => error && theme.palette.error.main }} />}
+              control={
+                <MuiRadio sx={{ color: theme => (error ? theme.palette.error.main : '') }} />
+              }
               label={item.label}
             />
           )

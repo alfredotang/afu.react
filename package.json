@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build && next export",
     "start": "next start",
-    "deploy": "pnpm run build && touch out/.nojekyll"
+    "deploy": "pnpm run build && touch out/.nojekyll",
+    "ts:check": "tsc -v && tsc --noEmit"
   },
   "dependencies": {
     "@emotion/css": "^11.11.0",
@@ -33,6 +34,6 @@
     "@types/react-dom": "^18.2.4",
     "@types/uuid": "^9.0.1",
     "prettier": "^2.2.1",
-    "typescript": "^4.5.2"
+    "typescript": "^5.0.4"
   }
 }
